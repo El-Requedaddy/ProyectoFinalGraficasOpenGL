@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 #include "igvEscena3D.h"
-
+#include "OBJ_Loader.h"
 
 // Metodos constructores 
 
@@ -288,7 +288,36 @@ void igvEscena3D::visualizar() {
 	/////             del modelo, dejando aquí sólo la llamada a ese método, así como distintas funciones una para cada
 	/////			  parte del modelo. 
 	//pintar_robot();
-	cil->draw();
+	//cil->draw();
+	objl::Loader Loader;
+
+	// Load .obj File
+	
+	bool loadout = Loader.LoadFile("cilindro.obj");
+	if (loadout) {
+		std::cout << "ggg";
+		for (int i = 0; i < Loader.LoadedMeshes.size(); i++)
+		{
+			objl::Mesh curMesh = Loader.LoadedMeshes[i];
+			glEnableClientState(GL_VERTEX_ARRAY);
+			//glEnableClientState(GL_NORMAL_ARRAY);
+			//glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glVertexPointer(3, GL_FLOAT, Loader.LoadedVertices.size(), Loader.LoadedVertices.data());
+			//	glNormalPointer(GL_FLOAT, interleavedStride, &interleavedVertices[3]);
+				//glTexCoordPointer(2, GL_FLOAT, interleavedStride, &interleavedVertices[6]);
+
+			glDrawElements(GL_TRIANGLES, (unsigned int)Loader.LoadedIndices.size(), GL_UNSIGNED_INT, Loader.LoadedIndices.data());
+
+			glDisableClientState(GL_VERTEX_ARRAY);
+			//glDisableClientState(GL_NORMAL_ARRAY);
+			//glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		}
+		
+		
+		
+	}
+	
+
 
 	glPopMatrix(); // restaura la matriz de modelado
 }
