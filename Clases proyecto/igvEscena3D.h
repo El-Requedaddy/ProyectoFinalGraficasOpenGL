@@ -9,6 +9,7 @@
 #include <GL/glut.h>
 #endif
 #include "Modelos.h"
+#include "Cylinder.h"
 
 
 enum {
@@ -47,6 +48,7 @@ protected:
 	// Otros atributos		
 	bool ejes;
 	Modelos* modelos;
+	Cylinder* cil;
 
 public:
 

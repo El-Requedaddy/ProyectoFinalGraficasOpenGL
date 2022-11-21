@@ -9,6 +9,7 @@
 igvEscena3D::igvEscena3D() {
 	ejes = true;
 	modelos = new Modelos();
+	cil = new Cylinder(0.3, 0.3, 1, 20, 5);
 	// Apartado C: inicializar los atributos para el control de los grados de libertad del modelo 
 	rotacion_brazo_sup = 0;
 	rotacion_brazo_inf = 0;
@@ -286,8 +287,8 @@ void igvEscena3D::visualizar() {
 	/////             se recomienda crear una método auxiliar que encapsule todo el código para la visualización
 	/////             del modelo, dejando aquí sólo la llamada a ese método, así como distintas funciones una para cada
 	/////			  parte del modelo. 
-	pintar_robot();
-
+	//pintar_robot();
+	cil->draw();
 
 	glPopMatrix(); // restaura la matriz de modelado
 }
