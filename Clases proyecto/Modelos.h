@@ -8,6 +8,8 @@
 #include <GL/glut.h>
 #include <vector>
 #endif
+#include "Sphere.h"
+#include "Cylinder.h"
 class Modelos
 {
 private:
@@ -18,6 +20,9 @@ private:
 	std::vector<GLfloat> color_grisOscuro;
 	std::vector<GLfloat> color_verdeAzul;
 	std::vector<GLfloat> color_azul;
+	Cylinder* cil;
+	Sphere* sph;
+	Cylinder* cono;
 
 public:
 	Modelos();

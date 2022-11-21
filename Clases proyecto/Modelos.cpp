@@ -19,6 +19,10 @@ Modelos::Modelos() :h(1), b(3){
 	color_azul.push_back(0.0f);
 	color_azul.push_back(0.0f);
 	color_azul.push_back(1.0f);
+
+	cil = new Cylinder(0.3, 0.3, 1, 40, 20, true);
+	sph = new Sphere(1, 40, 40, true);
+	cono = new Cylinder(1.5, 0, 2.3459236, 40, 40, true);
 }
 
 void Modelos::base() {
@@ -30,12 +34,7 @@ void Modelos::cilindro(GLfloat color_cilindro[]) {
 
 	glPushMatrix();
 	glScaled(1, 1, 2);
-	glTranslated(0, 0, -0.5);
-	GLUquadric* cyl = gluNewQuadric();
-	gluCylinder(cyl, 0.3, 0.3, 1, 20, 5);
-	gluDeleteQuadric(cyl);
-	cyl = nullptr;
-
+	cil->draw();
 	glPopMatrix();
 }
 
@@ -44,8 +43,7 @@ void Modelos::esfera(GLfloat color_esfera[]) {
 
 	glPushMatrix();
 
-	glutSolidSphere(1, 40, 40);
-
+	sph->draw();
 	glPopMatrix();
 }
 
@@ -63,9 +61,9 @@ void Modelos::cono3D(GLfloat color_cono[]) {
 	glMaterialfv(GL_FRONT, GL_EMISSION, color_cono);
 
 	glPushMatrix();
-
-	glutSolidCone(1.5, 2.3459236, 40, 40);
-
+	glTranslated(0, 0, 1.2);
+	//glutSolidCone(1.5, 2.3459236, 40, 40);
+	cono->draw();
 	glPopMatrix();
 }
 
@@ -347,4 +345,15 @@ void Modelos::pies() {
 
 
 	glPopMatrix();
+}
+
+void Modelos::visualizar() {
+
+	glPushMatrix();
+	cono->draw();
+	glPopMatrix();
+
+	
+	
+
 }
