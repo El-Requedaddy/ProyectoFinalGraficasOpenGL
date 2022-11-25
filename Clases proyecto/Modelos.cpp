@@ -25,9 +25,6 @@ Modelos::Modelos() :h(1), b(3){
 	cono = new Cylinder(1.5, 0, 2.3459236, 40, 40, true);
 }
 
-void Modelos::base() {
-	
-}
 
 void Modelos::cilindro(GLfloat color_cilindro[]) {
 	glMaterialfv(GL_FRONT, GL_EMISSION, color_cilindro);
@@ -62,7 +59,6 @@ void Modelos::cono3D(GLfloat color_cono[]) {
 
 	glPushMatrix();
 	glTranslated(0, 0, 1.2);
-	//glutSolidCone(1.5, 2.3459236, 40, 40);
 	cono->draw();
 	glPopMatrix();
 }
@@ -347,10 +343,62 @@ void Modelos::pies() {
 	glPopMatrix();
 }
 
+void Modelos::Estanteria() {
+	//Lado izq
+	glPushMatrix();
+	glScaled(0.1, 3, 0.7);
+	cubo(color_grisOscuro.data());
+	glPopMatrix();
+
+	 //Lado der
+	glPushMatrix();
+	glTranslated(8, 0, 0);
+	glScaled(0.1, 3, 0.7);
+	cubo(color_grisOscuro.data());
+	glPopMatrix();
+
+	//Lado arriba
+	glPushMatrix();
+	glTranslated(4, 3.1, 0);
+	glScaled(4.1, 0.1, 0.7);
+	cubo(color_grisOscuro.data());
+	glPopMatrix();
+
+	//lado abajo
+	glPushMatrix();
+	glTranslated(4, -3.1, 0);
+	glScaled(4.1, 0.1, 0.7);
+	cubo(color_grisOscuro.data());
+	glPopMatrix();
+
+	//Balda 2
+	glPushMatrix();
+	glTranslated(4, 1, 0);
+	glScaled(4, 0.1, 0.7);
+	cubo(color_grisOscuro.data());
+	glPopMatrix();
+
+	//Balda 3
+	glPushMatrix();
+	glTranslated(4, -1, 0);
+	glScaled(4, 0.1, 0.7);
+	cubo(color_grisOscuro.data());
+	glPopMatrix();
+}
+
 void Modelos::visualizar() {
 
+	//glPushMatrix();
+	//glRotated(90, 1, 0, 0);
+	//glScaled(0.8, 1, 1);
+	//cilindro(color_azul.data());
+	//glPopMatrix();
+
 	glPushMatrix();
-	cono->draw();
+	glTranslated(-2, 0, 0);
+	//glRotated(getRotacion(), 0, 1, 0);
+	glScaled(0.87, 1, 1);
+	Estanteria();
 	glPopMatrix();
 
 	

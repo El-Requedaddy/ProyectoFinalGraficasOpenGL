@@ -28,7 +28,7 @@ public:
 	Modelos();
 
 	void visualizar();
-	void base();
+	//Primitivas de Robot
 	void cabeza();
 	void torso();
 	void piernas();
@@ -41,7 +41,11 @@ public:
 	void dedo();
 	void articulacionDedo();
 	void cuello();
+	
+	//Primitivas Puesto
+	void Estanteria();
 
+	//Primitivas básicas
 	void cilindro(GLfloat color_cilindro[]);
 	void esfera(GLfloat color_esfera[]);
 	void cubo(GLfloat color_cubo[]);

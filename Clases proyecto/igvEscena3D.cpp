@@ -286,8 +286,12 @@ void igvEscena3D::visualizar() {
 	/////             se recomienda crear una método auxiliar que encapsule todo el código para la visualización
 	/////             del modelo, dejando aquí sólo la llamada a ese método, así como distintas funciones una para cada
 	/////			  parte del modelo. 
-	pintar_robot();
-	//modelos->visualizar();
+	//pintar_robot();
+
+
+	glRotated(getRotacion(), 1, 0, 0);
+	modelos->visualizar();
+	//glPopMatrix();
 	glPopMatrix(); // restaura la matriz de modelado
 }
 
