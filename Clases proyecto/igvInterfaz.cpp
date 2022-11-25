@@ -24,11 +24,15 @@ void igvInterfaz::crear_mundo(void) {
 	//r = igvPunto3D(0, 0, 0);
 	//V = igvPunto3D(0, 1.0, 0);
 
-	p0 = igvPunto3D(1.0, 2.0, 4);
+	//p0 = igvPunto3D(6.0, 4.0, 8);
+
+	p0 = igvPunto3D(6.0, 4.0, 8);
 	r = igvPunto3D(0, 0, 0);
 	V = igvPunto3D(0, 1.0, 0);
 
 	interfaz.camara.set(IGV_PARALELA, p0, r, V, -1 * 5, 1 * 5, -1 * 5, 1 * 5, -1 * 3, 200);
+
+	//interfaz.camara.set(IGV_PARALELA, p0, r, V, -1 * 3, 1 * 3, -1 * 3, 1 * 3, 1, 200);
 
 	//parámetros de la perspectiva
 	interfaz.camara.angulo = 60;
@@ -275,7 +279,6 @@ void igvInterfaz::set_glutDisplayFunc() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // borra la ventana y el z-buffer
 	// se establece el viewport
 	glViewport(0, 0, interfaz.get_ancho_ventana(), interfaz.get_alto_ventana());
-
 
 	// aplica las transformaciones en función de los parámetros de la cámara
 	interfaz.camara.aplicar();
