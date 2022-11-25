@@ -49,12 +49,16 @@ public:
 	// vector arriba	
 	igvPunto3D V;
 
+	float factor = 1;
 	// Metodos
 
 public:
 	// Constructores por defecto y destructor
 	igvCamara();
 	~igvCamara();
+
+	//cambiar tipo de cámara
+	void setTipoCamara(tipoCamara camara);
 
 	// Otros constructores
 	igvCamara(tipoCamara _tipo, igvPunto3D _P0, igvPunto3D _r, igvPunto3D _V);
@@ -79,6 +83,12 @@ public:
 	tipoCamara get_vista() { return tipo; };
 	void set_poscam(poscam x) { vis = x; };
 	poscam get_poscam() { return vis; };
+
+	//Cámara y distancias
+	void sumarZnear();
+	void restarZnear(); 		// asociadas a los parámetros de la cámara 
+	void zoomOut();
+	void zoom();
 };
 
 #endif

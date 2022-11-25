@@ -10,6 +10,10 @@ igvCamara::igvCamara() {}
 
 igvCamara::~igvCamara() {}
 
+void igvCamara::setTipoCamara(tipoCamara camara) {
+	tipo = camara;
+}
+
 igvCamara::igvCamara(tipoCamara _tipo, igvPunto3D _P0, igvPunto3D _r, igvPunto3D _V) {
 	P0 = _P0;
 	r = _r;
@@ -72,5 +76,35 @@ void igvCamara::aplicar(void) {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluLookAt(P0[X], P0[Y], P0[Z], r[X], r[Y], r[Z], V[X], V[Y], V[Z]);
+}
+
+void igvCamara::zoom() {
+	if (factor < 10) {
+		factor++;
+		xwmin = xwmin + 0.05;
+		xwmax = xwmax - 0.05;
+		ywmin = ywmin + 0.05;
+		ywmax = ywmax - 0.05;
+		angulo = angulo - 0.5;
+	}
+}
+
+void igvCamara::zoomOut() {
+	if (factor > 0) {
+		factor--;
+		xwmin = xwmin - 0.05;
+		xwmax = xwmax + 0.05;
+		ywmin = ywmin - 0.05;
+		ywmax = ywmax + 0.05;
+		angulo = angulo + 0.5;
+	}
+}
+
+void igvCamara::sumarZnear() {
+	znear = znear + 0.2;
+}
+
+void igvCamara::restarZnear() {
+	znear = znear - 0.2;
 }
 

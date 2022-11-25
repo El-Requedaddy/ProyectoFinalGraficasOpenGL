@@ -20,8 +20,19 @@ igvInterfaz::~igvInterfaz() {}
 // Metodos publicos ----------------------------------------
 
 void igvInterfaz::crear_mundo(void) {
-	interfaz.camara.set(IGV_PARALELA, igvPunto3D(6.0, 4.0, 8), igvPunto3D(0, 0, 0), igvPunto3D(0, 1.0, 0),   //igvPunto3D(6.0, 4.0, 8)
-		-1 * 5, 1 * 5, -1 * 5, 1 * 5, -1 * 3, 200);
+	//p0 = igvPunto3D(3.0, 2.0, 4);
+	//r = igvPunto3D(0, 0, 0);
+	//V = igvPunto3D(0, 1.0, 0);
+
+	p0 = igvPunto3D(1.0, 2.0, 4);
+	r = igvPunto3D(0, 0, 0);
+	V = igvPunto3D(0, 1.0, 0);
+
+	interfaz.camara.set(IGV_PARALELA, p0, r, V, -1 * 5, 1 * 5, -1 * 5, 1 * 5, -1 * 3, 200);
+
+	//parámetros de la perspectiva
+	interfaz.camara.angulo = 60;
+	interfaz.camara.raspecto = 1.0;
 }
 
 void igvInterfaz::configura_entorno(int argc, char** argv,
@@ -196,6 +207,49 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 		break;
 	case 'n':
 		interfaz.resetear();
+		break;
+	case '1': // cambia el tipo de proyección de paralela a perspectiva y viceversa
+		interfaz.camara.setTipoCamara(IGV_PERSPECTIVA);
+		interfaz.camara.aplicar();
+		break;
+	case '2': // cambia el tipo de proyección de paralela a perspectiva y viceversa
+		interfaz.camara.setTipoCamara(IGV_PARALELA);
+		interfaz.camara.aplicar();
+		break;
+	case '3':
+	{
+		// cambia la posición de la cámara para mostrar las vistas planta, perfil, alzado o perspectiva
+		igvPunto3D posicion = igvPunto3D::igvPunto3D(0.1, 8, 0);
+		igvPunto3D referenciaVista = igvPunto3D::igvPunto3D(0, 0, 0);
+		igvPunto3D vectorArriba = igvPunto3D::igvPunto3D(0, 1, 0);
+		interfaz.camara.set(posicion, referenciaVista, vectorArriba);
+		interfaz.camara.aplicar();
+	}
+	break;
+	{
+	case '4': // cambia la posición de la cámara para mostrar las vistas planta, perfil, alzado o perspectiva
+		igvPunto3D posicion = igvPunto3D::igvPunto3D(5, 0, 0);
+		igvPunto3D referenciaVista = igvPunto3D::igvPunto3D(0, 0, 0);
+		igvPunto3D vectorArriba = igvPunto3D::igvPunto3D(0, 1, 0);
+		interfaz.camara.set(posicion, referenciaVista, vectorArriba);
+		interfaz.camara.aplicar();
+	}
+	break;
+	case '+': // zoom in
+		interfaz.camara.zoom();
+		interfaz.camara.aplicar();
+		break;
+	case '-': // zoom out
+		interfaz.camara.zoomOut();
+		interfaz.camara.aplicar();
+		break;
+	case 'b': // incrementar la distancia del plano cercano
+		interfaz.camara.sumarZnear();
+		interfaz.camara.aplicar();
+		break;
+	case 'B': // decrementar la distancia del plano cercano
+		interfaz.camara.restarZnear();
+		interfaz.camara.aplicar();
 		break;
 
 
