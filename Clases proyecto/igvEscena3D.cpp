@@ -287,11 +287,31 @@ void igvEscena3D::visualizar() {
 	/////             del modelo, dejando aquí sólo la llamada a ese método, así como distintas funciones una para cada
 	/////			  parte del modelo. 
 	//pintar_robot();
+	/*glRotated(getRotacion(), 0, 1, 0);
+	modelos->visualizar();*/
+	glPushMatrix();
+	glRotated(getRotacion(), 0, 1, 0);
+		glPushMatrix();
+		//glRotated(getRotacion(), 0, 1, 0);
+		glTranslated(-2,1,-6.5);
+		glScaled(0.5, 0.5, 0.5);
+		modelos->Estanteria();
+		glPopMatrix();
 
+		glPushMatrix();
+		//glRotated(getRotacion(), 0, 1, 0);
+		glScaled(1, 0.4, 1);
+		//modelos->visualizar();
+		modelos->Mostrador();
+		glPopMatrix();
 
-	glRotated(getRotacion(), 1, 0, 0);
-	modelos->visualizar();
-	//glPopMatrix();
+		glPushMatrix();
+		glTranslated(0, 0, 2);
+		glScaled(0.2, 0.2, 0.2);
+		pintar_robot();
+		glPopMatrix();
+
+	glPopMatrix();
 	glPopMatrix(); // restaura la matriz de modelado
 }
 

@@ -20,6 +20,7 @@ private:
 	std::vector<GLfloat> color_grisOscuro;
 	std::vector<GLfloat> color_verdeAzul;
 	std::vector<GLfloat> color_azul;
+	std::vector<GLfloat> color_marron;
 	Cylinder* cil;
 	Sphere* sph;
 	Cylinder* cono;
@@ -44,6 +45,7 @@ public:
 	
 	//Primitivas Puesto
 	void Estanteria();
+	void Mostrador();
 
 	//Primitivas básicas
 	void cilindro(GLfloat color_cilindro[]);
