@@ -28,6 +28,8 @@ protected:
 	igvEscena3D escena; // escena que se visualiza en la ventana definida por igvInterfaz
 	igvCamara camara; // cámara que se utiliza para visualizar la escena
 
+	igvPunto3D p0, r, V;
+
 
 public:
 	// Constructores por defecto y destructor
