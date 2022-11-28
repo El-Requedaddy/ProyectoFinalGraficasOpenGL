@@ -242,6 +242,7 @@ public:
 	void set_ejes(bool _ejes) { ejes = _ejes; };
 
 	void pintar_robot();
+	void pintar_todo();
 
 	
 

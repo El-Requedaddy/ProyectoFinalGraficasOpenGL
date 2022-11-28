@@ -418,20 +418,6 @@ void Modelos::Mostrador() {
 }
 void Modelos::visualizar() {
 
-	//glPushMatrix();
-	//glRotated(90, 1, 0, 0);
-	//glScaled(0.8, 1, 1);
-	//cilindro(color_azul.data());
-	//glPopMatrix();
-
-	//glPushMatrix();
-	//glTranslated(-2, 0, 0);
-	////glRotated(getRotacion(), 0, 1, 0);
-	//glScaled(0.87, 1, 1);
-	//Estanteria();
-	//glPopMatrix();
-
-
 	Mostrador();
 
 	
