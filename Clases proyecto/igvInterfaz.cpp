@@ -30,9 +30,9 @@ void igvInterfaz::crear_mundo(void) {
 	r = igvPunto3D(0, 0, 0);
 	V = igvPunto3D(0, 1.0, 0);
 
-	interfaz.camara.set(IGV_PARALELA, p0, r, V, -1 * 5, 1 * 5, -1 * 5, 1 * 5, -1 * 3, 200);
+	//interfaz.camara.set(IGV_PARALELA, p0, r, V, -1 * 5, 1 * 5, -1 * 5, 1 * 5, -1 * 3, 200);
 
-	//interfaz.camara.set(IGV_PARALELA, p0, r, V, -1 * 3, 1 * 3, -1 * 3, 1 * 3, 1, 200);
+	interfaz.camara.set(IGV_PARALELA, p0, r, V, -1 * 3, 1 * 3, -1 * 3, 1 * 3, 1, 200);
 
 	//parámetros de la perspectiva
 	interfaz.camara.angulo = 60;

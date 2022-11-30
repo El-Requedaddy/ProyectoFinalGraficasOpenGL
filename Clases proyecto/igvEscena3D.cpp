@@ -265,7 +265,7 @@ void igvEscena3D::pintar_robot() {
 
 
 void igvEscena3D::visualizar() {
-	// crear luces
+	// crear luces.
 	GLfloat luz0[4] = { 5.0,5.0,5.0,1 }; // luz puntual  
 	glLightfv(GL_LIGHT0, GL_POSITION, luz0); // la luz se coloca aquí si permanece fija y no se mueve con la escena
 	glEnable(GL_LIGHT0);
