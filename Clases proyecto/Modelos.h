@@ -36,7 +36,7 @@ public:
 	void piernas_inf();
 	void pies();
 	void brazo();  
-	void brazo_superior();
+	void brazo_superior(std::vector<GLfloat> color_brazo_sup);
 	void brazo_inferior();
 	void mano();
 	void dedo();

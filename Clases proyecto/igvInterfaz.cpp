@@ -63,6 +63,7 @@ void igvInterfaz::configura_entorno(int argc, char** argv,
 	glEnable(GL_LIGHTING); // activa la iluminacion de la escena
 	glEnable(GL_NORMALIZE); // normaliza los vectores normales para calculo iluminacion
 
+	modo = IGV_VISUALIZAR;
 	crear_mundo(); // crea el mundo a visualizar en la ventana
 }
 
@@ -281,12 +282,50 @@ void igvInterfaz::set_glutDisplayFunc() {
 		// se establece el viewport
 	glViewport(0, 0, interfaz.get_ancho_ventana(), interfaz.get_alto_ventana());
 
-		interfaz.camara.aplicar();
-		// visualiza la escena
-		interfaz.escena.visualizar();
-		//interfaz.escena.pintar_robotVB();
-		// refresca la ventana
-		glutSwapBuffers();
+		if(interfaz.modo == IGV_SELECCIONAR){
+
+			glDisable(GL_LIGHTING); // desactiva la iluminacion de la escena
+			glDisable(GL_DITHER);
+
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			glDisable(GL_TEXTURE_2D);
+			glDisable(GL_CULL_FACE);
+
+			interfaz.camara.aplicar();
+			// visualiza la escena
+			interfaz.escena.visualizarVB();
+
+			GLubyte aux[3];
+			glReadPixels(interfaz.cursorX, interfaz.alto_ventana - interfaz.cursorY, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, &aux);
+
+			
+			for (int i = 0; i < 12; i+=3) {//Rango de colores que corresponden a la cabeza 6-18
+				GLfloat ss = (GLfloat)aux[0];
+				GLfloat s2 = (GLfloat)aux[1];
+				GLfloat s3 = (GLfloat)aux[2];
+				GLfloat l = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i] * 255.0);
+				GLfloat l2 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 1] * 255.0);
+				GLfloat l3 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 2] * 255.0);
+				if (ss == l && s2 == l2 && s3 == l3){
+					std::cout << "gg";
+					std::cout << (float)aux[0] << "-" << (float)aux[1] << "-" << (float)aux[2]  << std::endl;
+
+				}
+			}
+
+			 //refresca la ventana
+			glutSwapBuffers();
+		
+		}
+		else {
+			interfaz.camara.aplicar();
+			// visualiza la escena
+			//interfaz.escena.visualizar();
+			interfaz.escena.visualizar();
+			//interfaz.escena.pintar_robot();
+			// refresca la ventana
+			glutSwapBuffers();
+		}
 }
 
 void igvInterfaz::set_glutIdleFunc() {

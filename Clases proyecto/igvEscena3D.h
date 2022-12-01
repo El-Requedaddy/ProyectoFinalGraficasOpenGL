@@ -64,7 +64,7 @@ public:
 
 	// método con las llamadas OpenGL para visualizar la escena
 	void visualizar(void);
-
+	void visualizarVB(void);
 	///// Apartado B: Métodos para visualizar cada parte del modelo
 	//Se realiza en la clase Modelos
 
@@ -257,10 +257,14 @@ public:
 		return modo_act;
 	}
 
+	std::vector<GLfloat> get_colores() {
+		return colores;
+	}
+
 	void pintar_robot();
 	void pintar_robotVB();
 	void pintar_todo();
-	void cambia_color(std::vector<GLfloat> color, std::vector<GLfloat> destino, int &pos, int tam) {
+	void cambia_color(std::vector<GLfloat> color, std::vector<GLfloat>& destino, int &pos, int tam) {
 		//std::cout << "pos -> " << pos << std::endl;
 		for (int i = 0; i < tam; i++) {
 			destino[i] = color[pos];
@@ -271,6 +275,23 @@ public:
 			
 		}
 		std::cout << "\n";*/
+	}
+	void reinicio_colores(/*std::vector<GLfloat>& color_rojo, std::vector<GLfloat>& color_grisOscuro, std::vector<GLfloat>& color_azul, std::vector<GLfloat>& color_verdeAzul*/) {
+		color_verdeAzul[0] = 0.0;
+		color_verdeAzul[1] = 0.5;
+		color_verdeAzul[2] = 0.5;
+
+		color_grisOscuro[0] = 0.1;
+		color_grisOscuro[1] = 0.1;
+		color_grisOscuro[2] = 0.1;
+
+		color_azul[0] = 0.0;
+		color_azul[1] = 0.0;
+		color_azul[2] = 1.0;
+
+		color_rojo[0] = 1.0;
+		color_rojo[1] = 0.0;
+		color_rojo[2] = 0.0;
 	}
 	
 

@@ -33,7 +33,7 @@ Modelos::Modelos() :h(1), b(3){
 
 void Modelos::cilindro(GLfloat color_cilindro[]) {
 	glMaterialfv(GL_FRONT, GL_EMISSION, color_cilindro);
-
+	glColor3fv(color_cilindro);
 	glPushMatrix();
 	glScaled(1, 1, 2);
 	cil->draw();
@@ -42,7 +42,8 @@ void Modelos::cilindro(GLfloat color_cilindro[]) {
 
 void Modelos::esfera(GLfloat color_esfera[]) {
 	glMaterialfv(GL_FRONT, GL_EMISSION, color_esfera);
-
+	//std::cout << color_esfera[0] << "-" << color_esfera[1] << "-" << color_esfera[2] << "-" << std::endl;
+	glColor3fv(color_esfera);
 	glPushMatrix();
 
 	sph->draw();
@@ -51,7 +52,7 @@ void Modelos::esfera(GLfloat color_esfera[]) {
 
 void Modelos::cubo(GLfloat color_cubo[]) {
 	glMaterialfv(GL_FRONT, GL_EMISSION, color_cubo);
-
+	glColor3fv(color_cubo);
 	glPushMatrix();
 
 	glutSolidCube(2);
@@ -61,7 +62,7 @@ void Modelos::cubo(GLfloat color_cubo[]) {
 
 void Modelos::cono3D(GLfloat color_cono[]) {
 	glMaterialfv(GL_FRONT, GL_EMISSION, color_cono);
-
+	glColor3fv(color_cono);
 	glPushMatrix();
 	glTranslated(0, 0, 1.2);
 	cono->draw();
@@ -152,8 +153,6 @@ void Modelos::cabeza(std::vector<GLfloat> color_azul, std::vector<GLfloat> color
 void Modelos::cuello(std::vector<GLfloat> color_bola, std::vector<GLfloat> color_cuello) {
 
 	glPushMatrix();
-		//std::cout << color_bola[0] << "-" <<  color_bola[1] << "-" << color_bola[2] << "-" << color_bola[3] << std::endl;
-		//std::cout << color_cuello[0] << "-" <<  color_cuello[1] << "-" << color_cuello[2] << "-" << color_cuello[3] << std::endl;
 		glPushMatrix(); //Transformaciones de la bola de cuello
 		glScaled(0.4, 0.4, 0.4);
 		esfera(color_bola.data());
@@ -195,14 +194,14 @@ void Modelos::torso() {
 	glPopMatrix();
 }
 
-void Modelos::brazo_superior() {
+void Modelos::brazo_superior(std::vector<GLfloat> color_brazo_sup) {
 	glPushMatrix();
 
 			glPushMatrix(); //Transformaciones del brazo superior
 			glTranslated(1.61, 0, 0);
 			glRotated(-90, 0, 1, 0);
 			glScaled(1.1, 1.1, 1.1);
-			cilindro(color_grisOscuro.data());
+			cilindro(color_brazo_sup.data());
 			glPopMatrix();
 
 

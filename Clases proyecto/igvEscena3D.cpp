@@ -46,27 +46,29 @@ igvEscena3D::igvEscena3D() {
 	color_rojo.push_back(1.0f);
 	color_rojo.push_back(0.0f);
 	color_rojo.push_back(0.0f);
-	color_rojo.push_back(0.0f);
+	//color_rojo.push_back(0.0f);
 
 	//poner vector< vector<GLfloat> > y separarlo por colores, es decir tener una matriz par< color rojo otra para gris...
 
 	pos_r = 0;
-	int veces_rojo = 2, veces_azul = 1,veces_gris = 1, veces_verde = 1;
+	int veces_rojo = 1, veces_azul = 1,veces_gris = 1, veces_verde = 1;
 	float ac = 1;
 	for (int i = 0; i < veces_rojo; i++) {
-		colores.push_back(((0.1 * 255) + ac) / 255);//0.1039
+		//colores.push_back(((0.1 * 255) + ac) / 255);//0.1039
+		colores.push_back(1.0);
 		colores.push_back(((0.0 * 255) + ac) / 255);//0.0039
 		colores.push_back(((0.0 * 255) + ac) / 255);
-		colores.push_back(((0.0 * 255) + ac) / 255);
+		//colores.push_back(((0.0 * 255) + ac) / 255);
 
-		ac += 1;
+		ac += 10;
 	}
-	pos_a = veces_rojo * 4;
+	pos_a = veces_rojo * 3;
 	ac = 1;
 	for (int i = 0; i < veces_azul; i++) {
 		colores.push_back(((0.0 * 255) + ac) / 255);
 		colores.push_back(((0.0 * 255) + ac) / 255);
-		colores.push_back(((0.1 * 255) + ac) / 255);
+		//colores.push_back(((0.1 * 255) + ac) / 255);
+		colores.push_back(1.0);
 		ac += 1;
 	}
 	pos_g = pos_a + (veces_azul * 3);
@@ -83,6 +85,8 @@ igvEscena3D::igvEscena3D() {
 		colores.push_back(((0.0 * 255) + ac) / 255);
 		colores.push_back(((0.5 * 255) + ac) / 255);
 		colores.push_back(((0.5 * 255) + ac) / 255);
+		//colores.push_back(0.5);
+		//colores.push_back(0.5);
 		ac += 1;
 	}
 
@@ -327,7 +331,8 @@ void igvEscena3D::pintar_robot() {
 
 void igvEscena3D::pintar_robotVB() {
 	int pos_rr = pos_r, pos_aa = pos_a, pos_vv = pos_v, pos_gg = pos_g;
-
+	//std::cout << "H";
+	//std::vector<GLfloat> aux_col;
 	glTranslated(0, 0.8, 0);
 	glRotated(getRotacion(), 1, 0, 0);
 	glScaled(0.7, 0.7, 0.7);
@@ -337,16 +342,17 @@ void igvEscena3D::pintar_robotVB() {
 
 		glPushMatrix(); //cuello con cabeza
 			glTranslated(0, 3, 0);
-			cambia_color(colores,color_rojo, pos_rr,4);
 			modelos->cuello(color_rojo, color_grisOscuro);
 			glPushMatrix();
 				glTranslated(0, 1, 0);
 				glRotated(getRotacion_cabeza(), 1, 0, 0); 
 				cambia_color(colores, color_azul, pos_aa,3);
-				cambia_color(colores, color_rojo, pos_rr,4);
+				cambia_color(colores, color_rojo, pos_rr,3);
 				cambia_color(colores, color_verdeAzul, pos_vv,3);
 				cambia_color(colores, color_grisOscuro, pos_gg, 3);
 				modelos->cabeza(color_azul, color_rojo, color_verdeAzul, color_grisOscuro); //se instancia la cabeza
+				reinicio_colores();
+				//reinicio_colores(color_rojo,color_grisOscuro,color_azul,color_verdeAzul);
 			glPopMatrix();
 			
 		glPopMatrix();
@@ -532,9 +538,7 @@ void igvEscena3D::pintar_robotVB() {
 	glPopMatrix();
 
 }
-
 void igvEscena3D::visualizar() {
-	//if (!modo_act) {
 		// crear luces
 		GLfloat luz0[4] = { 5.0,5.0,5.0,1 }; // luz puntual  
 		glLightfv(GL_LIGHT0, GL_POSITION, luz0); // la luz se coloca aquí si permanece fija y no se mueve con la escena
@@ -542,36 +546,39 @@ void igvEscena3D::visualizar() {
 
 		// crear el modelo
 		glPushMatrix(); // guarda la matriz de modelado
-
 		// se pintan los ejes
 		if (ejes) pintar_ejes();
-
-		//glLightfv(GL_LIGHT0,GL_POSITION,luz0); // la luz se coloca aquí si se mueve junto con la escena (también habría que desactivar la de arriba).
-		pintar_robotVB();
-
 		glPopMatrix();
 
-	/* }
+		glPushMatrix();
+		visualizarVB();
+		glPopMatrix();
+
+}
+void igvEscena3D::visualizarVB() {
+	if (!modo_act) {
+		pintar_robot();
+	}
 	else {
+
 		glPushMatrix();
 		pintar_robotVB();
+		//glMaterialfv(GL_FRONT, GL_EMISSION, color_rojo.data());
+		//glColor3fv(color_rojo.data());//Importante, es necesario para que lo reconozca el buffer de color a la hora de la selección.
+
+		//glPushMatrix();
+		//glScalef(1, 1, 2);
+		//glutSolidCube(1);
+		//glPopMatrix();
+
+		//glPushMatrix();
+		//glTranslatef(0, 0.4, 0);
+		//glScalef(1.1, 0.2, 2.1);
+		//glutSolidCube(1);
+		//glPopMatrix();
 		glPopMatrix();
-	}*/
+	}
 
-	
-
-	///// Apartado B: aquí hay que añadir la visualización del árbol del modelo utilizando la pila de matrices de OpenGL
-	/////             se recomienda crear una método auxiliar que encapsule todo el código para la visualización
-	/////             del modelo, dejando aquí sólo la llamada a ese método, así como distintas funciones una para cada
-	/////			  parte del modelo. 
-	
-	/*if (modo_act)
-		pintar_robotVB();
-	else
-		pintar_robot();*/
-	//pintar_todo();
-
-	 // restaura la matriz de modelado
 }
 void igvEscena3D::pintar_todo() {
 	glPushMatrix();
