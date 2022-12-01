@@ -32,14 +32,14 @@ public:
 	//Primitivas de Robot
 	void cabeza(std::vector<GLfloat> color_azul, std::vector<GLfloat> color_rojo2, std::vector<GLfloat> color_Verde_Azul, std::vector<GLfloat> color_gris);
 	void torso();
-	void piernas();
-	void piernas_inf();
-	void pies();
+	void piernas(std::vector<GLfloat> color_bola, std::vector<GLfloat> color_pierna_sup);
+	void piernas_inf(std::vector<GLfloat> color_bola, std::vector<GLfloat> color_pierna_inf);
+	void pies(std::vector<GLfloat> color_bola, std::vector<GLfloat> color_pie);
 	void brazo();  
 	void brazo_superior(std::vector<GLfloat> color_brazo_sup);
-	void brazo_inferior();
-	void mano();
-	void dedo();
+	void brazo_inferior(std::vector<GLfloat> color_brazo_inf, std::vector<GLfloat> color_codo);
+	void mano(std::vector<GLfloat> color_muneca, std::vector<GLfloat> color_palma);
+	void dedo(std::vector<GLfloat> color_dedo);
 	void articulacionDedo();
 	void cuello(std::vector<GLfloat> color_bola, std::vector<GLfloat> color_cuello);
 	

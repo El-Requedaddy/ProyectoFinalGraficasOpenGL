@@ -299,19 +299,62 @@ void igvInterfaz::set_glutDisplayFunc() {
 			glReadPixels(interfaz.cursorX, interfaz.alto_ventana - interfaz.cursorY, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, &aux);
 
 			
-			for (int i = 0; i < 12; i+=3) {//Rango de colores que corresponden a la cabeza 6-18
+			for (int i = 0; i < 33; i+=3) { //colores rojos
 				GLfloat ss = (GLfloat)aux[0];
 				GLfloat s2 = (GLfloat)aux[1];
 				GLfloat s3 = (GLfloat)aux[2];
 				GLfloat l = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i] * 255.0);
 				GLfloat l2 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 1] * 255.0);
 				GLfloat l3 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 2] * 255.0);
-				if (ss == l && s2 == l2 && s3 == l3){
-					std::cout << "gg";
-					std::cout << (float)aux[0] << "-" << (float)aux[1] << "-" << (float)aux[2]  << std::endl;
-
+				//std::cout << l << "-" << l2 << "-" << l3 << std::endl;
+				if (ss == l && s2 == l2 && s3 == l3) {
+					std::cout << "rojo";
+					std::cout << (float)aux[0] << "-" << (float)aux[1] << "-" << (float)aux[2] << std::endl;
 				}
 			}
+
+
+
+			//for (int i = 11; i < 12; i+=3) {//colores azul
+			//	GLfloat ss = (GLfloat)aux[0];
+			//	GLfloat s2 = (GLfloat)aux[1];
+			//	GLfloat s3 = (GLfloat)aux[2];
+			//	GLfloat l = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i] * 255.0);
+			//	GLfloat l2 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 1] * 255.0);
+			//	GLfloat l3 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 2] * 255.0);
+			//	if (ss == l && s2 == l2 && s3 == l3){
+			//		std::cout << "azul";
+			//		std::cout << (float)aux[0] << "-" << (float)aux[1] << "-" << (float)aux[2]  << std::endl;
+
+			//	}
+			//}
+
+			//for (int i = 12; i < 31; i += 3) {//colores gris
+			//	GLfloat ss = (GLfloat)aux[0];
+			//	GLfloat s2 = (GLfloat)aux[1];
+			//	GLfloat s3 = (GLfloat)aux[2];
+			//	GLfloat l = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i] * 255.0);
+			//	GLfloat l2 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 1] * 255.0);
+			//	GLfloat l3 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 2] * 255.0);
+			//	if (ss == l && s2 == l2 && s3 == l3) {
+			//		std::cout << "gris";
+			//		std::cout << (float)aux[0] << "-" << (float)aux[1] << "-" << (float)aux[2] << std::endl;
+
+			//	}
+			//}
+			//for (int i = 31; i < 32; i += 3) {//colores verdes
+			//	GLfloat ss = (GLfloat)aux[0];
+			//	GLfloat s2 = (GLfloat)aux[1];
+			//	GLfloat s3 = (GLfloat)aux[2];
+			//	GLfloat l = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i] * 255.0);
+			//	GLfloat l2 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 1] * 255.0);
+			//	GLfloat l3 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 2] * 255.0);
+			//	if (ss == l && s2 == l2 && s3 == l3) {
+			//		std::cout << "verde";
+			//		std::cout << (float)aux[0] << "-" << (float)aux[1] << "-" << (float)aux[2] << std::endl;
+
+			//	}
+			//}
 
 			 //refresca la ventana
 			glutSwapBuffers();
