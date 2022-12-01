@@ -1,4 +1,5 @@
 #include "Modelos.h"
+#include <iostream>
 
 
 Modelos::Modelos() :h(1), b(3){
@@ -67,7 +68,7 @@ void Modelos::cono3D(GLfloat color_cono[]) {
 	glPopMatrix();
 }
 
-void Modelos::cabeza() {
+void Modelos::cabeza(std::vector<GLfloat> color_azul, std::vector<GLfloat> color_rojo2, std::vector<GLfloat> color_Verde_Azul, std::vector<GLfloat> color_gris) {
 
 	glPushMatrix();
 
@@ -75,19 +76,19 @@ void Modelos::cabeza() {
 
 			glPushMatrix();   //Transformaciones de la base de la cabeza
 			glScaled(1.3, 1, 1);
-			cubo(color_azul.data());
+			cubo(color_azul.data());//azul
 			glPopMatrix();
 
 			glPushMatrix();    //Transformaciones del ojo izquierda
 			glTranslated(-1, 0.2, 1);
 			glScaled(0.35, 0.35, 0.1);
-			esfera(color_rojo.data());
+			esfera(color_rojo2.data());//rojo
 			glPopMatrix();
 
 			glPushMatrix();  //Transformaciones del ojo derecho
 			glTranslated(1, 0.2, 1);
 			glScaled(0.35, 0.35, 0.1);
-			esfera(color_rojo.data());
+			esfera(color_rojo2.data());//rojo
 			glPopMatrix();
 
 
@@ -98,14 +99,15 @@ void Modelos::cabeza() {
 				glPushMatrix(); //Transformaciones de la boca en sí(cubo)
 				glTranslated(0, -0.3, 1);
 				glScaled(1.4, 0.4, 0.5);
-				glutSolidCube(1);
+				glScaled(0.5, 0.5, 0.5);
+				cubo(color_rojo2.data());//rojo
 				glPopMatrix();
 
 				glPushMatrix(); //Transformaciones del piercing(cilindro)
 				glTranslated(0, -0.3, 1);
 				glScaled(1.4, 0.4, 0.5);
 				glRotated(90, 0, 1, 0);
-				cilindro(color_verdeAzul.data());
+				cilindro(color_Verde_Azul.data());//verde_Azul
 				glPopMatrix();
 
 			glPopMatrix();
@@ -117,7 +119,7 @@ void Modelos::cabeza() {
 				glTranslated(0, 1.289, 0);
 				glScaled(0.8, 0.6, 0.8);
 				glRotated(90, 1, 0, 0);
-				cilindro(color_grisOscuro.data());
+				cilindro(color_gris.data());
 				glPopMatrix();
 
 				glPushMatrix();
@@ -127,14 +129,14 @@ void Modelos::cabeza() {
 					glPushMatrix(); //Transformaciones de la bolita de la antenita
 					glTranslated(0, 2.1, 0);
 					glScaled(0.35, 0.35, 1);
-					esfera(color_rojo.data());
+					esfera(color_rojo2.data());//rojo
 					glPopMatrix();
 
 					glPushMatrix(); //Transformaciones de la bolita de la antenita
 					glTranslated(0, 2.1, 0);
 					glRotated(90, 0, 1, 0);
 					glScaled(0.35, 0.35, 1);
-					esfera(color_rojo.data());
+					esfera(color_rojo2.data());//rojo
 					glPopMatrix();
 
 				glPopMatrix();
@@ -147,21 +149,21 @@ void Modelos::cabeza() {
 	glPopMatrix();
 }
 
-void Modelos::cuello() {
+void Modelos::cuello(std::vector<GLfloat> color_bola, std::vector<GLfloat> color_cuello) {
 
 	glPushMatrix();
-
+		//std::cout << color_bola[0] << "-" <<  color_bola[1] << "-" << color_bola[2] << "-" << color_bola[3] << std::endl;
+		//std::cout << color_cuello[0] << "-" <<  color_cuello[1] << "-" << color_cuello[2] << "-" << color_cuello[3] << std::endl;
 		glPushMatrix(); //Transformaciones de la bola de cuello
-		//glTranslated(0, -1.2, 0);
 		glScaled(0.4, 0.4, 0.4);
-		esfera(color_rojo.data());
+		esfera(color_bola.data());
 		glPopMatrix();
 
 		glPushMatrix(); //Transformaciones del cuello
 		glTranslated(0, -0.5, 0);   //(0, -1.7, 0)
 		glRotated(90, 1, 0, 0);
 		glScaled(1, 1, 0.65);
-		cilindro(color_grisOscuro.data());
+		cilindro(color_cuello.data());
 		glPopMatrix();
 
 	glPopMatrix();

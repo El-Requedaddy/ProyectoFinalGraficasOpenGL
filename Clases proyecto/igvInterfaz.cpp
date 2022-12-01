@@ -267,6 +267,7 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 void igvInterfaz::set_glutReshapeFunc(int w, int h) {
 	// dimensiona el viewport al nuevo ancho y alto de la ventana
 	// guardamos valores nuevos de la ventana de visualizacion
+
 	interfaz.set_ancho_ventana(w);
 	interfaz.set_alto_ventana(h);
 
@@ -277,16 +278,15 @@ void igvInterfaz::set_glutReshapeFunc(int w, int h) {
 void igvInterfaz::set_glutDisplayFunc() {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // borra la ventana y el z-buffer
-	// se establece el viewport
+		// se establece el viewport
 	glViewport(0, 0, interfaz.get_ancho_ventana(), interfaz.get_alto_ventana());
 
-	// aplica las transformaciones en función de los parámetros de la cámara
-	interfaz.camara.aplicar();
-	// visualiza la escena
-	interfaz.escena.visualizar();
-
-	// refresca la ventana
-	glutSwapBuffers();
+		interfaz.camara.aplicar();
+		// visualiza la escena
+		interfaz.escena.visualizar();
+		//interfaz.escena.pintar_robotVB();
+		// refresca la ventana
+		glutSwapBuffers();
 }
 
 void igvInterfaz::set_glutIdleFunc() {
@@ -381,10 +381,43 @@ void igvInterfaz::resetear() {
 
 }
 
+void igvInterfaz::set_glutMouseFunc(GLint boton, GLint estado, GLint x, GLint y) {
+
+	// Apartado A: comprobar que se ha pulsado el botón izquierdo 
+
+		// Apartado A: guardar que el boton se ha presionado o se ha soltado, si se ha pulsado hay que
+		// pasar a modo IGV_SELECCIONAR
+	if (boton == 0 && estado == 1) {
+		interfaz.boton_retenido = true;
+		interfaz.modo = IGV_SELECCIONAR;
+		interfaz.escena.set_modo(true);
+		// Apartado A: guardar el pixel pulsado
+		interfaz.cursorX = x;
+		interfaz.cursorY = y;
+
+	}
+	// Apartado A: renovar el contenido de la ventana de vision 
+
+}
+
+void igvInterfaz::set_glutMotionFunc(GLint x, GLint y) {
+
+	/*if (interfaz.boton_retenido && interfaz.objeto_seleccionado != -1) {
+		interfaz.escena.getCajas()[interfaz.objeto_seleccionado]->setGrado(x);
+	}
+	glutPostRedisplay();*/
+	
+}
+
+
+
 void igvInterfaz::inicializa_callbacks() {
 	glutKeyboardFunc(set_glutKeyboardFunc);
 	glutReshapeFunc(set_glutReshapeFunc);
 	glutDisplayFunc(set_glutDisplayFunc);
 	glutIdleFunc(set_glutIdleFunc);
+
+	glutMouseFunc(set_glutMouseFunc);
+	glutMotionFunc(set_glutMotionFunc);
 }
 

@@ -9,6 +9,7 @@
 #include <GL/glut.h>
 #endif
 #include "Modelos.h"
+#include <iostream>
 
 enum {
 	basex,
@@ -42,10 +43,18 @@ protected:
 	float rotacion_pierna_inf_izq;
 	float rotacion_pie_izq;
 
+	std::vector<GLfloat> color_grisOscuro;
+	std::vector<GLfloat> color_rojo;
+	std::vector<GLfloat> color_verdeAzul;
+	std::vector<GLfloat> color_azul;
+	std::vector<GLfloat> color_marron;
 
+	int pos_r, pos_a, pos_v, pos_g;
 	// Otros atributos		
 	bool ejes;
 	Modelos* modelos;
+	bool modo_act;//indicador de si estamos en modo selección
+	std::vector<GLfloat> colores; //Array de los diferentes colores
 
 public:
 
@@ -241,9 +250,28 @@ public:
 	bool get_ejes() { return ejes; };
 	void set_ejes(bool _ejes) { ejes = _ejes; };
 
-	void pintar_robot();
-	void pintar_todo();
+	void set_modo(bool a) {
+		modo_act = a;
+	}
+	bool get_modo() {
+		return modo_act;
+	}
 
+	void pintar_robot();
+	void pintar_robotVB();
+	void pintar_todo();
+	void cambia_color(std::vector<GLfloat> color, std::vector<GLfloat> destino, int &pos, int tam) {
+		//std::cout << "pos -> " << pos << std::endl;
+		for (int i = 0; i < tam; i++) {
+			destino[i] = color[pos];
+			pos += 1;
+		}
+		/*for (int i = 0; i < tam; i++) {
+			std::cout << destino[i] << "-";
+			
+		}
+		std::cout << "\n";*/
+	}
 	
 
 };

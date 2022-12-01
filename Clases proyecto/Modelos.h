@@ -30,7 +30,7 @@ public:
 
 	void visualizar();
 	//Primitivas de Robot
-	void cabeza();
+	void cabeza(std::vector<GLfloat> color_azul, std::vector<GLfloat> color_rojo2, std::vector<GLfloat> color_Verde_Azul, std::vector<GLfloat> color_gris);
 	void torso();
 	void piernas();
 	void piernas_inf();
@@ -41,7 +41,7 @@ public:
 	void mano();
 	void dedo();
 	void articulacionDedo();
-	void cuello();
+	void cuello(std::vector<GLfloat> color_bola, std::vector<GLfloat> color_cuello);
 	
 	//Primitivas Puesto
 	void Estanteria();
