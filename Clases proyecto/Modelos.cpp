@@ -25,6 +25,34 @@ Modelos::Modelos() :h(1), b(3){
 	color_marron.push_back(0.0f);
 	color_marron.push_back(0.0f);
 
+	color_base_cabeza.push_back(0.0f);
+	color_base_cabeza.push_back(0.0f);
+	color_base_cabeza.push_back(1.0f);
+
+	color_brazo_sup.push_back(0.1f);
+	color_brazo_sup.push_back(0.1f);
+	color_brazo_sup.push_back(0.1f);
+
+	color_brazo_inf.push_back(0.1f);
+	color_brazo_inf.push_back(0.1f);
+	color_brazo_inf.push_back(0.1f);
+
+	color_mano.push_back(0.1f);
+	color_mano.push_back(0.1f);
+	color_mano.push_back(0.1f);
+
+	color_brazo_supIzq.push_back(0.1f);
+	color_brazo_supIzq.push_back(0.1f);
+	color_brazo_supIzq.push_back(0.1f);
+
+	color_brazo_infIzq.push_back(0.1f);
+	color_brazo_infIzq.push_back(0.1f);
+	color_brazo_infIzq.push_back(0.1f);
+
+	color_manoIzq.push_back(0.1f);
+	color_manoIzq.push_back(0.1f);
+	color_manoIzq.push_back(0.1f);
+
 	cil = new Cylinder(0.3, 0.3, 1, 40, 20, true);
 	sph = new Sphere(1, 40, 40, true);
 	cono = new Cylinder(1.5, 0, 2.3459236, 40, 40, true);
@@ -77,7 +105,8 @@ void Modelos::cabeza(std::vector<GLfloat> color_azul, std::vector<GLfloat> color
 
 			glPushMatrix();   //Transformaciones de la base de la cabeza
 			glScaled(1.3, 1, 1);
-			cubo(color_azul.data());//azul
+			//cubo(color_azul.data());//azul
+			cubo(color_base_cabeza.data());
 			glPopMatrix();
 
 			glPushMatrix();    //Transformaciones del ojo izquierda
@@ -194,23 +223,37 @@ void Modelos::torso() {
 	glPopMatrix();
 }
 
-void Modelos::brazo_superior(std::vector<GLfloat> color_brazo_sup) {
+void Modelos::brazo_superior(std::vector<GLfloat> color_brazo_sup_, int lado) {
+	std::vector<GLfloat> color_br_sup;
+	if (lado == 0) {
+		color_br_sup = color_brazo_sup;
+	}
+	else {
+		color_br_sup = color_brazo_supIzq;
+	}
 	glPushMatrix();
 
 			glPushMatrix(); //Transformaciones del brazo superior
 			glTranslated(1.61, 0, 0);
 			glRotated(-90, 0, 1, 0);
 			glScaled(1.1, 1.1, 1.1);
-			cilindro(color_brazo_sup.data());//gris
+			cilindro(color_br_sup.data());//gris
 			glPopMatrix();
 
 
 	glPopMatrix();   //Fin brazo(sin hombro)
 }
 
-void Modelos::brazo_inferior(std::vector<GLfloat> color_brazo_inf, std::vector<GLfloat> color_codo) {
+void Modelos::brazo_inferior(std::vector<GLfloat> color_brazo_inf_, std::vector<GLfloat> color_codo, int lado) {
+	std::vector<GLfloat> color_br_inf;
+	if (lado == 0) {
+		color_br_inf = color_brazo_inf;
+	}
+	else {
+		color_br_inf = color_brazo_infIzq;
+	}
 
-	glPushMatrix();    //Transformaciones de brazo inferior
+			glPushMatrix();    //Transformaciones de brazo inferior
 
 				glPushMatrix(); //Transformaciones de la bola del CoDo
 				glScaled(0.4, 0.4, 0.4);
@@ -221,13 +264,16 @@ void Modelos::brazo_inferior(std::vector<GLfloat> color_brazo_inf, std::vector<G
 				glTranslated(1.3, 0, 0);
 				glRotated(-90, 0, 1, 0);
 				glScaled(1.1, 1.1, 1.1);
-				cilindro(color_brazo_inf.data());//gris
+				if(lado == 0) // si lado == 0 -> se pinta el color del brazo derecho
+					cilindro(color_brazo_inf.data());
+				else // se pinta color brazo izquierdo
+					cilindro(color_br_inf.data());
 				glPopMatrix();
 
 			glPopMatrix();
 }
 
-void Modelos::mano(std::vector<GLfloat> color_muneca, std::vector<GLfloat> color_palma) {
+void Modelos::mano(std::vector<GLfloat> color_muneca, std::vector<GLfloat> color_palma, int lado) {
 
 	glPushMatrix();  //Transformaciones de la mano 
 
@@ -240,7 +286,7 @@ void Modelos::mano(std::vector<GLfloat> color_muneca, std::vector<GLfloat> color
 					glTranslated(0.8, 0, 0);
 					glRotated(-90, 0, 1, 0);
 					glScaled(0.4, 0.4, 0.4);
-					cono3D(color_palma.data());//gris
+					cono3D(color_mano.data());//gris
 					glPopMatrix();
 
 			
@@ -262,7 +308,7 @@ void Modelos::brazo() {
 	glPopMatrix();
 }
 
-void Modelos::dedo(std::vector<GLfloat> color_dedo) {
+void Modelos::dedo(std::vector<GLfloat> color_dedo, int num_dedo) {
 
 	glPushMatrix();
 
@@ -284,7 +330,7 @@ void Modelos::articulacionDedo() {
 
 }
 
-void Modelos::piernas(std::vector<GLfloat> color_bola, std::vector<GLfloat> color_pierna_sup) {
+void Modelos::piernas(std::vector<GLfloat> color_bola, std::vector<GLfloat> color_pierna_sup, int lado) {
 	glPushMatrix();
 
 		glPushMatrix(); //Transformaciones de la bola de principio de pierna
@@ -305,7 +351,7 @@ void Modelos::piernas(std::vector<GLfloat> color_bola, std::vector<GLfloat> colo
 
 }
 
-void Modelos::piernas_inf(std::vector<GLfloat> color_bola, std::vector<GLfloat> color_pierna_inf) {
+void Modelos::piernas_inf(std::vector<GLfloat> color_bola, std::vector<GLfloat> color_pierna_inf, int lado) {
 	glPushMatrix();
 
 		glPushMatrix(); //Transformaciones de la bola de principio de pierna
@@ -324,7 +370,7 @@ void Modelos::piernas_inf(std::vector<GLfloat> color_bola, std::vector<GLfloat> 
 	glPopMatrix();
 }
 
-void Modelos::pies(std::vector<GLfloat> color_bola, std::vector<GLfloat> color_pie) {
+void Modelos::pies(std::vector<GLfloat> color_bola, std::vector<GLfloat> color_pie, int lado) {
 	glPushMatrix();
 
 	glPushMatrix(); //Transformaciones de la bola de principio de pierna

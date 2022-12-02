@@ -29,6 +29,7 @@ protected:
 	bool animar;
 	float aux;
 	float a,sa;
+	float lim_cab;
 	int fin_primera_fase;
 	igvEscena3D escena; // escena que se visualiza en la ventana definida por igvInterfaz
 	igvCamara camara; // cámara que se utiliza para visualizar la escena

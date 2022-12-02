@@ -49,6 +49,7 @@ void igvInterfaz::configura_entorno(int argc, char** argv,
 	animar = false;
 	aux = 0;
 	a = 1;
+	interfaz.objeto_seleccionado = -1;
 	fin_primera_fase = 0;
 	// inicialización de la ventana de visualización
 	glutInit(&argc, argv);
@@ -86,16 +87,16 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 		interfaz.escena.setRotacion(10);//todo el modelo
 		break;
 	case 'w':
-		interfaz.escena.setRotacion_cabeza(10);//cabeza
+		interfaz.escena.setRotacion_cabezaY(10);//cabeza
 		break;
 	case 'W':
-		interfaz.escena.setRotacion_cabeza(-10);//cabeza
+		interfaz.escena.setRotacion_cabezaY(-10);//cabeza
 		break;
 	case 'e':
-		interfaz.escena.setRotacion3_brazo_sup(10);//brazo supp
+		interfaz.escena.setRotacion_brazo_sup(10);//brazo supp
 		break;
 	case 'E':
-		interfaz.escena.setRotacion3_brazo_sup(-10);
+		interfaz.escena.setRotacion_brazo_sup(-10);
 		break;
 	case 'r':
 		interfaz.escena.setRotacion_brazo_inf(10);//brazo inf
@@ -291,27 +292,25 @@ void igvInterfaz::set_glutDisplayFunc() {
 			glDisable(GL_TEXTURE_2D);
 			glDisable(GL_CULL_FACE);
 
+			//Reinicio de los colores
+			interfaz.escena.getModelos()->set_colorMano(interfaz.escena.get_color_gris());
+			interfaz.escena.getModelos()->set_colorBaseCabeza(interfaz.escena.get_color_azul());
+			interfaz.escena.getModelos()->set_colorBrazoSup(interfaz.escena.get_color_gris());
+			interfaz.escena.getModelos()->set_colorBrazoInf(interfaz.escena.get_color_gris());
+
+			//Aplico la cámara
 			interfaz.camara.aplicar();
+
 			// visualiza la escena
 			interfaz.escena.visualizarVB();
-
+			
+			//Leo el pixel seleccionado
 			GLubyte aux[3];
 			glReadPixels(interfaz.cursorX, interfaz.alto_ventana - interfaz.cursorY, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, &aux);
 
-			//for (int i = 0; i < 12; i += 3) {
-			//	GLfloat ss = (GLfloat)aux[0];
-			//	GLfloat s2 = (GLfloat)aux[1];
-			//	GLfloat s3 = (GLfloat)aux[2];
-			//	GLfloat l = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i] * 255.0);
-			//	GLfloat l2 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 1] * 255.0);
-			//	GLfloat l3 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 2] * 255.0);
-			//	//std::cout << l << "-" << l2 << "-" << l3 << std::endl;
-			//	if (ss == l && s2 == l2 && s3 == l3) {
-			//		std::cout << "cabeza";
-			//		std::cout << (float)aux[0] << "-" << (float)aux[1] << "-" << (float)aux[2] << std::endl;
-			//	}
-			//}
-			for (int i = 0; i < interfaz.escena.get_colores().size(); i+=3) { //colores rojos -12
+			//Comparo los colores del vector  con el color del pixel y me quedo con la posición
+			bool fin = false;
+			for (int i = 0; (i < interfaz.escena.get_colores().size()) && !fin; i+=3) { 
 				GLfloat ss = (GLfloat)aux[0];
 				GLfloat s2 = (GLfloat)aux[1];
 				GLfloat s3 = (GLfloat)aux[2];
@@ -319,25 +318,46 @@ void igvInterfaz::set_glutDisplayFunc() {
 				GLfloat l2 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 1] * 255.0);
 				GLfloat l3 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 2] * 255.0);
 				//std::cout << l << "-" << l2 << "-" << l3 << std::endl;
-				
+				std::cout << ss << "-" << s2 << "-" << s3 << std::endl;
 				if (ss == l && s2 == l2 && s3 == l3) {
 					//std::cout << i << std::endl;
-					//std::cout << "gris";
+					//std::cout << "--------------gg------------" << std::endl;
 					//std::cout << (float)aux[0] << "-" << (float)aux[1] << "-" << (float)aux[2] << std::endl;
 					interfaz.objeto_seleccionado = i;
+					fin = true;
+				}
+				else {
+					interfaz.objeto_seleccionado = -1; //si los colores no coinciden se marca
+					//std::cout << "-f: " << interfaz.objeto_seleccionado <<  std::endl;
 				}
 			}
 
 			 //refresca la ventana
 			glutSwapBuffers();
+			
+			if (interfaz.objeto_seleccionado != -1) { // se comprueba que se haya seleccionado alguna caja
+				int a = (int)(interfaz.objeto_seleccionado / 3); 
+				if (a >= 0 && a <= 3) //cabeza
+				interfaz.escena.getModelos()->set_colorBaseCabeza(interfaz.escena.get_color_naranja());
+				if(a == 4)//brazo superior
+					interfaz.escena.getModelos()->set_colorBrazoSup(interfaz.escena.get_color_naranja());
+				if(a == 5)//brazo inferior
+					interfaz.escena.getModelos()->set_colorBrazoInf(interfaz.escena.get_color_naranja());
+
+				//Cambiar a modo de visualización de la escena
+				interfaz.escena.set_modo(false);
+			}
+			interfaz.modo = IGV_VISUALIZAR; // tras la selección hay que pulsar click derecho o sino se vuelve al modo selección 
+				
+			//Habilitar de nuevo la iluminación
+			glEnable(GL_LIGHTING);
 		
 		}
 		else {
+			// aplica la cámara
 			interfaz.camara.aplicar();
 			// visualiza la escena
-			//interfaz.escena.visualizar();
 			interfaz.escena.visualizar();
-			//interfaz.escena.pintar_robot();
 			// refresca la ventana
 			glutSwapBuffers();
 		}
@@ -386,8 +406,8 @@ void igvInterfaz::set_glutIdleFunc() {
 		}
 
 		if (interfaz.fin_primera_fase == 2) {
-			if (interfaz.escena.getRotacion_cabeza() < 30) {//bajo cabeza
-				interfaz.escena.setRotacion_cabeza(1);
+			if (interfaz.escena.getRotacion_cabezaY() < 30) {//bajo cabeza
+				interfaz.escena.setRotacion_cabezaY(1);
 			}
 			if (interfaz.escena.getRotacionpierna_sup() < 70 ) { //subo pierna hasta limite
 				interfaz.escena.setRotacionpierna_sup(1);
@@ -411,7 +431,7 @@ void igvInterfaz::set_glutIdleFunc() {
 				interfaz.escena.setRotacionpie(-1);
 			}
 			
-			interfaz.escena.setRotacion_cabeza(-0.7);
+			interfaz.escena.setRotacion_cabezaY(-0.7);
 		}
 		glutPostRedisplay();
 	}
@@ -428,7 +448,7 @@ void igvInterfaz::resetear() {
 	interfaz.escena.setRotacionpierna_sup(-interfaz.escena.getRotacionpierna_sup());
 	interfaz.escena.setRotacionpierna_inf(-interfaz.escena.getRotacionpierna_inf());
 	interfaz.escena.setRotacionpie(-interfaz.escena.getRotacionpie());
-	interfaz.escena.setRotacion_cabeza(-interfaz.escena.getRotacion_cabeza());
+	interfaz.escena.setRotacion_cabezaY(-interfaz.escena.getRotacion_cabezaY());
 	interfaz.fin_primera_fase = 0;
 	glutPostRedisplay();
 	
@@ -449,28 +469,77 @@ void igvInterfaz::set_glutMouseFunc(GLint boton, GLint estado, GLint x, GLint y)
 		interfaz.cursorX = x;
 		interfaz.cursorY = y;
 
+
 	}
 	// Apartado A: renovar el contenido de la ventana de vision 
-
+	glutSwapBuffers();
 }
 
 void igvInterfaz::set_glutMotionFunc(GLint x, GLint y) {
-
-	/*if (interfaz.boton_retenido && interfaz.objeto_seleccionado != -1) {
-		interfaz.escena.getCajas()[interfaz.objeto_seleccionado]->setGrado(x);
-	}
-	glutPostRedisplay();*/
 	int a = (int)(interfaz.objeto_seleccionado / 3);
-	//std::cout << "hh -> " << interfaz.objeto_seleccionado/3 << std::endl;
-	if (interfaz.boton_retenido /* && (a >= 0 && a <= 3)*/) {
-		//std::cout << "roto cabeza -> " <<x <<  std::endl;
-		interfaz.escena.setRotacion_cabeza(x);
+	int f = -1;
+	if (interfaz.objeto_seleccionado != -1 && interfaz.boton_retenido) {
+
+		if (a >= 0 && a <= 3) { //intervalo de colores de cabeza
+			a = 0;
+		}
+
+		switch (a)
+		{
+		case 0://cabeza
+			interfaz.escena.setRotacion_cabezaX(x + 90);
+
+			if (y - interfaz.cursorY > -40 && y - interfaz.cursorY < 40) {//limitación de movimiento
+				interfaz.escena.setRotacion_cabezaY(y - interfaz.cursorY);
+			}
+			break;
+
+		case 4://brazo superior
+			if (y - interfaz.cursorY > -180 && y - interfaz.cursorY < 0) {
+				interfaz.escena.setRotacion2_brazo_sup(y - interfaz.cursorY);
+			}
+			if (x - interfaz.cursorX > 0 && x - interfaz.cursorX < 180) {
+				interfaz.escena.setRotacion_brazo_sup(x - interfaz.cursorX);
+			}
+			break;
+
+		case 5: //brazo inferio
+			if (x - interfaz.cursorX > -90 && x - interfaz.cursorX < 90) {
+				interfaz.escena.setRotacion_brazo_inf(x - interfaz.cursorX);
+			}
+		default:
+			break;
+		}
+
+		//if (/*interfaz.boton_retenido && (a >= 0 && a <= 3)*/ a == 0) {//Compruebo si se ha seleccionado la cabeza
+
+		//	interfaz.escena.setRotacion_cabezaX(x + 90);
+
+		//	if (y - interfaz.cursorY > -40 && y - interfaz.cursorY < 40) {//limitación de movimiento
+		//		interfaz.escena.setRotacion_cabezaY(y - interfaz.cursorY);
+		//		//std::cout << "ñññ -> " << y + 90 << std::endl;
+		//	}
+
+		//}
+		//if (interfaz.boton_retenido && (a == 4)) {//Brazo inferior
+		//	if (y - interfaz.cursorY > -180 && y - interfaz.cursorY < 0) {
+		//		interfaz.escena.setRotacion2_brazo_sup(y - interfaz.cursorY);
+		//	}
+		//	if (x - interfaz.cursorX > 0 && x - interfaz.cursorX < 180) {
+		//		interfaz.escena.setRotacion_brazo_sup(x - interfaz.cursorX);
+		//	}
+		//	//std::cout << "ñññ -> " << x+60 << std::endl;
+		//}
+		//if (interfaz.boton_retenido && (a == 5)) {
+		//	std::cout << "ñññ -> " << x-interfaz.cursorX << std::endl;
+		//	if (x - interfaz.cursorX > -90 && x - interfaz.cursorX < 90) {
+		//		interfaz.escena.setRotacion_brazo_inf(x - interfaz.cursorX);
+		//	}
+		//}
 	}
+
+
 	glutPostRedisplay();
-	/*else {
-		interfaz.objeto_seleccionado = -1;
-	}*/
-	
 }
 
 

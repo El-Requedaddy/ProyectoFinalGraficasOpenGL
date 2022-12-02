@@ -22,7 +22,8 @@ class igvEscena3D {
 protected:
 	////// Apartado C: añadir quí los atributos para el control de los grados de libertad del modelo
 	float rotacionModeloCompleto;
-	float rotacion_cabeza;
+	float rotacion_cabezaY;
+	float rotacion_cabezaX;
 	float rotacion_brazo_sup;
 	float rotacion2_brazo_sup;
 	float rotacion_brazo_inf;
@@ -48,6 +49,7 @@ protected:
 	std::vector<GLfloat> color_verdeAzul;
 	std::vector<GLfloat> color_azul;
 	std::vector<GLfloat> color_marron;
+	std::vector<GLfloat> color_naranja;
 
 	int pos_r, pos_a, pos_v, pos_g;
 	// Otros atributos		
@@ -68,7 +70,70 @@ public:
 	///// Apartado B: Métodos para visualizar cada parte del modelo
 	//Se realiza en la clase Modelos
 
-	////// Apartado C: añadir aquí los métodos para modificar los grados de libertad del modelo
+	//----------------------------------Métodos para la visualización de las diferentes partes de la escena-----------------------------
+	void pintar_robot();
+	void pintar_robotVB();
+	void pintar_todo();
+	
+	//-------------------------------------MÉTODOS PARA INTERACTUAR CON LOS COLORES-------------------------
+
+	//inserta en el vector de destino valores del vector color(inserta 'tam' valores a partir de la posición 'pos')
+	void cambia_color(std::vector<GLfloat> color, std::vector<GLfloat>& destino, int& pos, int tam) {
+			//std::cout << "pos -> " << pos << std::endl;
+			for (int i = 0; i < tam; i++) {
+				destino[i] = color[pos];
+				pos += 1;
+			}
+		}
+	//Método que reinicia los vectores de colores a su color original
+	void reinicio_colores() {
+		color_verdeAzul[0] = 0.0;
+		color_verdeAzul[1] = 0.5;
+		color_verdeAzul[2] = 0.5;
+
+		color_grisOscuro[0] = 0.1;
+		color_grisOscuro[1] = 0.1;
+		color_grisOscuro[2] = 0.1;
+
+		color_azul[0] = 0.0;
+		color_azul[1] = 0.0;
+		color_azul[2] = 1.0;
+
+		color_rojo[0] = 1.0;
+		color_rojo[1] = 0.0;
+		color_rojo[2] = 0.0;
+	}
+
+	void set_modo(bool a) {
+		modo_act = a;
+	}
+	bool get_modo() {
+		return modo_act;
+	}
+
+	std::vector<GLfloat> get_colores() {
+		return colores;
+	}
+
+	std::vector<GLfloat> get_color_naranja() {
+		return color_naranja;
+	}
+
+	std::vector<GLfloat> get_color_gris() {
+		return color_grisOscuro;
+	}
+
+	std::vector<GLfloat> get_color_azul() {
+		return color_azul;
+	}
+
+	Modelos* getModelos() {
+		return modelos;
+	}
+
+
+	//------------------------MÉTODOS PARA GESTIONAR LOS GRADOS DE LIBERTAD DEL GRAFO DE ESCENA-----------------------------
+	
 	void setRotacion(float a) {
 		rotacionModeloCompleto += a;
 	}
@@ -77,18 +142,26 @@ public:
 		return rotacionModeloCompleto;
 	}
 
-	void setRotacion_cabeza(float a) {
-		//if(rotacion_cabeza + a <= 30 && rotacion_cabeza +a >= -30 ) 
-			rotacion_cabeza = a;
-			std::cout << "roto cabeza -> " << a << std::endl;
+	void setRotacion_cabezaY(float a) {
+			rotacion_cabezaY = a;
 	}
 
-	float getRotacion_cabeza() {
-		return rotacion_cabeza;
+	float getRotacion_cabezaY() {
+		return rotacion_cabezaY;
 	}
 
-	void setRotacion3_brazo_sup(float a) {
-		if(rotacion_brazo_sup + a <= 180 && rotacion_brazo_sup + a >= 0 ) rotacion_brazo_sup += a ;
+	float getRotacion_cabezaX() {
+		return rotacion_cabezaX;
+	}
+
+	void setRotacion_cabezaX(float a) {
+			rotacion_cabezaX = a;
+	}
+
+	//----Rotaciones de Brazo derecho-----
+
+	void setRotacion_brazo_sup(float a) {
+		rotacion_brazo_sup = a ;
 	}
 
 	float getRotacion_brazo_sup() {
@@ -96,8 +169,7 @@ public:
 	}
 
 	void setRotacion2_brazo_sup(float a) {
-		//if (rotacion2_brazo_sup + a <= 90 && rotacion2_brazo_sup + a >= -90) 
-		rotacion2_brazo_sup += a;
+		rotacion2_brazo_sup = a;
 	}
 
 	float getRotacion2_brazo_sup() {
@@ -105,7 +177,7 @@ public:
 	}
 
 	void setRotacion_brazo_inf(float a) {
-		if(rotacion_brazo_inf + a <= 90 && rotacion_brazo_inf + a >= -90)rotacion_brazo_inf += a;
+		rotacion_brazo_inf = a;
 	}
 
 	float getRotacion_brazo_inf() {
@@ -117,7 +189,8 @@ public:
 	}
 
 	void setRotacionMuneca(float a) {
-		if (rotacion_muneca + a <= 90 && rotacion_muneca + a >= -90) rotacion_muneca += a;
+		//if (rotacion_muneca + a <= 90 && rotacion_muneca + a >= -90) 
+			rotacion_muneca += a;
 	}
 
 	float getRotaciondedo1() {
@@ -144,7 +217,7 @@ public:
 		if (rotacion_dedo3 + a <= 50 && rotacion_dedo3 + a >= -20) rotacion_dedo3 += a;
 	}
 
-	//------------------------------------------------LADO IZQUIERDO DE MANO
+	//-----------------------------------Rotaciones del brazo derecho
 
 	void setRotacion_brazo_sup_izq(float a) {
 		if (rotacion_brazo_sup_izq + a <= 180 && rotacion_brazo_sup_izq + a >= 0) rotacion_brazo_sup_izq += a;
@@ -194,7 +267,7 @@ public:
 		if (rotacion_dedo3_izq + a <= 20 && rotacion_dedo3_izq + a >= -70) rotacion_dedo3_izq += a;
 	}
 
-	//----------------------PIERNAS
+	//----------------------Rotaciones pierna derecha
 
 	float getRotacionpierna_sup() {
 		return rotacion_pierna_sup;
@@ -246,55 +319,13 @@ public:
 		if (rotacion_pie_izq + a <= 40 && rotacion_pie_izq + a >= -40) rotacion_pie_izq += a;
 	}
 
-	Modelos* getModelos() {
-		return modelos;
-	}
+	
 	bool get_ejes() { return ejes; };
 	void set_ejes(bool _ejes) { ejes = _ejes; };
 
-	void set_modo(bool a) {
-		modo_act = a;
-	}
-	bool get_modo() {
-		return modo_act;
-	}
+	
 
-	std::vector<GLfloat> get_colores() {
-		return colores;
-	}
-
-	void pintar_robot();
-	void pintar_robotVB();
-	void pintar_todo();
-	void cambia_color(std::vector<GLfloat> color, std::vector<GLfloat>& destino, int &pos, int tam) {
-		//std::cout << "pos -> " << pos << std::endl;
-		for (int i = 0; i < tam; i++) {
-			destino[i] = color[pos];
-			pos += 1;
-		}
-		/*for (int i = 0; i < tam; i++) {
-			std::cout << destino[i] << "-";
-			
-		}
-		std::cout << "\n";*/
-	}
-	void reinicio_colores(/*std::vector<GLfloat>& color_rojo, std::vector<GLfloat>& color_grisOscuro, std::vector<GLfloat>& color_azul, std::vector<GLfloat>& color_verdeAzul*/) {
-		color_verdeAzul[0] = 0.0;
-		color_verdeAzul[1] = 0.5;
-		color_verdeAzul[2] = 0.5;
-
-		color_grisOscuro[0] = 0.1;
-		color_grisOscuro[1] = 0.1;
-		color_grisOscuro[2] = 0.1;
-
-		color_azul[0] = 0.0;
-		color_azul[1] = 0.0;
-		color_azul[2] = 1.0;
-
-		color_rojo[0] = 1.0;
-		color_rojo[1] = 0.0;
-		color_rojo[2] = 0.0;
-	}
+	
 	
 
 };
