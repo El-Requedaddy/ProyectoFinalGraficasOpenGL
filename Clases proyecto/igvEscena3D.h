@@ -78,7 +78,9 @@ public:
 	}
 
 	void setRotacion_cabeza(float a) {
-		if(rotacion_cabeza + a <= 30 && rotacion_cabeza +a >= -30 ) rotacion_cabeza += a;
+		//if(rotacion_cabeza + a <= 30 && rotacion_cabeza +a >= -30 ) 
+			rotacion_cabeza = a;
+			std::cout << "roto cabeza -> " << a << std::endl;
 	}
 
 	float getRotacion_cabeza() {

@@ -11,6 +11,7 @@ igvEscena3D::igvEscena3D() {
 	ejes = true;
 	modelos = new Modelos();
 	// Apartado C: inicializar los atributos para el control de los grados de libertad del modelo 
+	rotacion_cabeza = 0;
 	rotacion_brazo_sup = 0;
 	rotacion_brazo_inf = 0;
 	rotacion_muneca = 0;
@@ -51,7 +52,7 @@ igvEscena3D::igvEscena3D() {
 	//poner vector< vector<GLfloat> > y separarlo por colores, es decir tener una matriz par< color rojo otra para gris...
 
 	pos_r = 0;
-	int veces_rojo = 11, veces_azul = 1,veces_gris = 19, veces_verde = 1;
+	int veces_rojo = 1, veces_azul = 1,veces_gris = 19, veces_verde = 1;
 	float ac = 1;
 	for (int i = 0; i < veces_rojo; i++) {
 		//colores.push_back(((0.1 * 255) + ac) / 255);//0.1039
@@ -63,8 +64,8 @@ igvEscena3D::igvEscena3D() {
 
 		ac += 10;
 	}
-	std::cout << "rojo: " << colores.size() << std::endl;
-	pos_a = veces_rojo * 3;
+	//std::cout << "rojo: " << colores.size() << std::endl;
+	pos_a = colores.size();
 	ac = 1;
 	for (int i = 0; i < veces_azul; i++) {
 		colores.push_back(((0.0 * 255) + ac) / 255);
@@ -73,17 +74,9 @@ igvEscena3D::igvEscena3D() {
 		colores.push_back(1.0);
 		ac += 1;
 	}
-	std::cout << "azul: " << colores.size() << std::endl;
-	pos_g = pos_a + (veces_azul * 3);
-	ac = 1;
-	for (int i = 0; i < veces_gris; i++) {
-		colores.push_back(((0.1 * 255) + ac) / 255);
-		colores.push_back(((0.1 * 255) + ac) / 255);
-		colores.push_back(((0.1 * 255) + ac) / 255);
-		ac += 1;
-	}
-	std::cout << "gris: " << colores.size() << std::endl;
-	pos_v = pos_g + (veces_gris * 3);
+	//std::cout << "azul: " << colores.size() << std::endl;
+
+	pos_v = colores.size();
 	ac = 1;
 	for (int i = 0; i < veces_verde; i++) {
 		colores.push_back(((0.0 * 255) + ac) / 255);
@@ -93,8 +86,19 @@ igvEscena3D::igvEscena3D() {
 		//colores.push_back(0.5);
 		ac += 1;
 	}
-	std::cout << "verde: " << colores.size() << std::endl;
+	//std::cout << "verde: " << colores.size() << std::endl;
 
+	pos_g = colores.size();
+	ac = 1;
+	for (int i = 0; i < veces_gris; i++) {
+		colores.push_back(((0.1 * 255) + ac) / 255);
+		colores.push_back(((0.1 * 255) + ac) / 255);
+		colores.push_back(((0.1 * 255) + ac) / 255);
+		ac += 1;
+	}
+	//std::cout << "gris: " << colores.size() << std::endl;
+
+	
 }
 
 igvEscena3D::~igvEscena3D() {
@@ -339,7 +343,7 @@ void igvEscena3D::pintar_robotVB() {
 	//std::cout << "H";
 	//std::vector<GLfloat> aux_col;
 	glTranslated(0, 0.8, 0);
-	glRotated(getRotacion(), 1, 0, 0);
+	glRotated(getRotacion(), 0, 1, 0);
 	glScaled(0.7, 0.7, 0.7);
 	modelos->torso();
 
@@ -350,7 +354,8 @@ void igvEscena3D::pintar_robotVB() {
 			modelos->cuello(color_rojo, color_grisOscuro);
 			glPushMatrix();
 				glTranslated(0, 1, 0);
-				glRotated(getRotacion_cabeza(), 1, 0, 0); 
+				glRotated(getRotacion_cabeza(), 0, 1, 0);
+				//glRotated(0, 0, 1, 0);
 				cambia_color(colores, color_azul, pos_aa,3);
 				cambia_color(colores, color_rojo, pos_rr,3);
 				cambia_color(colores, color_verdeAzul, pos_vv,3);
@@ -381,7 +386,7 @@ void igvEscena3D::pintar_robotVB() {
 					glTranslated(2.5, 0, 0);   //Traslación de brazo inferior completa, juntando superior e inferior
 					glRotated(getRotacion_brazo_inf(), 0, 1, 0);   //rotación parte inferior brazo
 					cambia_color(colores, color_grisOscuro, pos_gg, 3);
-					cambia_color(colores, color_rojo, pos_rr, 3);
+					//cambia_color(colores, color_rojo, pos_rr, 3);
 					modelos->brazo_inferior(color_grisOscuro,color_rojo);//rango en colores: [15-21)
 					reinicio_colores();
 					
@@ -390,8 +395,8 @@ void igvEscena3D::pintar_robotVB() {
 						glTranslated(2.42345, 0, 0); 
 						glRotated(getRotacionMuneca(), 0, 0, 1);   //Rotación para mover la muñeca Xd
 						cambia_color(colores, color_grisOscuro, pos_gg, 3);
-						cambia_color(colores, color_rojo, pos_rr, 3);
-						modelos->mano(color_grisOscuro,color_rojo);// rango en colores: [21-27)
+						//cambia_color(colores, color_rojo, pos_rr, 3);
+						modelos->mano(color_rojo,color_grisOscuro);// rango en colores: [21-27)
 						reinicio_colores();
 						glPushMatrix();  //dedo 1
 							glTranslated(0.8265, 0.3, 0);
@@ -462,7 +467,7 @@ void igvEscena3D::pintar_robotVB() {
 					glTranslated(2.5, 0, 0);   //Traslación de brazo inferior completa, juntando superior e inferior
 					glRotated(-getRotacion_brazo_inf_izq(), 0, 1, 0);   //rotación parte inferior brazo
 					cambia_color(colores, color_grisOscuro, pos_gg, 3);
-					cambia_color(colores, color_rojo, pos_rr, 3);
+					//cambia_color(colores, color_rojo, pos_rr, 3);
 					modelos->brazo_inferior(color_grisOscuro, color_rojo);//rango en colores: [39-45)-4-9
 					reinicio_colores();
 					glPushMatrix();
@@ -470,8 +475,8 @@ void igvEscena3D::pintar_robotVB() {
 						glTranslated(2.42345, 0, 0);   //Mover la mano para pegarlo al brazo xD
 						glRotated(-getRotacionMunecaIzq(), 0, 0, 1);   //Rotación para mover la muñeca
 						cambia_color(colores, color_grisOscuro, pos_gg, 3);
-						cambia_color(colores, color_rojo, pos_rr, 3);
-						modelos->mano(color_grisOscuro, color_rojo);// rango en colores: [45-51)5-10
+						//cambia_color(colores, color_rojo, pos_rr, 3);
+						modelos->mano(color_rojo, color_grisOscuro);// rango en colores: [45-51)5-10
 						reinicio_colores();
 
 						glPushMatrix();  //dedo 1
@@ -525,7 +530,7 @@ void igvEscena3D::pintar_robotVB() {
 			glTranslated(-0.8, -1.8, 0);
 			glRotated(getRotacionpierna_sup(), 1, 0, 0); // rotacion pierna
 			cambia_color(colores, color_grisOscuro, pos_gg, 3);
-			cambia_color(colores, color_rojo, pos_rr, 3);
+			//cambia_color(colores, color_rojo, pos_rr, 3);
 			modelos->piernas(color_rojo,color_grisOscuro);//rango en colores: [60-66)-6-14
 			reinicio_colores();
 			glPushMatrix();
@@ -533,7 +538,7 @@ void igvEscena3D::pintar_robotVB() {
 				glTranslated(0, -2.45, 0);
 				glRotated(getRotacionpierna_inf(), 1, 0, 0);// rotacion pierna inf
 				cambia_color(colores, color_grisOscuro, pos_gg, 3);
-				cambia_color(colores, color_rojo, pos_rr, 3);
+				//cambia_color(colores, color_rojo, pos_rr, 3);
 				modelos->piernas_inf(color_rojo, color_grisOscuro);//rango en colores: [66-72)-7-15
 				reinicio_colores();
 				glPushMatrix();
@@ -541,7 +546,7 @@ void igvEscena3D::pintar_robotVB() {
 					glRotated(getRotacionpie(), 1, 0, 0); //rotacion pie
 					glRotated(-90, 0, 1, 0);
 					cambia_color(colores, color_grisOscuro, pos_gg, 3);
-					cambia_color(colores, color_rojo, pos_rr, 3);
+					//cambia_color(colores, color_rojo, pos_rr, 3);
 					modelos->pies(color_rojo, color_grisOscuro);//rango en colores: [72-78)-8-16
 					reinicio_colores();
 				glPopMatrix();
@@ -555,7 +560,7 @@ void igvEscena3D::pintar_robotVB() {
 			glTranslated(0.8, -1.8, 0);
 			glRotated(getRotacionpierna_sup_izq(), 1, 0, 0);
 			cambia_color(colores, color_grisOscuro, pos_gg, 3);
-			cambia_color(colores, color_rojo, pos_rr, 3);
+			//cambia_color(colores, color_rojo, pos_rr, 3);
 			modelos->piernas(color_rojo, color_grisOscuro);//rango en colores: [78-84)-9-17
 			reinicio_colores();
 
@@ -564,7 +569,7 @@ void igvEscena3D::pintar_robotVB() {
 				glTranslated(0, -2.45, 0);
 				glRotated(getRotacionpierna_inf_izq(), 1, 0, 0);
 				cambia_color(colores, color_grisOscuro, pos_gg, 3);
-				cambia_color(colores, color_rojo, pos_rr, 3);
+				//cambia_color(colores, color_rojo, pos_rr, 3);
 				modelos->piernas_inf(color_rojo, color_grisOscuro);//rango en colores: [84-90)-10-18
 				reinicio_colores();
 				glPushMatrix();
@@ -572,7 +577,7 @@ void igvEscena3D::pintar_robotVB() {
 					glRotated(getRotacionpie_izq(), 1, 0, 0);
 					glRotated(-90, 0, 1, 0);
 					cambia_color(colores, color_grisOscuro, pos_gg, 3);
-					cambia_color(colores, color_rojo, pos_rr, 3);
+					//cambia_color(colores, color_rojo, pos_rr, 3);
 					modelos->pies(color_rojo, color_grisOscuro);//rango en colores: [90-96)-11-19
 					reinicio_colores();
 				glPopMatrix();
@@ -609,6 +614,15 @@ void igvEscena3D::visualizarVB() {
 
 		glPushMatrix();
 		pintar_robotVB();
+		//glRotated(getRotacion_cabeza(), 0, 1, 0);
+		////glRotated(0, 0, 1, 0);
+		///*cambia_color(colores, color_azul, pos_aa, 3);
+		//cambia_color(colores, color_rojo, pos_rr, 3);
+		//cambia_color(colores, color_verdeAzul, pos_vv, 3);
+		//cambia_color(colores, color_grisOscuro, pos_gg, 3);*/
+		//modelos->cabeza(color_azul, color_rojo, color_verdeAzul, color_grisOscuro); //se instancia la cabeza, colores[0-12)
+		//reinicio_colores();
+		//pintar_robotVB();
 		//glMaterialfv(GL_FRONT, GL_EMISSION, color_rojo.data());
 		//glColor3fv(color_rojo.data());//Importante, es necesario para que lo reconozca el buffer de color a la hora de la selección.
 

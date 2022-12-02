@@ -298,8 +298,20 @@ void igvInterfaz::set_glutDisplayFunc() {
 			GLubyte aux[3];
 			glReadPixels(interfaz.cursorX, interfaz.alto_ventana - interfaz.cursorY, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, &aux);
 
-			
-			for (int i = 0; i < 33; i+=3) { //colores rojos
+			//for (int i = 0; i < 12; i += 3) {
+			//	GLfloat ss = (GLfloat)aux[0];
+			//	GLfloat s2 = (GLfloat)aux[1];
+			//	GLfloat s3 = (GLfloat)aux[2];
+			//	GLfloat l = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i] * 255.0);
+			//	GLfloat l2 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 1] * 255.0);
+			//	GLfloat l3 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 2] * 255.0);
+			//	//std::cout << l << "-" << l2 << "-" << l3 << std::endl;
+			//	if (ss == l && s2 == l2 && s3 == l3) {
+			//		std::cout << "cabeza";
+			//		std::cout << (float)aux[0] << "-" << (float)aux[1] << "-" << (float)aux[2] << std::endl;
+			//	}
+			//}
+			for (int i = 0; i < interfaz.escena.get_colores().size(); i+=3) { //colores rojos -12
 				GLfloat ss = (GLfloat)aux[0];
 				GLfloat s2 = (GLfloat)aux[1];
 				GLfloat s3 = (GLfloat)aux[2];
@@ -307,54 +319,14 @@ void igvInterfaz::set_glutDisplayFunc() {
 				GLfloat l2 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 1] * 255.0);
 				GLfloat l3 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 2] * 255.0);
 				//std::cout << l << "-" << l2 << "-" << l3 << std::endl;
+				
 				if (ss == l && s2 == l2 && s3 == l3) {
-					std::cout << "rojo";
-					std::cout << (float)aux[0] << "-" << (float)aux[1] << "-" << (float)aux[2] << std::endl;
+					//std::cout << i << std::endl;
+					//std::cout << "gris";
+					//std::cout << (float)aux[0] << "-" << (float)aux[1] << "-" << (float)aux[2] << std::endl;
+					interfaz.objeto_seleccionado = i;
 				}
 			}
-
-
-
-			//for (int i = 11; i < 12; i+=3) {//colores azul
-			//	GLfloat ss = (GLfloat)aux[0];
-			//	GLfloat s2 = (GLfloat)aux[1];
-			//	GLfloat s3 = (GLfloat)aux[2];
-			//	GLfloat l = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i] * 255.0);
-			//	GLfloat l2 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 1] * 255.0);
-			//	GLfloat l3 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 2] * 255.0);
-			//	if (ss == l && s2 == l2 && s3 == l3){
-			//		std::cout << "azul";
-			//		std::cout << (float)aux[0] << "-" << (float)aux[1] << "-" << (float)aux[2]  << std::endl;
-
-			//	}
-			//}
-
-			//for (int i = 12; i < 31; i += 3) {//colores gris
-			//	GLfloat ss = (GLfloat)aux[0];
-			//	GLfloat s2 = (GLfloat)aux[1];
-			//	GLfloat s3 = (GLfloat)aux[2];
-			//	GLfloat l = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i] * 255.0);
-			//	GLfloat l2 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 1] * 255.0);
-			//	GLfloat l3 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 2] * 255.0);
-			//	if (ss == l && s2 == l2 && s3 == l3) {
-			//		std::cout << "gris";
-			//		std::cout << (float)aux[0] << "-" << (float)aux[1] << "-" << (float)aux[2] << std::endl;
-
-			//	}
-			//}
-			//for (int i = 31; i < 32; i += 3) {//colores verdes
-			//	GLfloat ss = (GLfloat)aux[0];
-			//	GLfloat s2 = (GLfloat)aux[1];
-			//	GLfloat s3 = (GLfloat)aux[2];
-			//	GLfloat l = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i] * 255.0);
-			//	GLfloat l2 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 1] * 255.0);
-			//	GLfloat l3 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 2] * 255.0);
-			//	if (ss == l && s2 == l2 && s3 == l3) {
-			//		std::cout << "verde";
-			//		std::cout << (float)aux[0] << "-" << (float)aux[1] << "-" << (float)aux[2] << std::endl;
-
-			//	}
-			//}
 
 			 //refresca la ventana
 			glutSwapBuffers();
@@ -488,6 +460,16 @@ void igvInterfaz::set_glutMotionFunc(GLint x, GLint y) {
 		interfaz.escena.getCajas()[interfaz.objeto_seleccionado]->setGrado(x);
 	}
 	glutPostRedisplay();*/
+	int a = (int)(interfaz.objeto_seleccionado / 3);
+	//std::cout << "hh -> " << interfaz.objeto_seleccionado/3 << std::endl;
+	if (interfaz.boton_retenido /* && (a >= 0 && a <= 3)*/) {
+		//std::cout << "roto cabeza -> " <<x <<  std::endl;
+		interfaz.escena.setRotacion_cabeza(x);
+	}
+	glutPostRedisplay();
+	/*else {
+		interfaz.objeto_seleccionado = -1;
+	}*/
 	
 }
 
