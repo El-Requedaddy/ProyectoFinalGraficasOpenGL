@@ -34,9 +34,9 @@ protected:
 	float rotacion_brazo_sup_izq;
 	float rotacion_brazo_inf_izq;
 	float rotacion_muneca_izq;
-	float rotacion_dedo1_izq;
-	float rotacion_dedo2_izq;
-	float rotacion_dedo3_izq;
+	float rotacion_dedo4;
+	float rotacion_dedo5;
+	float rotacion_dedo6;
 	float rotacion_pierna_sup;
 	float rotacion_pierna_inf;
 	float rotacion_pie;
@@ -190,7 +190,7 @@ public:
 
 	void setRotacionMuneca(float a) {
 		//if (rotacion_muneca + a <= 90 && rotacion_muneca + a >= -90) 
-			rotacion_muneca += a;
+			rotacion_muneca = a;
 	}
 
 	float getRotaciondedo1() {
@@ -198,7 +198,8 @@ public:
 	}
 
 	void setRotaciondedo1(float a) {
-		if (rotacion_dedo1 + a <= 50 && rotacion_dedo1 + a >= -30) rotacion_dedo1 += a;
+		//if (rotacion_dedo1 + a <= 50 && rotacion_dedo1 + a >= -30) 
+		rotacion_dedo1 = a;
 	}
 
 	float getRotaciondedo2() {
@@ -206,7 +207,8 @@ public:
 	}
 
 	void setRotaciondedo2(float a) {
-		if (rotacion_dedo2 + a <= 30 && rotacion_dedo2 + a >= -50) rotacion_dedo2 += a;
+		//if (rotacion_dedo2 + a <= 30 && rotacion_dedo2 + a >= -50)
+			rotacion_dedo2 = a;
 	}
 
 	float getRotaciondedo3() {
@@ -214,13 +216,15 @@ public:
 	}
 
 	void setRotaciondedo3(float a) {
-		if (rotacion_dedo3 + a <= 50 && rotacion_dedo3 + a >= -20) rotacion_dedo3 += a;
+		//if (rotacion_dedo3 + a <= 50 && rotacion_dedo3 + a >= -20) 
+			rotacion_dedo3 = a;
 	}
 
 	//-----------------------------------Rotaciones del brazo derecho
 
 	void setRotacion_brazo_sup_izq(float a) {
-		if (rotacion_brazo_sup_izq + a <= 180 && rotacion_brazo_sup_izq + a >= 0) rotacion_brazo_sup_izq += a;
+		//if (rotacion_brazo_sup_izq + a <= 180 && rotacion_brazo_sup_izq + a >= 0) 
+		rotacion_brazo_sup_izq = a;
 	}
 
 	float getRotacion_brazo_sup_izq() {
@@ -228,7 +232,8 @@ public:
 	}
 
 	void setRotacion_brazo_inf_izq(float a) {
-		if (rotacion_brazo_inf_izq + a <= 90 && rotacion_brazo_inf_izq + a >= -90)rotacion_brazo_inf_izq += a;
+		//if (rotacion_brazo_inf_izq + a <= 90 && rotacion_brazo_inf_izq + a >= -90)
+		rotacion_brazo_inf_izq = a;
 	}
 
 	float getRotacion_brazo_inf_izq() {
@@ -240,31 +245,34 @@ public:
 	}
 
 	void setRotacionMunecaIzq(float a) {
-		if (rotacion_muneca_izq + a <= 90 && rotacion_muneca_izq + a >= -90) rotacion_muneca_izq += a;
+		 rotacion_muneca_izq = a;
 	}
 
-	float getRotaciondedo1_izq() {
-		return rotacion_dedo1_izq;
+	float getRotaciondedo4() {
+		return rotacion_dedo4;
 	}
 
-	void setRotaciondedo1_izq(float a) {
-		if (rotacion_dedo1_izq + a <= 30 && rotacion_dedo1_izq + a >= -70) rotacion_dedo1_izq += a;
+	void setRotaciondedo4(float a) {
+		//if (rotacion_dedo4 + a <= 30 && rotacion_dedo4 + a >= -70) 
+			rotacion_dedo4 = a;
 	}
 
-	float getRotaciondedo2_izq() {
-		return rotacion_dedo2_izq;
+	float getRotaciondedo5() {
+		return rotacion_dedo5;
 	}
 
-	void setRotaciondedo2_izq(float a) {
-		if (rotacion_dedo2_izq + a <= 70 && rotacion_dedo2_izq + a >= -30) rotacion_dedo2_izq += a;
+	void setRotaciondedo5(float a) {
+		//if (rotacion_dedo5 + a <= 70 && rotacion_dedo5 + a >= -30) 
+		rotacion_dedo5 = a;
 	}
 
-	float getRotaciondedo3_izq() {
-		return rotacion_dedo3_izq;
+	float getRotaciondedo6() {
+		return rotacion_dedo6;
 	}
 
-	void setRotaciondedo3_izq(float a) {
-		if (rotacion_dedo3_izq + a <= 20 && rotacion_dedo3_izq + a >= -70) rotacion_dedo3_izq += a;
+	void setRotaciondedo6(float a) {
+		//if (rotacion_dedo6 + a <= 20 && rotacion_dedo6 + a >= -70) 
+			rotacion_dedo6 = a;
 	}
 
 	//----------------------Rotaciones pierna derecha
@@ -274,7 +282,8 @@ public:
 	}
 
 	void setRotacionpierna_sup(float a) {
-		if (rotacion_pierna_sup + a <= 70 && rotacion_pierna_sup + a >= -70) rotacion_pierna_sup += a;
+		//if (rotacion_pierna_sup + a <= 70 && rotacion_pierna_sup + a >= -70)
+			rotacion_pierna_sup = a;
 	}
 
 	float getRotacionpierna_inf() {
@@ -282,7 +291,8 @@ public:
 	}
 
 	void setRotacionpierna_inf(float a) {
-		if (rotacion_pierna_inf + a <= 80 && rotacion_pierna_inf + a >= 0) rotacion_pierna_inf += a;
+		//if (rotacion_pierna_inf + a <= 80 && rotacion_pierna_inf + a >= 0)
+			rotacion_pierna_inf = a;
 	}
 
 	float getRotacionpie() {
@@ -290,7 +300,8 @@ public:
 	}
 
 	void setRotacionpie(float a) {
-		if (rotacion_pie + a <= 40 && rotacion_pie + a >= -40) rotacion_pie += a;
+		//if (rotacion_pie + a <= 40 && rotacion_pie + a >= -40) 
+			rotacion_pie = a;
 	}
 
 	//------PIERNA IZQ
@@ -300,7 +311,8 @@ public:
 	}
 
 	void setRotacionpierna_sup_izq(float a) {
-		if (rotacion_pierna_sup_izq + a <= 70 && rotacion_pierna_sup_izq + a >= -70) rotacion_pierna_sup_izq += a;
+		//if (rotacion_pierna_sup_izq + a <= 70 && rotacion_pierna_sup_izq + a >= -70)
+			rotacion_pierna_sup_izq = a;
 	}
 
 	float getRotacionpierna_inf_izq() {
@@ -308,7 +320,8 @@ public:
 	}
 
 	void setRotacionpierna_inf_izq(float a) {
-		if (rotacion_pierna_inf_izq + a <= 80 && rotacion_pierna_inf_izq + a >= 0) rotacion_pierna_inf_izq += a;
+		//if (rotacion_pierna_inf_izq + a <= 80 && rotacion_pierna_inf_izq + a >= 0) 
+			rotacion_pierna_inf_izq = a;
 	}
 
 	float getRotacionpie_izq() {
@@ -316,7 +329,8 @@ public:
 	}
 
 	void setRotacionpie_izq(float a) {
-		if (rotacion_pie_izq + a <= 40 && rotacion_pie_izq + a >= -40) rotacion_pie_izq += a;
+		//if (rotacion_pie_izq + a <= 40 && rotacion_pie_izq + a >= -40) 
+			rotacion_pie_izq = a;
 	}
 
 	
