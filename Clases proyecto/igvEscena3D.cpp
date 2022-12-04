@@ -134,12 +134,12 @@ void igvEscena3D::pintar_robot() {
 
 		glPushMatrix(); //cuello con cabeza
 			glTranslated(0, 3, 0);
-			modelos->cuello(color_rojo, color_grisOscuro);
+			modelos->cuello();
 			glPushMatrix();
 				glTranslated(0, 1, 0);
 				glRotated(getRotacion_cabezaY(), 1, 0, 0);
 				glRotated(getRotacion_cabezaX(), 0, 1, 0);
-				modelos->cabeza(color_azul, color_rojo, color_verdeAzul, color_grisOscuro); //se instancia la cabeza
+				modelos->cabeza(color_rojo, color_verdeAzul, color_grisOscuro); //se instancia la cabeza
 			glPopMatrix();
 			
 		glPopMatrix();
@@ -155,19 +155,19 @@ void igvEscena3D::pintar_robot() {
 				glRotated(getRotacion_brazo_sup(), 0, 0, 1);//rotacion brazo completo
 				glRotated(getRotacion2_brazo_sup(), 1, 0, 0);
 				glRotated(-85, 0, 0, 1);
-				modelos->brazo_superior(color_grisOscuro,0);
+				modelos->brazo_superior(0);
 				
 				glPushMatrix();   //brazo inferior completo
 
 					glTranslated(2.5, 0, 0);   //Traslación de brazo inferior completa, juntando superior e inferior
 					glRotated(getRotacion_brazo_inf(), 0, 1, 0);   //rotación parte inferior del  brazo
-					modelos->brazo_inferior(color_grisOscuro,color_rojo,0);
+					modelos->brazo_inferior(0);
 					
 					glPushMatrix();
 					
 						glTranslated(2.42345, 0, 0); 
 						glRotated(getRotacionMuneca(), 0, 0, 1);   //Rotación para mover la muñeca Xd
-						modelos->mano(color_rojo,color_grisOscuro,0);
+						modelos->mano(0);
 						
 						glPushMatrix();  //dedo 1
 							glTranslated(0.8265, 0.3, 0);
@@ -175,7 +175,7 @@ void igvEscena3D::pintar_robot() {
 							modelos->articulacionDedo();
 							glPushMatrix();
 								glTranslated(0.45, 0, 0);
-								modelos->dedo(color_grisOscuro,1);
+								modelos->dedo(1);
 							glPopMatrix();
 						glPopMatrix();
 
@@ -185,7 +185,7 @@ void igvEscena3D::pintar_robot() {
 							modelos->articulacionDedo();
 							glPushMatrix();
 								glTranslated(0.45, 0, 0);
-								modelos->dedo(color_grisOscuro,2);
+								modelos->dedo(2);
 							glPopMatrix();
 						glPopMatrix();
 
@@ -196,7 +196,7 @@ void igvEscena3D::pintar_robot() {
 							modelos->articulacionDedo();
 							glPushMatrix();
 								glTranslated(0.45, 0, 0);
-								modelos->dedo(color_grisOscuro,3);
+								modelos->dedo(3);
 							glPopMatrix();
 
 						glPopMatrix();
@@ -224,19 +224,19 @@ void igvEscena3D::pintar_robot() {
 				
 				glRotated(getRotacion_brazo_sup_izq(), 0, 0, 1);//rotacion brazo completo
 				glRotated(-85, 0, 0, 1);
-				modelos->brazo_superior(color_grisOscuro,1);
+				modelos->brazo_superior(1);
 				
 				glPushMatrix();   //brazo inferior completo
 
 					glTranslated(2.5, 0, 0);   //Traslación de brazo inferior completa, juntando superior e inferior
 					glRotated(-getRotacion_brazo_inf_izq(), 0, 1, 0);   //rotación parte inferior brazo
-					modelos->brazo_inferior(color_grisOscuro,color_rojo,1);
+					modelos->brazo_inferior(1);
 					
 					glPushMatrix();
 					
 						glTranslated(2.42345, 0, 0);   //Mover la mano para pegarlo al brazo xD
 						glRotated(-getRotacionMunecaIzq(), 0, 0, 1);   //Rotación para mover la muñeca
-						modelos->mano(color_rojo, color_grisOscuro,1);
+						modelos->mano(1);
 						
 						glPushMatrix();  //dedo 1
 							glTranslated(0.8265, 0.3, 0);
@@ -244,7 +244,7 @@ void igvEscena3D::pintar_robot() {
 							modelos->articulacionDedo();
 							glPushMatrix();
 								glTranslated(0.45, 0, 0);
-								modelos->dedo(color_grisOscuro,4);
+								modelos->dedo(4);
 							glPopMatrix();
 						glPopMatrix();
 
@@ -254,7 +254,7 @@ void igvEscena3D::pintar_robot() {
 							modelos->articulacionDedo();
 							glPushMatrix();
 								glTranslated(0.45, 0, 0);
-								modelos->dedo(color_grisOscuro,5);
+								modelos->dedo(5);
 							glPopMatrix();
 						glPopMatrix();
 
@@ -265,7 +265,7 @@ void igvEscena3D::pintar_robot() {
 							modelos->articulacionDedo();
 							glPushMatrix();
 								glTranslated(0.45, 0, 0);
-								modelos->dedo(color_grisOscuro,6);
+								modelos->dedo(6);
 							glPopMatrix();
 
 						glPopMatrix();
@@ -288,12 +288,12 @@ void igvEscena3D::pintar_robot() {
 
 				glTranslated(0, -2.45, 0);
 				glRotated(getRotacionpierna_inf(), 1, 0, 0);// rotacion pierna inf
-				modelos->piernas_inf(color_rojo, color_grisOscuro,0);
+				modelos->piernas_inf(0);
 				glPushMatrix();
 					glTranslated(0, -2.3, 0);
 					glRotated(getRotacionpie(), 1, 0, 0); //rotacion pie
 					glRotated(-90, 0, 1, 0);
-					modelos->pies(color_rojo, color_grisOscuro,0);
+					modelos->pies(0);
 				glPopMatrix();
 
 			glPopMatrix();
@@ -310,12 +310,12 @@ void igvEscena3D::pintar_robot() {
 
 				glTranslated(0, -2.45, 0);
 				glRotated(getRotacionpierna_inf_izq(), 1, 0, 0);
-				modelos->piernas_inf(color_rojo, color_grisOscuro,1);
+				modelos->piernas_inf(1);
 				glPushMatrix();
 					glTranslated(0, -2.3, 0);
 					glRotated(getRotacionpie_izq(), 1, 0, 0);
 					glRotated(-90, 0, 1, 0);
-					modelos->pies(color_rojo, color_grisOscuro,1);
+					modelos->pies(1);
 				glPopMatrix();
 
 			glPopMatrix();
@@ -341,7 +341,7 @@ void igvEscena3D::pintar_robotVB() {
 
 		glPushMatrix(); //cuello con cabeza
 			glTranslated(0, 3, 0);
-			modelos->cuello(color_rojo, color_grisOscuro);
+			modelos->cuello();
 			glPushMatrix();
 
 				glTranslated(0, 1, 0);
@@ -353,7 +353,7 @@ void igvEscena3D::pintar_robotVB() {
 				cambia_color(colores, color_verdeAzul, pos_vv,3);
 				cambia_color(colores, color_grisOscuro, pos_gg, 3);
 				modelos->set_colorBaseCabeza(color_azul);
-				modelos->cabeza(color_azul, color_rojo, color_verdeAzul, color_grisOscuro);
+				modelos->cabeza(color_rojo, color_verdeAzul, color_grisOscuro);
 				
 				reinicio_colores();
 
@@ -374,7 +374,7 @@ void igvEscena3D::pintar_robotVB() {
 
 				cambia_color(colores, color_grisOscuro, pos_gg, 3);
 				modelos->set_colorBrazoSup(color_grisOscuro);
-				modelos->brazo_superior(color_grisOscuro,0); 
+				modelos->brazo_superior(0); 
 
 				reinicio_colores();
 				glPushMatrix();   //brazo inferior completo
@@ -384,7 +384,7 @@ void igvEscena3D::pintar_robotVB() {
 
 					cambia_color(colores, color_grisOscuro, pos_gg, 3);
 					modelos->set_colorBrazoInf(color_grisOscuro);
-					modelos->brazo_inferior(color_grisOscuro,color_rojo,0);
+					modelos->brazo_inferior(0);
 
 					reinicio_colores();
 					glPushMatrix(); //mano
@@ -394,7 +394,7 @@ void igvEscena3D::pintar_robotVB() {
 
 						cambia_color(colores, color_grisOscuro, pos_gg, 3);
 						modelos->set_colorMano(color_grisOscuro);
-						modelos->mano(color_rojo,color_grisOscuro,0);
+						modelos->mano(0);
 
 						reinicio_colores();
 						glPushMatrix();  //dedo 1
@@ -407,7 +407,7 @@ void igvEscena3D::pintar_robotVB() {
 								glTranslated(0.45, 0, 0);
 								cambia_color(colores, color_grisOscuro, pos_gg, 3);
 								modelos->set_colorDedo1(color_grisOscuro);
-								modelos->dedo(color_grisOscuro,1);
+								modelos->dedo(1);
 								reinicio_colores();
 
 							glPopMatrix();
@@ -423,7 +423,7 @@ void igvEscena3D::pintar_robotVB() {
 								glTranslated(0.45, 0, 0);
 								cambia_color(colores, color_grisOscuro, pos_gg, 3);
 								modelos->set_colorDedo2(color_grisOscuro);
-								modelos->dedo(color_grisOscuro,2);
+								modelos->dedo(2);
 								reinicio_colores();
 
 							glPopMatrix();
@@ -440,7 +440,7 @@ void igvEscena3D::pintar_robotVB() {
 								glTranslated(0.45, 0, 0);
 								cambia_color(colores, color_grisOscuro, pos_gg, 3);
 								modelos->set_colorDedo3(color_grisOscuro);
-								modelos->dedo(color_grisOscuro,3);
+								modelos->dedo(3);
 								reinicio_colores();
 
 							glPopMatrix();
@@ -472,7 +472,7 @@ void igvEscena3D::pintar_robotVB() {
 				glRotated(-85, 0, 0, 1);
 				cambia_color(colores, color_grisOscuro, pos_gg, 3);
 				modelos->set_colorBrazoSupIzq(color_grisOscuro);
-				modelos->brazo_superior(color_grisOscuro, 1);
+				modelos->brazo_superior(1);
 				reinicio_colores();
 				glPushMatrix();   //brazo inferior completo
 
@@ -480,7 +480,7 @@ void igvEscena3D::pintar_robotVB() {
 					glRotated(-getRotacion_brazo_inf_izq(), 0, 1, 0);   
 					cambia_color(colores, color_grisOscuro, pos_gg, 3);
 					modelos->set_colorBrazoInfIzq(color_grisOscuro);
-					modelos->brazo_inferior(color_grisOscuro, color_rojo, 1);
+					modelos->brazo_inferior(1);
 					reinicio_colores();
 					glPushMatrix();
 					
@@ -488,7 +488,7 @@ void igvEscena3D::pintar_robotVB() {
 						glRotated(-getRotacionMunecaIzq(), 0, 0, 1);
 						cambia_color(colores, color_grisOscuro, pos_gg, 3);
 						modelos->set_colorManoIzq(color_grisOscuro);
-						modelos->mano(color_rojo, color_grisOscuro, 1);
+						modelos->mano(1);
 						reinicio_colores();
 
 						glPushMatrix();  //dedo 4
@@ -499,7 +499,7 @@ void igvEscena3D::pintar_robotVB() {
 								glTranslated(0.45, 0, 0);
 								cambia_color(colores, color_grisOscuro, pos_gg, 3);
 								modelos->set_colorDedo4(color_grisOscuro);
-								modelos->dedo(color_grisOscuro, 4);
+								modelos->dedo(4);
 								reinicio_colores();
 							glPopMatrix();
 						glPopMatrix();
@@ -512,7 +512,7 @@ void igvEscena3D::pintar_robotVB() {
 								glTranslated(0.45, 0, 0);
 								cambia_color(colores, color_grisOscuro, pos_gg, 3);
 								modelos->set_colorDedo5(color_grisOscuro);
-								modelos->dedo(color_grisOscuro, 5);
+								modelos->dedo(5);
 								reinicio_colores();
 							glPopMatrix();
 						glPopMatrix();
@@ -526,7 +526,7 @@ void igvEscena3D::pintar_robotVB() {
 								glTranslated(0.45, 0, 0);
 								cambia_color(colores, color_grisOscuro, pos_gg, 3);
 								modelos->set_colorDedo6(color_grisOscuro);
-								modelos->dedo(color_grisOscuro, 6);
+								modelos->dedo(6);
 								reinicio_colores();
 							glPopMatrix();
 
@@ -554,7 +554,7 @@ void igvEscena3D::pintar_robotVB() {
 				glRotated(getRotacionpierna_inf(), 1, 0, 0);// rotacion pierna inf
 				cambia_color(colores, color_grisOscuro, pos_gg, 3);
 				modelos->set_colorPiernaInf(color_grisOscuro);
-				modelos->piernas_inf(color_rojo, color_grisOscuro, 0);
+				modelos->piernas_inf(0);
 				reinicio_colores();
 				glPushMatrix();
 
@@ -563,7 +563,7 @@ void igvEscena3D::pintar_robotVB() {
 					glRotated(-90, 0, 1, 0);
 					cambia_color(colores, color_grisOscuro, pos_gg, 3);
 					modelos->set_colorPie(color_grisOscuro);
-					modelos->pies(color_rojo, color_grisOscuro, 0);
+					modelos->pies(0);
 					reinicio_colores();
 
 				glPopMatrix();
@@ -586,7 +586,7 @@ void igvEscena3D::pintar_robotVB() {
 				glRotated(getRotacionpierna_inf_izq(), 1, 0, 0);
 				cambia_color(colores, color_grisOscuro, pos_gg, 3);
 				modelos->set_colorPiernaInfIzq(color_grisOscuro);
-				modelos->piernas_inf(color_rojo, color_grisOscuro, 1);
+				modelos->piernas_inf(1);
 				reinicio_colores();
 				glPushMatrix();
 
@@ -595,7 +595,7 @@ void igvEscena3D::pintar_robotVB() {
 					glRotated(-90, 0, 1, 0);
 					cambia_color(colores, color_grisOscuro, pos_gg, 3);
 					modelos->set_colorPieIzq(color_grisOscuro);
-					modelos->pies(color_rojo, color_grisOscuro, 1);
+					modelos->pies(1);
 					reinicio_colores();
 
 				glPopMatrix();

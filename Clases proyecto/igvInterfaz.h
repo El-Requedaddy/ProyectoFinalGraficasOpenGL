@@ -86,6 +86,8 @@ public:
 	static void  set_glutMotionFunc(GLint x, GLint y); // control del desplazamiento del raton con boton pulsado
 
 	void resetear(); 
+	void resetear_colores();
+	void pintar_seleccion();
 };
 
 #endif
