@@ -35,6 +35,8 @@ private:
 
 public:
 
+	Colores();
+
 	//MÉTODOS PARA GESTIONAR LOS COLORES DE LAS PARTES DEL ROBOT
 
 	void set_colorBaseCabeza(std::vector<GLfloat> a) {

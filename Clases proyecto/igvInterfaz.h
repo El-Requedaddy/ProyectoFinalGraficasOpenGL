@@ -26,11 +26,8 @@ protected:
 	// Atributos
 	int ancho_ventana; // ancho inicial de la ventana de visualizacion
 	int alto_ventana;  // alto inicial de la ventana de visualizacion
-	bool animar;
-	float aux;
-	float a,sa;
-	float lim_cab;
-	int fin_primera_fase;
+	bool animar; //indica si está activa la animación
+	int fin_primera_fase;//atributo utilizado para la gestión de la animación
 	igvEscena3D escena; // escena que se visualiza en la ventana definida por igvInterfaz
 	igvCamara camara; // cámara que se utiliza para visualizar la escena
 
@@ -45,7 +42,6 @@ protected:
 
 	bool boton_retenido; // indica si el botón está pulsado (true) o se ha soltado (false)
 
-	bool seleccion;
 
 
 public:
@@ -85,8 +81,11 @@ public:
 	static void  set_glutMouseFunc(GLint boton, GLint estado, GLint x, GLint y); // control de pulsacion del raton
 	static void  set_glutMotionFunc(GLint x, GLint y); // control del desplazamiento del raton con boton pulsado
 
+	//Método para reiniciar la posición de los elementos animados
 	void resetear(); 
+	//Método para resetear los colores originales del robot
 	void resetear_colores();
+	//Método para pintar el elemento seleccionado 
 	void pintar_seleccion();
 };
 

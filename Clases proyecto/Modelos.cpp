@@ -25,86 +25,18 @@ Modelos::Modelos() :h(1), b(3){
 	color_marron.push_back(0.0f);
 	color_marron.push_back(0.0f);
 
-	colores_robot->GetColor_base_cabeza().push_back(0.0f);
-	color_base_cabeza.push_back(0.0f);
-	color_base_cabeza.push_back(1.0f);
-
-	color_brazo_sup.push_back(0.1f);
-	color_brazo_sup.push_back(0.1f);
-	color_brazo_sup.push_back(0.1f);
-
-	color_brazo_inf.push_back(0.1f);
-	color_brazo_inf.push_back(0.1f);
-	color_brazo_inf.push_back(0.1f);
-
-	color_mano.push_back(0.1f);
-	color_mano.push_back(0.1f);
-	color_mano.push_back(0.1f);
-
-	color_brazo_supIzq.push_back(0.1f);
-	color_brazo_supIzq.push_back(0.1f);
-	color_brazo_supIzq.push_back(0.1f);
-
-	color_brazo_infIzq.push_back(0.1f);
-	color_brazo_infIzq.push_back(0.1f);
-	color_brazo_infIzq.push_back(0.1f);
-
-	color_manoIzq.push_back(0.1f);
-	color_manoIzq.push_back(0.1f);
-	color_manoIzq.push_back(0.1f);
-
-	color_dedo1.push_back(0.1f);
-	color_dedo1.push_back(0.1f);
-	color_dedo1.push_back(0.1f);
-
-	color_dedo2.push_back(0.1f);
-	color_dedo2.push_back(0.1f);
-	color_dedo2.push_back(0.1f);
-
-	color_dedo3.push_back(0.1f);
-	color_dedo3.push_back(0.1f);
-	color_dedo3.push_back(0.1f);
-
-	color_dedo4.push_back(0.1f);
-	color_dedo4.push_back(0.1f);
-	color_dedo4.push_back(0.1f);
-
-	color_dedo5.push_back(0.1f);
-	color_dedo5.push_back(0.1f);
-	color_dedo5.push_back(0.1f);
-
-	color_dedo6.push_back(0.1f);
-	color_dedo6.push_back(0.1f);
-	color_dedo6.push_back(0.1f);
-
-
-	color_pierna.push_back(0.1f);
-	color_pierna.push_back(0.1f);
-	color_pierna.push_back(0.1f);
-
-	color_piernaInf.push_back(0.1f);
-	color_piernaInf.push_back(0.1f);
-	color_piernaInf.push_back(0.1f);
-
-	color_pie.push_back(0.1f);
-	color_pie.push_back(0.1f);
-	color_pie.push_back(0.1f);
-
-	color_piernaIzq.push_back(0.1f);
-	color_piernaIzq.push_back(0.1f);
-	color_piernaIzq.push_back(0.1f);
-
-	color_piernaInfIzq.push_back(0.1f);
-	color_piernaInfIzq.push_back(0.1f);
-	color_piernaInfIzq.push_back(0.1f);
-
-	color_pieIzq.push_back(0.1f);
-	color_pieIzq.push_back(0.1f);
-	color_pieIzq.push_back(0.1f);
 
 	cil = new Cylinder(0.3, 0.3, 1, 40, 20, true);
 	sph = new Sphere(1, 40, 40, true);
 	cono = new Cylinder(1.5, 0, 2.3459236, 40, 40, true);
+	colores_robot = new Colores();
+}
+
+Modelos::~Modelos() {
+	/*delete [] cil;
+	delete[] sph;
+	delete[] cono;
+	delete[] colores_robot;*/
 }
 
 
@@ -154,7 +86,7 @@ void Modelos::cabeza(std::vector<GLfloat> color_rojo2, std::vector<GLfloat> colo
 
 			glPushMatrix();   //Transformaciones de la base de la cabeza
 			glScaled(1.3, 1, 1);
-			cubo(color_base_cabeza.data());
+			cubo(colores_robot->GetColor_base_cabeza().data());
 			glPopMatrix();
 
 			glPushMatrix();    //Transformaciones del ojo izquierda
@@ -270,10 +202,10 @@ void Modelos::torso() {
 void Modelos::brazo_superior(int lado) {
 	std::vector<GLfloat> color_br_sup;
 	if (lado == 0) {
-		color_br_sup = color_brazo_sup;
+		color_br_sup = colores_robot->GetColor_brazo_sup();
 	}
 	else {
-		color_br_sup = color_brazo_supIzq;
+		color_br_sup = colores_robot->GetColor_brazo_supIzq();
 	}
 	glPushMatrix();
 
@@ -291,10 +223,10 @@ void Modelos::brazo_superior(int lado) {
 void Modelos::brazo_inferior(int lado) {
 	std::vector<GLfloat> color_br_inf;
 	if (lado == 0) {
-		color_br_inf = color_brazo_inf;
+		color_br_inf = colores_robot->GetColor_brazo_inf();
 	}
 	else {
-		color_br_inf = color_brazo_infIzq;
+		color_br_inf = colores_robot->GetColor_brazo_infIzq();
 	}
 
 			glPushMatrix();    //Transformaciones de brazo inferior
@@ -317,10 +249,10 @@ void Modelos::brazo_inferior(int lado) {
 void Modelos::mano(int lado) {
 	std::vector<GLfloat> color_mano_;
 	if (lado == 0) {
-		color_mano_ = color_mano;
+		color_mano_ = colores_robot->GetColor_mano();
 	}
 	else {
-		color_mano_ = color_manoIzq;
+		color_mano_ = colores_robot->GetColor_manoIzq();
 	}
 
 	glPushMatrix();  //Transformaciones de la mano 
@@ -357,22 +289,22 @@ void Modelos::dedo(int num_dedo) {
 	switch (num_dedo)
 	{
 	case 1:
-		color_dedo = color_dedo1;
+		color_dedo = colores_robot->GetColor_dedo1();
 		break;
 	case 2:
-		color_dedo = color_dedo2;
+		color_dedo = colores_robot->GetColor_dedo2();
 		break;
 	case 3:
-		color_dedo = color_dedo3;
+		color_dedo = colores_robot->GetColor_dedo3();
 		break;
 	case 4:
-		color_dedo = color_dedo4;
+		color_dedo = colores_robot->GetColor_dedo4();
 		break;
 	case 5:
-		color_dedo = color_dedo5;
+		color_dedo = colores_robot->GetColor_dedo5();
 		break;
 	case 6:
-		color_dedo = color_dedo6;
+		color_dedo = colores_robot->GetColor_dedo6();
 		break;
 	default:
 		break;
@@ -401,10 +333,10 @@ void Modelos::articulacionDedo() {
 void Modelos::piernas(int lado) {
 	std::vector<GLfloat> color_piernas_;
 	if (lado == 0) {
-		color_piernas_ = color_pierna;
+		color_piernas_ = colores_robot->GetColor_pierna();
 	}
 	else {
-		color_piernas_ = color_piernaIzq;
+		color_piernas_ = colores_robot->GetColor_piernaIzq();
 	}
 
 	glPushMatrix();
@@ -430,10 +362,10 @@ void Modelos::piernas(int lado) {
 void Modelos::piernas_inf(int lado) {
 	std::vector<GLfloat> color_pierna_inferior;
 	if (lado == 0) {
-		color_pierna_inferior = color_piernaInf;
+		color_pierna_inferior = colores_robot->GetColor_piernaInf();
 	}
 	else {
-		color_pierna_inferior = color_piernaInfIzq;
+		color_pierna_inferior = colores_robot->GetColor_piernaInfIzq();
 	}
 	
 	glPushMatrix();
@@ -455,10 +387,10 @@ void Modelos::piernas_inf(int lado) {
 void Modelos::pies(int lado) {
 	std::vector<GLfloat> color_pie_def;
 	if (lado == 0) {
-		color_pie_def = color_pie;
+		color_pie_def = colores_robot->GetColor_pie();
 	}
 	else {
-		color_pie_def = color_pieIzq;
+		color_pie_def = colores_robot->GetColor_pieIzq();
 	}
 
 	glPushMatrix();

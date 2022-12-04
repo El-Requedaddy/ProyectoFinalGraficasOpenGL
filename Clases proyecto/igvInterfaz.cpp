@@ -11,7 +11,13 @@ extern igvInterfaz interfaz; // los callbacks deben ser estaticos y se requiere 
 // Metodos constructores -----------------------------------
 
 igvInterfaz::igvInterfaz() {
-
+	modo = IGV_VISUALIZAR;
+	objeto_seleccionado = -1;
+	boton_retenido = false;
+	objeto_seleccionado = -1;
+	animar = false;
+	objeto_seleccionado = -1;
+	fin_primera_fase = 0;
 }
 
 igvInterfaz::~igvInterfaz() {}
@@ -46,11 +52,7 @@ void igvInterfaz::configura_entorno(int argc, char** argv,
 	// inicialización de las variables de la interfaz																	
 	ancho_ventana = _ancho_ventana;
 	alto_ventana = _alto_ventana;
-	animar = false;
-	aux = 0;
-	a = 1;
-	interfaz.objeto_seleccionado = -1;
-	fin_primera_fase = 0;
+	
 	// inicialización de la ventana de visualización
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
@@ -64,7 +66,6 @@ void igvInterfaz::configura_entorno(int argc, char** argv,
 	glEnable(GL_LIGHTING); // activa la iluminacion de la escena
 	glEnable(GL_NORMALIZE); // normaliza los vectores normales para calculo iluminacion
 
-	modo = IGV_VISUALIZAR;
 	crear_mundo(); // crea el mundo a visualizar en la ventana
 }
 
@@ -577,30 +578,30 @@ void igvInterfaz::resetear_colores() {
 
 	//Reinicio de los colores
 
-	interfaz.escena.getModelos()->set_colorBaseCabeza(interfaz.escena.get_color_azul());
-	interfaz.escena.getModelos()->set_colorBrazoSup(interfaz.escena.get_color_gris());
-	interfaz.escena.getModelos()->set_colorBrazoInf(interfaz.escena.get_color_gris());
-	interfaz.escena.getModelos()->set_colorMano(interfaz.escena.get_color_gris());
-	interfaz.escena.getModelos()->set_colorDedo1(interfaz.escena.get_color_gris());
-	interfaz.escena.getModelos()->set_colorDedo2(interfaz.escena.get_color_gris());
-	interfaz.escena.getModelos()->set_colorDedo3(interfaz.escena.get_color_gris());
+	interfaz.escena.getModelos()->Get_coloresRobot()->set_colorBaseCabeza(interfaz.escena.get_color_azul());
+	interfaz.escena.getModelos()->Get_coloresRobot()->set_colorBrazoSup(interfaz.escena.get_color_gris());
+	interfaz.escena.getModelos()->Get_coloresRobot()->set_colorBrazoInf(interfaz.escena.get_color_gris());
+	interfaz.escena.getModelos()->Get_coloresRobot()->set_colorMano(interfaz.escena.get_color_gris());
+	interfaz.escena.getModelos()->Get_coloresRobot()->set_colorDedo1(interfaz.escena.get_color_gris());
+	interfaz.escena.getModelos()->Get_coloresRobot()->set_colorDedo2(interfaz.escena.get_color_gris());
+	interfaz.escena.getModelos()->Get_coloresRobot()->set_colorDedo3(interfaz.escena.get_color_gris());
 
-	interfaz.escena.getModelos()->set_colorPierna(interfaz.escena.get_color_gris());
-	interfaz.escena.getModelos()->set_colorPiernaInf(interfaz.escena.get_color_gris());
-	interfaz.escena.getModelos()->set_colorPie(interfaz.escena.get_color_gris());
+	interfaz.escena.getModelos()->Get_coloresRobot()->set_colorPierna(interfaz.escena.get_color_gris());
+	interfaz.escena.getModelos()->Get_coloresRobot()->set_colorPiernaInf(interfaz.escena.get_color_gris());
+	interfaz.escena.getModelos()->Get_coloresRobot()->set_colorPie(interfaz.escena.get_color_gris());
 
 	//Lado Izquierdo del cuerpo
 
-	interfaz.escena.getModelos()->set_colorBrazoSupIzq(interfaz.escena.get_color_gris());
-	interfaz.escena.getModelos()->set_colorBrazoInfIzq(interfaz.escena.get_color_gris());
-	interfaz.escena.getModelos()->set_colorManoIzq(interfaz.escena.get_color_gris());
-	interfaz.escena.getModelos()->set_colorDedo4(interfaz.escena.get_color_gris());
-	interfaz.escena.getModelos()->set_colorDedo5(interfaz.escena.get_color_gris());
-	interfaz.escena.getModelos()->set_colorDedo6(interfaz.escena.get_color_gris());
+	interfaz.escena.getModelos()->Get_coloresRobot()->set_colorBrazoSupIzq(interfaz.escena.get_color_gris());
+	interfaz.escena.getModelos()->Get_coloresRobot()->set_colorBrazoInfIzq(interfaz.escena.get_color_gris());
+	interfaz.escena.getModelos()->Get_coloresRobot()->set_colorManoIzq(interfaz.escena.get_color_gris());
+	interfaz.escena.getModelos()->Get_coloresRobot()->set_colorDedo4(interfaz.escena.get_color_gris());
+	interfaz.escena.getModelos()->Get_coloresRobot()->set_colorDedo5(interfaz.escena.get_color_gris());
+	interfaz.escena.getModelos()->Get_coloresRobot()->set_colorDedo6(interfaz.escena.get_color_gris());
 
-	interfaz.escena.getModelos()->set_colorPiernaIzq(interfaz.escena.get_color_gris());
-	interfaz.escena.getModelos()->set_colorPiernaInfIzq(interfaz.escena.get_color_gris());
-	interfaz.escena.getModelos()->set_colorPieIzq(interfaz.escena.get_color_gris());
+	interfaz.escena.getModelos()->Get_coloresRobot()->set_colorPiernaIzq(interfaz.escena.get_color_gris());
+	interfaz.escena.getModelos()->Get_coloresRobot()->set_colorPiernaInfIzq(interfaz.escena.get_color_gris());
+	interfaz.escena.getModelos()->Get_coloresRobot()->set_colorPieIzq(interfaz.escena.get_color_gris());
 }
 
 void igvInterfaz::pintar_seleccion() {
@@ -610,43 +611,43 @@ void igvInterfaz::pintar_seleccion() {
 
 		//Se pinta la parte del cuerpo seleccionada
 		if (a >= 0 && a <= 3) //cabeza
-			interfaz.escena.getModelos()->set_colorBaseCabeza(interfaz.escena.get_color_naranja());
+			interfaz.escena.getModelos()->Get_coloresRobot()->set_colorBaseCabeza(interfaz.escena.get_color_naranja());
 		if (a == 4)//brazo superior
-			interfaz.escena.getModelos()->set_colorBrazoSup(interfaz.escena.get_color_naranja());
+			interfaz.escena.getModelos()->Get_coloresRobot()->set_colorBrazoSup(interfaz.escena.get_color_naranja());
 		if (a == 5)//brazo inferior
-			interfaz.escena.getModelos()->set_colorBrazoInf(interfaz.escena.get_color_naranja());
+			interfaz.escena.getModelos()->Get_coloresRobot()->set_colorBrazoInf(interfaz.escena.get_color_naranja());
 		if (a == 6)//mano
-			interfaz.escena.getModelos()->set_colorMano(interfaz.escena.get_color_naranja());
+			interfaz.escena.getModelos()->Get_coloresRobot()->set_colorMano(interfaz.escena.get_color_naranja());
 		if (a == 7)//dedo1
-			interfaz.escena.getModelos()->set_colorDedo1(interfaz.escena.get_color_naranja());
+			interfaz.escena.getModelos()->Get_coloresRobot()->set_colorDedo1(interfaz.escena.get_color_naranja());
 		if (a == 8)//dedo2
-			interfaz.escena.getModelos()->set_colorDedo2(interfaz.escena.get_color_naranja());
+			interfaz.escena.getModelos()->Get_coloresRobot()->set_colorDedo2(interfaz.escena.get_color_naranja());
 		if (a == 9)//dedo3
-			interfaz.escena.getModelos()->set_colorDedo3(interfaz.escena.get_color_naranja());
+			interfaz.escena.getModelos()->Get_coloresRobot()->set_colorDedo3(interfaz.escena.get_color_naranja());
 		if (a == 10)//brazo_sup_izq
-			interfaz.escena.getModelos()->set_colorBrazoSupIzq(interfaz.escena.get_color_naranja());
+			interfaz.escena.getModelos()->Get_coloresRobot()->set_colorBrazoSupIzq(interfaz.escena.get_color_naranja());
 		if (a == 11)//brazo_inf_izq
-			interfaz.escena.getModelos()->set_colorBrazoInfIzq(interfaz.escena.get_color_naranja());
+			interfaz.escena.getModelos()->Get_coloresRobot()->set_colorBrazoInfIzq(interfaz.escena.get_color_naranja());
 		if (a == 12)//mano_izq
-			interfaz.escena.getModelos()->set_colorManoIzq(interfaz.escena.get_color_naranja());
+			interfaz.escena.getModelos()->Get_coloresRobot()->set_colorManoIzq(interfaz.escena.get_color_naranja());
 		if (a == 13)//dedo4
-			interfaz.escena.getModelos()->set_colorDedo4(interfaz.escena.get_color_naranja());
+			interfaz.escena.getModelos()->Get_coloresRobot()->set_colorDedo4(interfaz.escena.get_color_naranja());
 		if (a == 14)//dedo5
-			interfaz.escena.getModelos()->set_colorDedo5(interfaz.escena.get_color_naranja());
+			interfaz.escena.getModelos()->Get_coloresRobot()->set_colorDedo5(interfaz.escena.get_color_naranja());
 		if (a == 15)//dedo6
-			interfaz.escena.getModelos()->set_colorDedo6(interfaz.escena.get_color_naranja());
+			interfaz.escena.getModelos()->Get_coloresRobot()->set_colorDedo6(interfaz.escena.get_color_naranja());
 		if (a == 16)//pierna
-			interfaz.escena.getModelos()->set_colorPierna(interfaz.escena.get_color_naranja());
+			interfaz.escena.getModelos()->Get_coloresRobot()->set_colorPierna(interfaz.escena.get_color_naranja());
 		if (a == 17)//pierna_Inf
-			interfaz.escena.getModelos()->set_colorPiernaInf(interfaz.escena.get_color_naranja());
+			interfaz.escena.getModelos()->Get_coloresRobot()->set_colorPiernaInf(interfaz.escena.get_color_naranja());
 		if (a == 18)//pie
-			interfaz.escena.getModelos()->set_colorPie(interfaz.escena.get_color_naranja());
+			interfaz.escena.getModelos()->Get_coloresRobot()->set_colorPie(interfaz.escena.get_color_naranja());
 		if (a == 19)//pierna izq
-			interfaz.escena.getModelos()->set_colorPiernaIzq(interfaz.escena.get_color_naranja());
+			interfaz.escena.getModelos()->Get_coloresRobot()->set_colorPiernaIzq(interfaz.escena.get_color_naranja());
 		if (a == 20)//pierna_Inf_izq
-			interfaz.escena.getModelos()->set_colorPiernaInfIzq(interfaz.escena.get_color_naranja());
+			interfaz.escena.getModelos()->Get_coloresRobot()->set_colorPiernaInfIzq(interfaz.escena.get_color_naranja());
 		if (a == 21)//pie izq
-			interfaz.escena.getModelos()->set_colorPieIzq(interfaz.escena.get_color_naranja());
+			interfaz.escena.getModelos()->Get_coloresRobot()->set_colorPieIzq(interfaz.escena.get_color_naranja());
 
 		interfaz.escena.set_modo(false);
 	}

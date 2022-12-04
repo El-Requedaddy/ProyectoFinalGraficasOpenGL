@@ -11,12 +11,6 @@
 #include "Modelos.h"
 #include <iostream>
 
-enum {
-	basex,
-	cuerpoinferior,
-	cuerposuperior,
-	brazo
-};
 
 class igvEscena3D {
 protected:
@@ -66,9 +60,8 @@ public:
 
 	// método con las llamadas OpenGL para visualizar la escena
 	void visualizar(void);
-	void visualizarVB(void);
-	///// Apartado B: Métodos para visualizar cada parte del modelo
-	//Se realiza en la clase Modelos
+	void visualizarVB(void);//Método para la visualización en modo selección
+
 
 	//----------------------------------Métodos para la visualización de las diferentes partes de la escena-----------------------------
 	void pintar_robot();
@@ -103,6 +96,7 @@ public:
 		color_rojo[1] = 0.0;
 		color_rojo[2] = 0.0;
 	}
+
 
 	void set_modo(bool a) {
 		modo_act = a;
