@@ -49,3 +49,14 @@ void igvPunto3D::set( const double& x, const double& y, const double& z) {
 	c[Z] = z;
 }
 
+void igvPunto3D::multiplicacionEscalar(float s) {
+	c[X] = c[X] * s;
+	c[Y] = c[Y] * s;
+	c[Z] = c[Z] * s;
+}
+
+void igvPunto3D::sumaVectores(igvPunto3D vecSumando) {
+	c[X] = c[X] + vecSumando.c[X];
+	c[Y] = c[Y] + vecSumando.c[Y];
+	c[Z] = c[Z] + vecSumando.c[Z];
+}

@@ -341,9 +341,6 @@ void Modelos::pies() {
 	cubo(color_grisOscuro.data());
 	glPopMatrix();
 
-
-
-
 	glPopMatrix();
 }
 

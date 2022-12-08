@@ -9,6 +9,10 @@
 #include <GL/glut.h>
 #endif
 #include "Modelos.h"
+#include "hitbox.h"
+#include "igvPunto3D.h"
+#include <vector>
+#include <algorithm>
 
 enum {
 	basex,
@@ -47,7 +51,31 @@ protected:
 	bool ejes;
 	Modelos* modelos;
 
+	//Atributos proyecto final!!!
+	float trasX = 1.5;
+	float trasY = -2.7;
+	float trasZ = 0.1;
+
+	float rotX, rotY, rotZ = 0;
+
+	float trasXrobot = 0;
+	float trasYrobot = 0;
+	float trasZrobot = 0;
+
+	bool animacionPelota = false;
+	bool lanzarPelota = false;
+
+	//vector de hitboxes
+	std::vector<hitbox*> hitboxes;
+
 public:
+
+	float a;
+	float movementSpeed = 0.1;
+	float deltaTime = 0.1;
+	igvPunto3D posicionPelota;
+	igvPunto3D coordenadaInicial;
+	igvPunto3D coordenadaFinal;
 
 	// Constructores por defecto y destructor
 	igvEscena3D();
@@ -244,7 +272,70 @@ public:
 	void pintar_robot();
 
 	
+	//métodos movimiento robot
+	void setxRobot(float a) {
+		trasXrobot += a;
+	};
 
+	void setyRobot(float a) {
+		trasYrobot += a;
+	};
+
+	float getRobotX() {
+		return trasXrobot;
+	};
+
+	float getRobotY() {
+		return trasYrobot;
+	};
+
+	float getRobotZ() {
+		return trasZrobot;
+	};
+
+	void setxTras(float a) {
+		trasX += a;
+	};
+
+	void setyTras(float a) {
+		trasY += a;
+	};
+
+	void setzTras(float a) {
+		trasZ += a;
+	};
+
+	void setxRot(float a) {
+		rotX += a;
+	};
+
+	void setyRot(float a) {
+		rotY += a;
+	};
+
+	void setzRot(float a) {
+		rotZ += a;
+	};
+
+	void setPelota(bool animado) {
+		animacionPelota = animado;
+	}
+
+	bool getPelota() {
+		return animacionPelota;
+	}
+
+	igvPunto3D getPosicionPelota() {
+		return posicionPelota;
+	}
+
+	std::vector<hitbox*>& getHitboxes() { return hitboxes; }
+	int buscarHitbox(float x, float y, float z);
+	void calculoTrayectoriaPelota();
+	void activarLanzamientoPelota() { lanzarPelota = true; }
+	void desactivarLanzamientoPelota() { lanzarPelota = false; }
+	bool getLanzandoPelota() { return lanzarPelota; }
+	float clamp(float v, float lo, float hi);
 };
 
 #endif

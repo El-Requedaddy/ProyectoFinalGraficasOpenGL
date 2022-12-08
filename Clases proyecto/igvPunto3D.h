@@ -12,6 +12,8 @@
 #else
 #include <GL/glut.h>
 #endif
+#include "Sphere.h"
+
 
 #define IGV_EPSILON 0.000001 // para comparaciones con 0
 
@@ -52,6 +54,10 @@ public:
 	int operator != (const igvPunto3D& p);
 
 	void set(const double& x, const double& y, const double& z);
+
+	void multiplicacionEscalar(float s);
+
+	void sumaVectores(igvPunto3D vecSumando);
 };
 #endif
 

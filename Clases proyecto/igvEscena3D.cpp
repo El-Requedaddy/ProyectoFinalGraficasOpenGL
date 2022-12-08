@@ -1,8 +1,7 @@
 #include <cstdlib>
 #include <stdio.h>
-
 #include "igvEscena3D.h"
-
+#include <algorithm>
 
 // Metodos constructores 
 
@@ -25,12 +24,14 @@ igvEscena3D::igvEscena3D() {
 	rotacion_pierna_sup = 0;
 	rotacion_pierna_inf = 0;
 	rotacion_pie = 0;
+
+	coordenadaInicial.set(0, -4, 0);
+	coordenadaFinal.set(getRobotX() + 1, getRobotY() + 2.9, getRobotZ() + 4);
 }
 
 igvEscena3D::~igvEscena3D() {
 
 }
-
 
 // Metodos publicos 
 
@@ -126,7 +127,6 @@ void igvEscena3D::pintar_robot() {
 							glPopMatrix();
 						glPopMatrix();
 
-
 						glPushMatrix();  //dedo 3
 							glTranslated(0.8265, -0.2, -0.3);
 							glRotated(getRotaciondedo3(), 0, 1, 0); //mover dedo3
@@ -136,6 +136,21 @@ void igvEscena3D::pintar_robot() {
 								modelos->dedo();
 							glPopMatrix();
 
+							if (getPelota() == true) {
+								glPushMatrix();
+								//Sphere esfera;
+								//esfera.setRadius(0.9);
+								glTranslated(0.8265, -0.1, 0);
+								//esfera.draw();
+								std::vector<GLfloat> culo; 
+								culo.push_back(0.0f);
+								culo.push_back(0.5f);
+								culo.push_back(0.5f);
+								modelos->esfera(culo.data());
+								glutSolidSphere(0.9, 32, 32);
+								glPopMatrix();		
+							}
+						
 						glPopMatrix();
 						
 					glPopMatrix(); //mano
@@ -263,6 +278,29 @@ void igvEscena3D::pintar_robot() {
 
 }
 
+void igvEscena3D::calculoTrayectoriaPelota() {
+	//trazar trayectoria de la pelota
+	igvPunto3D inic = coordenadaInicial;
+	igvPunto3D fin = coordenadaFinal;
+	a += movementSpeed * deltaTime;
+	//INCLUIR ALGORITMO CLAMP MINIMOS MAXIMOS!!!!!!
+	float resta = 1 - a;
+	inic.multiplicacionEscalar(a);
+	fin.multiplicacionEscalar(resta);
+	inic.sumaVectores(fin);
+	posicionPelota = inic;
+
+	//if (posicionPelota == coordenadaFinal) {
+	//	desactivarLanzamientoPelota();
+	//}
+
+	glPushMatrix();
+	glTranslated(getPosicionPelota().c[0], getPosicionPelota().c[1], getPosicionPelota().c[2]);
+	glutSolidSphere(0.60, 32, 32);
+	glPopMatrix();
+
+	glutPostRedisplay();
+}
 
 void igvEscena3D::visualizar() {
 	// crear luces
@@ -277,20 +315,57 @@ void igvEscena3D::visualizar() {
 	if (ejes) pintar_ejes();
 
 	//glLightfv(GL_LIGHT0,GL_POSITION,luz0); // la luz se coloca aquí si se mueve junto con la escena (también habría que desactivar la de arriba).
-
-
-
 	
+	hitbox cubo;
+	//glScaled(1, 1, 1);
+	//cubo.dibujar(); 
+	/*cubo.setEscalarX(1);
+	cubo.setEscalarY(1);
+	cubo.setEscalarZ(1);*/
+	Sphere esfera;
 
-	///// Apartado B: aquí hay que añadir la visualización del árbol del modelo utilizando la pila de matrices de OpenGL
-	/////             se recomienda crear una método auxiliar que encapsule todo el código para la visualización
-	/////             del modelo, dejando aquí sólo la llamada a ese método, así como distintas funciones una para cada
-	/////			  parte del modelo. 
+	glPushMatrix();
+	glTranslated(getRobotX(), getRobotY(), getRobotZ());
 	pintar_robot();
+	glPopMatrix();
+
 	//modelos->visualizar();
+	
+	glPushMatrix();
+	glTranslated(getRobotX() + 1, getRobotY() + 2.9, getRobotZ() + 4);
+	glutSolidSphere(0.60, 32, 32);
+	glPopMatrix();
+
+	//if (getPelota() == false) {
+	//	glPushMatrix();
+	//	glTranslated(trasX, trasY, trasZ);
+	//	esfera.setRadius(0.45);
+	//	//xesfera.printSelf();
+	//	esfera.draw();
+	//	//glutSolidCube(0.9);
+	//	glPopMatrix();
+	//}
+
+	//calcular trayectoria de la pelota y moverla
+
+	calculoTrayectoriaPelota();
+
+	if (getLanzandoPelota()) {
+		calculoTrayectoriaPelota();
+	}
+
 	glPopMatrix(); // restaura la matriz de modelado
 }
 
+int igvEscena3D::buscarHitbox(float x, float y, float z) {
+	for (int i = 0; i < getHitboxes().size(); i++) {
+		if (x == getHitboxes()[i]->posicion.c[0] && y == getHitboxes()[i]->posicion.c[1] && z == getHitboxes()[i]->posicion.c[2]) {
+			return i;
+		}
+	}
 
+	return 0;
+
+}
 
 

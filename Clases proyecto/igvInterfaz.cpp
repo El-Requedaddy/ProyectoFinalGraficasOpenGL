@@ -84,10 +84,10 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 	case 'q':
 		interfaz.escena.setRotacion(10);//todo el modelo
 		break;
-	case 'w':
+	//case 'w':
 		interfaz.escena.setRotacion_cabeza(10);//cabeza
 		break;
-	case 'W':
+	//case 'W':
 		interfaz.escena.setRotacion_cabeza(-10);//cabeza
 		break;
 	case 'e':
@@ -239,6 +239,20 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 		interfaz.camara.aplicar();
 	}
 	break;
+	case '5':
+	{
+		hitbox h1;
+		hitbox h2;
+
+		if (interfaz.detectarColisiones(h1, h2)) {
+			std::cout << "COLISIONAN " << std::endl;
+		}
+	}
+	case '6':
+	{
+		interfaz.escena.setPelota(true);
+	}
+		break;
 	case '+': // zoom in
 		interfaz.camara.zoom();
 		interfaz.camara.aplicar();
@@ -254,9 +268,14 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 	case 'B': // decrementar la distancia del plano cercano
 		interfaz.camara.restarZnear();
 		interfaz.camara.aplicar();
+		break;		
+	case 'w': {
+		interfaz.escena.setxRobot(0.1);
+		interfaz.escena.setyRobot(0.1);
+		interfaz.escena.setxTras(0.1);
+		interfaz.escena.setyTras(0.1);
+	}
 		break;
-
-
 	case 27: // tecla de escape para SALIR
 		exit(1);
 		break;
@@ -290,8 +309,12 @@ void igvInterfaz::set_glutDisplayFunc() {
 }
 
 void igvInterfaz::set_glutIdleFunc() {
+
+
+
 	///// Apartado D: incluir el código para animar el modelo de la manera más realista posible
 	if (interfaz.animar) {
+
 		if (interfaz.fin_primera_fase == 0) { //fase 0 = subir brazo
 			if (interfaz.escena.getRotacion2_brazo_sup() > -220) {
 				interfaz.escena.setRotacion2_brazo_sup(-1);
@@ -362,7 +385,6 @@ void igvInterfaz::set_glutIdleFunc() {
 		glutPostRedisplay();
 	}
 	
-	
 }
 //Método que reinicializa a las posiciones originales aquellas que son modificadas por la animación
 void igvInterfaz::resetear() {
@@ -377,7 +399,10 @@ void igvInterfaz::resetear() {
 	interfaz.escena.setRotacion_cabeza(-interfaz.escena.getRotacion_cabeza());
 	interfaz.fin_primera_fase = 0;
 	glutPostRedisplay();
-	
+
+	//Lanzamiento de pelota (físicas)
+	interfaz.escena.setPelota(false);
+	interfaz.escena.activarLanzamientoPelota();
 
 }
 
@@ -388,3 +413,6 @@ void igvInterfaz::inicializa_callbacks() {
 	glutIdleFunc(set_glutIdleFunc);
 }
 
+void igvInterfaz::Update(float dt) {
+
+}

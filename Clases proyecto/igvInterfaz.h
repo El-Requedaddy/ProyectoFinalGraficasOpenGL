@@ -13,6 +13,7 @@
 #include <iostream>
 #include "igvEscena3D.h"
 #include "igvCamara.h"
+#include "hitbox.h"
 
 using namespace std;
 
@@ -21,7 +22,7 @@ protected:
 	// Atributos
 	int ancho_ventana; // ancho inicial de la ventana de visualizacion
 	int alto_ventana;  // alto inicial de la ventana de visualizacion
-	bool animar;
+	bool animar = false;
 	float aux;
 	float a;
 	int fin_primera_fase;
@@ -65,6 +66,17 @@ public:
 	void set_alto_ventana(int _alto_ventana) { alto_ventana = _alto_ventana; };
 
 	void resetear(); 
+
+
+	//práctica final
+	void Update(float dt);
+
+	bool detectarColisiones(hitbox h1, hitbox h2) {
+		bool colisionX = h1.posicion.c[0] + h1.tamano.c[0] >= h2.posicion.c[0] && h2.posicion.c[0] + h2.tamano.c[0] >= h1.posicion.c[0];
+		bool colisionY = h1.posicion.c[2] + h1.tamano.c[2] >= h2.posicion.c[2] && h2.posicion.c[2] + h2.tamano.c[2] >= h1.posicion.c[2];
+
+		return colisionX && colisionY;
+	}
 };
 
 #endif
