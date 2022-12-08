@@ -14,6 +14,7 @@
 #include "igvEscena3D.h"
 #include "igvCamara.h"
 #include "hitbox.h"
+#include "Juego.h"
 
 using namespace std;
 
@@ -33,6 +34,7 @@ protected:
 	int fin_primera_fase;//atributo utilizado para la gestión de la animación
 	igvEscena3D escena; // escena que se visualiza en la ventana definida por igvInterfaz
 	igvCamara camara; // cámara que se utiliza para visualizar la escena
+	/*juego datosJuego;*/
 
 	igvPunto3D p0, r, V;
 

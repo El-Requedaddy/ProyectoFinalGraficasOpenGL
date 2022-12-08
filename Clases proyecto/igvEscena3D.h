@@ -65,7 +65,7 @@ protected:
 
 	float trasXrobot = 0;
 	float trasYrobot = 0;
-	float trasZrobot = 0;
+	float trasZrobot = 2;
 
 	bool animacionPelota = false;
 	bool lanzarPelota = false;
@@ -77,8 +77,8 @@ protected:
 	float movementSpeed = 0.1;
 	float deltaTime = 0.1;
 	igvPunto3D posicionPelota;
-	igvPunto3D coordenadaInicial;
-	igvPunto3D coordenadaFinal;
+	igvPunto3D coordenadaInicial; //final 
+	igvPunto3D coordenadaFinal;  //inicial
 
 public:
 
