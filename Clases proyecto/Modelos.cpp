@@ -33,10 +33,10 @@ Modelos::Modelos() :h(1), b(3){
 }
 
 Modelos::~Modelos() {
-	/*delete [] cil;
-	delete[] sph;
-	delete[] cono;
-	delete[] colores_robot;*/
+	delete cil;
+	delete sph;
+	delete cono;
+	delete colores_robot;
 }
 
 

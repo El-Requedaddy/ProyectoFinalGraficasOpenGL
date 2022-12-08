@@ -72,7 +72,6 @@ public:
 
 	//inserta en el vector de destino valores del vector color(inserta 'tam' valores a partir de la posición 'pos')
 	void cambia_color(std::vector<GLfloat> color, std::vector<GLfloat>& destino, int& pos, int tam) {
-			//std::cout << "pos -> " << pos << std::endl;
 			for (int i = 0; i < tam; i++) {
 				destino[i] = color[pos];
 				pos += 1;

@@ -93,7 +93,7 @@ igvEscena3D::igvEscena3D() {
 }
 
 igvEscena3D::~igvEscena3D() {
-	//delete[] modelos;
+	delete modelos;
 }
 
 
@@ -626,60 +626,60 @@ void igvEscena3D::visualizar() {
 }
 void igvEscena3D::visualizarVB() {
 	if (!modo_act) {
-		//pintar_robot();
-		glPushMatrix();
-	glRotated(getRotacion(), 0, 1, 0);
-		glPushMatrix();
-		//glRotated(getRotacion(), 0, 1, 0);
-		glTranslated(-2,1,-6.5);
-		glScaled(0.5, 0.5, 0.5);
-		modelos->Estanteria();
-		glPopMatrix();
-
-		glPushMatrix();
-		//glRotated(getRotacion(), 0, 1, 0);
-		glScaled(1, 0.4, 1);
-		//modelos->visualizar();
-		modelos->Mostrador();
-		glPopMatrix();
-
-		glPushMatrix();
-		glTranslated(0, 0, 2);
-		glScaled(0.2, 0.2, 0.2);
 		pintar_robot();
-		glPopMatrix();
+	//	glPushMatrix();
+	//glRotated(getRotacion(), 0, 1, 0);
+	//	glPushMatrix();
+	//	//glRotated(getRotacion(), 0, 1, 0);
+	//	glTranslated(-2,1,-6.5);
+	//	glScaled(0.5, 0.5, 0.5);
+	//	modelos->Estanteria();
+	//	glPopMatrix();
 
-	glPopMatrix();
+	//	glPushMatrix();
+	//	//glRotated(getRotacion(), 0, 1, 0);
+	//	glScaled(1, 0.4, 1);
+	//	//modelos->visualizar();
+	//	modelos->Mostrador();
+	//	glPopMatrix();
+
+	//	glPushMatrix();
+	//	glTranslated(0, 0, 2);
+	//	glScaled(0.2, 0.2, 0.2);
+	//	pintar_robot();
+	//	glPopMatrix();
+
+	//glPopMatrix();
 	}
 	else {
 
-		/*glPushMatrix();
+		glPushMatrix();
 		pintar_robotVB();
-		glPopMatrix();*/
+		glPopMatrix();
 		
-		glPushMatrix();
-		glRotated(getRotacion(), 0, 1, 0);
-		glPushMatrix();
+		//glPushMatrix();
 		//glRotated(getRotacion(), 0, 1, 0);
-		glTranslated(-2, 1, -6.5);
-		glScaled(0.5, 0.5, 0.5);
-		modelos->Estanteria();
-		glPopMatrix();
+		//glPushMatrix();
+		////glRotated(getRotacion(), 0, 1, 0);
+		//glTranslated(-2, 1, -6.5);
+		//glScaled(0.5, 0.5, 0.5);
+		//modelos->Estanteria();
+		//glPopMatrix();
 
-		glPushMatrix();
-		//glRotated(getRotacion(), 0, 1, 0);
-		glScaled(1, 0.4, 1);
-		//modelos->visualizar();
-		modelos->Mostrador();
-		glPopMatrix();
+		//glPushMatrix();
+		////glRotated(getRotacion(), 0, 1, 0);
+		//glScaled(1, 0.4, 1);
+		////modelos->visualizar();
+		//modelos->Mostrador();
+		//glPopMatrix();
 
-		glPushMatrix();
-		glTranslated(0, 0, 2);
-		glScaled(0.2, 0.2, 0.2);
-		pintar_robotVB();
-		glPopMatrix();
+		//glPushMatrix();
+		//glTranslated(0, 0, 2);
+		//glScaled(0.2, 0.2, 0.2);
+		//pintar_robotVB();
+		//glPopMatrix();
 
-		glPopMatrix();
+		//glPopMatrix();
 	}
 
 }
