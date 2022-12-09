@@ -653,11 +653,11 @@ void igvEscena3D::visualizar() {
 		glLightfv(GL_LIGHT0, GL_POSITION, luz0); // la luz se coloca aquí si permanece fija y no se mueve con la escena
 		glEnable(GL_LIGHT0);
 
-		// crear el modelo
-		glPushMatrix(); // guarda la matriz de modelado
-		// se pintan los ejes
-		if (ejes) pintar_ejes();
-		glPopMatrix();
+		//// crear el modelo
+		//glPushMatrix(); // guarda la matriz de modelado
+		//// se pintan los ejes
+		//if (ejes) pintar_ejes();
+		//glPopMatrix();
 
 		glPushMatrix();
 		visualizarVB();
@@ -711,60 +711,60 @@ void igvEscena3D::visualizar2() {
 
 void igvEscena3D::visualizarVB() {
 	if (!modo_act) {
+		//pintar_robot();
+		glPushMatrix();
+	glRotated(getRotacion(), 0, 1, 0);
+		glPushMatrix();
+		//glRotated(getRotacion(), 0, 1, 0);
+		glTranslated(-2,1,-6.5);
+		glScaled(0.5, 0.5, 0.5);
+		modelos->Estanteria();
+		glPopMatrix();
+
+		glPushMatrix();
+		//glRotated(getRotacion(), 0, 1, 0);
+		glScaled(1, 0.4, 1);
+		//modelos->visualizar();
+		modelos->Mostrador();
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslated(0, 0, 2);
+		glScaled(0.2, 0.2, 0.2);
 		pintar_robot();
-	//	glPushMatrix();
-	//glRotated(getRotacion(), 0, 1, 0);
-	//	glPushMatrix();
-	//	//glRotated(getRotacion(), 0, 1, 0);
-	//	glTranslated(-2,1,-6.5);
-	//	glScaled(0.5, 0.5, 0.5);
-	//	modelos->Estanteria();
-	//	glPopMatrix();
+		glPopMatrix();
 
-	//	glPushMatrix();
-	//	//glRotated(getRotacion(), 0, 1, 0);
-	//	glScaled(1, 0.4, 1);
-	//	//modelos->visualizar();
-	//	modelos->Mostrador();
-	//	glPopMatrix();
-
-	//	glPushMatrix();
-	//	glTranslated(0, 0, 2);
-	//	glScaled(0.2, 0.2, 0.2);
-	//	pintar_robot();
-	//	glPopMatrix();
-
-	//glPopMatrix();
+	glPopMatrix();
 	}
 	else {
 
+		/*glPushMatrix();
+		pintar_robotVB();
+		glPopMatrix();*/
+		
 		glPushMatrix();
+		glRotated(getRotacion(), 0, 1, 0);
+		glPushMatrix();
+		//glRotated(getRotacion(), 0, 1, 0);
+		glTranslated(-2, 1, -6.5);
+		glScaled(0.5, 0.5, 0.5);
+		modelos->Estanteria();
+		glPopMatrix();
+
+		glPushMatrix();
+		//glRotated(getRotacion(), 0, 1, 0);
+		glScaled(1, 0.4, 1);
+		//modelos->visualizar();
+		modelos->Mostrador();
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslated(0, 0, 2);
+		glScaled(0.2, 0.2, 0.2);
 		pintar_robotVB();
 		glPopMatrix();
-		
-		//glPushMatrix();
-		//glRotated(getRotacion(), 0, 1, 0);
-		//glPushMatrix();
-		////glRotated(getRotacion(), 0, 1, 0);
-		//glTranslated(-2, 1, -6.5);
-		//glScaled(0.5, 0.5, 0.5);
-		//modelos->Estanteria();
-		//glPopMatrix();
 
-		//glPushMatrix();
-		////glRotated(getRotacion(), 0, 1, 0);
-		//glScaled(1, 0.4, 1);
-		////modelos->visualizar();
-		//modelos->Mostrador();
-		//glPopMatrix();
-
-		//glPushMatrix();
-		//glTranslated(0, 0, 2);
-		//glScaled(0.2, 0.2, 0.2);
-		//pintar_robotVB();
-		//glPopMatrix();
-
-		//glPopMatrix();
+		glPopMatrix();
 	}
 
 }

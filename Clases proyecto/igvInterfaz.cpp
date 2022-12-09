@@ -18,6 +18,7 @@ igvInterfaz::igvInterfaz() {
 	animar = false;
 	objeto_seleccionado = -1;
 	fin_primera_fase = 0;
+	cambio = false;
 }
 
 igvInterfaz::~igvInterfaz() {}
@@ -338,14 +339,17 @@ void igvInterfaz::set_glutDisplayFunc() {
 				}
 			}
 
-			 //refresca la ventana
-			glutSwapBuffers();
+			
+			//glutPostRedisplay();
 			
 			//pinto de otro color la parte seleccionada
 			interfaz.pintar_seleccion();
 
 			//vuelvo a activar la visualización
+			interfaz.escena.set_modo(false);
 			interfaz.modo = IGV_VISUALIZAR; // tras la selección hay que pulsar click derecho o sino se vuelve al modo selección 
+			//interfaz.escena.visualizar();
+			glutPostRedisplay();
 				
 			//Habilitar de nuevo la iluminación
 			glEnable(GL_LIGHTING);
@@ -460,8 +464,7 @@ void igvInterfaz::resetear() {
 }
 
 void igvInterfaz::set_glutMouseFunc(GLint boton, GLint estado, GLint x, GLint y) {
-
-	if (boton == 0 && estado == 1) {
+	if (boton == 0 && estado == GLUT_DOWN && !interfaz.cambio) {
 		interfaz.boton_retenido = true;
 		interfaz.modo = IGV_SELECCIONAR;
 		interfaz.escena.set_modo(true);
@@ -469,7 +472,9 @@ void igvInterfaz::set_glutMouseFunc(GLint boton, GLint estado, GLint x, GLint y)
 		interfaz.cursorY = y;
 	}
 
-	glutSwapBuffers();
+
+	//glutSwapBuffers();
+	glutPostRedisplay();
 }
 
 void igvInterfaz::set_glutMotionFunc(GLint x, GLint y) {
@@ -587,8 +592,9 @@ void igvInterfaz::set_glutMotionFunc(GLint x, GLint y) {
 		default:
 			break;
 		}
-	}
 
+	}
+	//interfaz.modo = IGV_VISUALIZAR;
 	glutPostRedisplay();
 }
 
@@ -667,8 +673,9 @@ void igvInterfaz::pintar_seleccion() {
 		if (a == 21)//pie izq
 			interfaz.escena.getModelos()->Get_coloresRobot()->set_colorPieIzq(interfaz.escena.get_color_naranja());
 
-		interfaz.escena.set_modo(false);
+		//interfaz.escena.set_modo(false);
 	}
+
 }
 
 void igvInterfaz::inicializa_callbacks() {

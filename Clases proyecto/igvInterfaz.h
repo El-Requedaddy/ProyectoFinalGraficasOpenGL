@@ -45,7 +45,7 @@ protected:
 
 	bool boton_retenido; // indica si el botón está pulsado (true) o se ha soltado (false)
 
-
+	bool cambio;
 
 public:
 	// Constructores por defecto y destructor
