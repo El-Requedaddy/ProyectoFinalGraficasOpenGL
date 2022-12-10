@@ -32,7 +32,12 @@ void igvInterfaz::crear_mundo(void) {
 
 	//p0 = igvPunto3D(6.0, 4.0, 8);
 
-	p0 = igvPunto3D(6.0, 4.0, 8);
+	/*p0 = igvPunto3D(6.0, 4.0, 8);
+	r = igvPunto3D(0, 0, 0);
+	V = igvPunto3D(0, 1.0, 0);*/
+
+	/*p0 = igvPunto3D(0.1, 0.1, 0.5);*/
+	p0 = igvPunto3D(0.5, 1, 2.5);
 	r = igvPunto3D(0, 0, 0);
 	V = igvPunto3D(0, 1.0, 0);
 
@@ -242,18 +247,10 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 		interfaz.camara.aplicar();
 	}
 	break;
-	case '5':
-	{
-		hitbox h1;
-		hitbox h2;
-
-		if (interfaz.detectarColisiones(h1, h2)) {
-			std::cout << "COLISIONAN " << std::endl;
-		}
-	}
 	case '6':
 	{
 		interfaz.escena.setPelota(true);
+		interfaz.escena.activarLanzamientoPelota();
 	}
 		break;
 	case '+': // zoom in

@@ -27,10 +27,25 @@ igvEscena3D::igvEscena3D() {
 	rotacion_pierna_inf = 0;
 	rotacion_pie = 0;
 
+	igvPunto3D aux1(-1.6, 0.9, -6.3);
+	igvPunto3D aux2(-2.1, 0.9, -6.3);
+	igvPunto3D aux3(-1, -0.6, -6.3);
+	igvPunto3D aux4(-1, 0.9, -6.3);
 
-	//coordenadaInicial.set(1, 2, 1);
-	coordenadaInicial.set(0, 2, 0);
-	coordenadaFinal.set(0, 0, 0);
+	std::vector<igvPunto3D> vectoresPos;
+	vectoresPos.push_back(aux1);
+	vectoresPos.push_back(aux2);
+	vectoresPos.push_back(aux3);
+	vectoresPos.push_back(aux4);
+
+	for (int i = 0; i < 4; i++) {
+		hitbox* h = new hitbox(vectoresPos[i], igvPunto3D(0.2, 0.2, 0.2));
+		hitboxes.push_back(h);
+	}
+
+	coordenadaInicial.set(-1, -0.6, -6.3);
+	/*coordenadaInicial.set(0, 2, 0);*/
+	coordenadaFinal.set(0, 2.5, 2);
 	//coordenadaFinal.set(getRobotX() + 1, getRobotY() + 2.9, getRobotZ() + 4);
 
 	color_verdeAzul.push_back(0.0f);
@@ -625,25 +640,26 @@ void igvEscena3D::pintar_robotVB() {
 
 }
 
-void igvEscena3D::calculoTrayectoriaPelota() {
+void igvEscena3D::calculoTrayectoriaPelota(hitbox h1, hitbox h2) {
 	//trazar trayectoria de la pelota
 	igvPunto3D inic = coordenadaInicial;
 	igvPunto3D fin = coordenadaFinal;
 	a += movementSpeed * deltaTime;
-	a = std::clamp((int)a, 0, 1);
+	/*a = std::clamp((int)a, 0, 1);*/
 	float resta = 1 - a;
 	inic.multiplicacionEscalar(a);
 	fin.multiplicacionEscalar(resta);
 	inic.sumaVectores(fin);
 	posicionPelota = inic;
+	h1.actualizarCoordenadas(posicionPelota.c[0], posicionPelota.c[1], posicionPelota.c[2]);
 
-	//if (posicionPelota == coordenadaFinal) {
-	//	desactivarLanzamientoPelota();
-	//}
+	if (detectarColisiones(h1, h2)) {
+		desactivarLanzamientoPelota();
+	}
 
 	glPushMatrix();
 	glTranslated(getPosicionPelota().c[0], getPosicionPelota().c[1], getPosicionPelota().c[2]);
-	glScaled(0.2, 0.2, 0.2);
+	glScaled(0.4, 0.4, 0.4);
 	glutSolidSphere(0.60, 32, 32);
 	glPopMatrix();
 
@@ -702,42 +718,92 @@ void igvEscena3D::visualizar2() {
 	//}
 
 	//calcular trayectoria de la pelota y moverla
-
-	calculoTrayectoriaPelota();
-
-	if (getLanzandoPelota()) {
-		calculoTrayectoriaPelota();
-	}
+	/*if (getLanzandoPelota()) {*/
+		/*calculoTrayectoriaPelota();*/
+	/*}*/
 
 	glPopMatrix(); // restaura la matriz de modelado
 }
 
 void igvEscena3D::visualizarVB() {
+
+	hitbox h1;
+	hitbox h2;
+
+	h1.tamano.c[0] = 0.2;
+	h1.tamano.c[1] = 0.2;
+	h1.tamano.c[2] = 0.2;
+
 	if (!modo_act) {
 		//pintar_robot();
 		glPushMatrix();
 		glRotated(getRotacion(), 0, 1, 0);
 		glPushMatrix();
 		//glRotated(getRotacion(), 0, 1, 0);
-		glTranslated(-2, 1, -6.5);
-		glScaled(0.5, 0.5, 0.5);
+		glTranslated(-2.5, 1, -6.5);
+		glScaled(0.7, 0.7, 0.7);
 		modelos->Estanteria();
 		glPopMatrix();
 
 		glPushMatrix();
 		//glRotated(getRotacion(), 0, 1, 0);
-		glScaled(1, 0.4, 1);
+		glScaled(1.2, 0.6, 1.2);
 		//modelos->visualizar();
 		modelos->Mostrador();
 		glPopMatrix();
 
 		glPushMatrix();
-		glTranslated(0, 0, 2);
-		glScaled(0.2, 0.2, 0.2);
+		glTranslated(0, 1.5, 2);
+		glRotated(180, 0, 1, 0);
+		glScaled(0.55, 0.55, 0.55);
 		pintar_robot();
 		glPopMatrix();
 
-		calculoTrayectoriaPelota();
+		//PRUEBAS ENTORNO
+		/*h2.actualizarCoordenadas(-1, 0.9, -6.3);
+		h2.tamano.c[0] = 0.2;
+		h2.tamano.c[1] = 0.2;
+		h2.tamano.c[2] = 0.2;
+		glPushMatrix();
+		glTranslated(-1.6, 0.9, -6.3);
+		glRotated(90, 0, 0, 1);
+		glScaled(0.7, 0.4, 0.4);
+		glutSolidCube(1);
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslated(-2.1, 0.9, -6.3);
+		glRotated(90, 0, 0, 1);
+		glScaled(0.7, 0.4, 0.4);
+		glutSolidCube(1);
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslated(-1, 0.9, -6.3);
+		glRotated(90, 0, 0, 1);
+		glScaled(0.7, 0.4, 0.4);
+		glutSolidCube(1);
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslated(-1, -0.6, -6.3);
+		glRotated(90, 0, 0, 1);
+		glScaled(0.7, 0.4, 0.4);
+		glutSolidCube(1);
+		glPopMatrix();*/
+
+		glPushMatrix();
+		for (int i = 0; i < hitboxes.size(); i++) {
+			glTranslated(hitboxes[i]->posicion.c[0], hitboxes[i]->posicion.c[1], hitboxes[i]->posicion.c[2]);
+			glRotated(90, 0, 0, 1);
+			glScaled(0.7, 0.4, 0.4);
+			glutSolidCube(1);
+		}
+		glPopMatrix();
+
+		if (getLanzandoPelota()) {
+			calculoTrayectoriaPelota(h1, h2);
+		}
 
 		glPopMatrix();
 	}
@@ -809,4 +875,9 @@ int igvEscena3D::buscarHitbox(float x, float y, float z) {
 
 	return 0;
 
+}
+
+void igvEscena3D::actualizarCoordenadasPelota(igvPunto3D final, igvPunto3D inicial) {
+	coordenadaFinal = final;
+	coordenadaInicial = inicial;
 }

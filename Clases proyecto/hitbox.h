@@ -7,7 +7,7 @@ public:
 	igvPunto3D posicion, tamano, velocidad;
 
 	hitbox();
-	hitbox(igvPunto3D _posicion, igvPunto3D _tamano, igvPunto3D _velocidad);
+	hitbox(igvPunto3D _posicion, igvPunto3D _tamano);
 
 	float escalarX, escalarY, escalarZ = 0;
 

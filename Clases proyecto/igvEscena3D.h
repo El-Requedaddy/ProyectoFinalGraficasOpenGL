@@ -74,7 +74,7 @@ protected:
 	std::vector<hitbox*> hitboxes;
 
 	float a;
-	float movementSpeed = 0.1;
+	float movementSpeed = 0.01;
 	float deltaTime = 0.1;
 	igvPunto3D posicionPelota;
 	igvPunto3D coordenadaInicial; //final 
@@ -505,11 +505,17 @@ public:
 
 	std::vector<hitbox*>& getHitboxes() { return hitboxes; }
 	int buscarHitbox(float x, float y, float z);
-	void calculoTrayectoriaPelota();
+	void calculoTrayectoriaPelota(hitbox h1, hitbox h2);
 	void activarLanzamientoPelota() { lanzarPelota = true; }
 	void desactivarLanzamientoPelota() { lanzarPelota = false; }
 	bool getLanzandoPelota() { return lanzarPelota; }
-	float clamp(float v, float lo, float hi);
+	bool detectarColisiones(hitbox h1, hitbox h2) {
+		bool colisionX = h1.posicion.c[0] + h1.tamano.c[0] >= h2.posicion.c[0] && h2.posicion.c[0] + h2.tamano.c[0] >= h1.posicion.c[0];
+		bool colisionY = h1.posicion.c[2] + h1.tamano.c[2] >= h2.posicion.c[2] && h2.posicion.c[2] + h2.tamano.c[2] >= h1.posicion.c[2];
+
+		return colisionX && colisionY;
+	}
+	void actualizarCoordenadasPelota(igvPunto3D final, igvPunto3D inicial);
 };
 
 #endif

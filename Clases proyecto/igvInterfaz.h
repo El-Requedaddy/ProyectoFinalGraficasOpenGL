@@ -92,13 +92,6 @@ public:
 	//práctica final
 	void Update(float dt);
 
-	bool detectarColisiones(hitbox h1, hitbox h2) {
-		bool colisionX = h1.posicion.c[0] + h1.tamano.c[0] >= h2.posicion.c[0] && h2.posicion.c[0] + h2.tamano.c[0] >= h1.posicion.c[0];
-		bool colisionY = h1.posicion.c[2] + h1.tamano.c[2] >= h2.posicion.c[2] && h2.posicion.c[2] + h2.tamano.c[2] >= h1.posicion.c[2];
-
-		return colisionX && colisionY;
-	}
-
 	//Método para resetear los colores originales del robot
 	void resetear_colores();
 	//Método para pintar el elemento seleccionado 

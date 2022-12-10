@@ -478,8 +478,9 @@ void Modelos::Mostrador() {
 		cubo(color_marron.data());
 		glPopMatrix();
 
+		//pared del fondo del mostrador
 		glPushMatrix();
-		glTranslated(0.2, 2, -7);
+		glTranslated(0.2, 2.6789, -7);
 		glScaled(3.8, 4, 0.1);
 		cubo(color_marron.data());
 		glPopMatrix();
