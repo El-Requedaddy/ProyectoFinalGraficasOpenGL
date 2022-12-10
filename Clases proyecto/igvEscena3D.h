@@ -17,13 +17,12 @@
 #include "igvFuenteLuz.h"
 #include "igvColor.h"
 #include "Cubo.h"
-
+#include "igvMaterial.h"
 class igvEscena3D {
 protected:
 
 	float X;
 	float Y;
-	Cubo* cub;
 	////// Apartado C: añadir quí los atributos para el control de los grados de libertad del modelo
 	float rotacionModeloCompleto;
 	float rotacion_cabezaY;

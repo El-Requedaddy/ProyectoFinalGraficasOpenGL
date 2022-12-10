@@ -79,14 +79,14 @@ void igvCamara::aplicar(void) {
 }
 
 void igvCamara::zoom() {
-	if (factor < 10) {
+	//if (factor < 10) {
 		factor++;
 		xwmin = xwmin + 0.05;
 		xwmax = xwmax - 0.05;
 		ywmin = ywmin + 0.05;
 		ywmax = ywmax - 0.05;
 		angulo = angulo - 0.5;
-	}
+	//}
 }
 
 void igvCamara::zoomOut() {

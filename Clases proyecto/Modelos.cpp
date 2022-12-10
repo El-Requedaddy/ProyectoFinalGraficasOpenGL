@@ -60,11 +60,10 @@ void Modelos::esfera(GLfloat color_esfera[]) {
 }
 
 void Modelos::cubo(GLfloat color_cubo[]) {
-	glMaterialfv(GL_FRONT, GL_EMISSION, color_cubo);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, color_cubo);
 	glColor3fv(color_cubo);
 	glPushMatrix();
 	Cubo::visualizar();
-
 	glPopMatrix();
 }
 
@@ -464,22 +463,22 @@ void Modelos::Mostrador() {
 		glPopMatrix();
 
 		glPushMatrix();
-		glTranslated(-4.7,0,-3.1);
+		glTranslated(4.9,0,-3.1);
 		glRotated(90, 0, 1, 0);
-		glScaled(4, 1.3, 1.1);
+		glScaled(4, 1.3, 0.9);
 		cubo(color_marron.data());
 		glPopMatrix();
 
 		glPushMatrix();
-		glTranslated(5.1, 0, -3.1);
+		glTranslated(-4.9, 0, -3.1);
 		glRotated(-90, 0, 1, 0);
-		glScaled(4, 1.3, 1.1);
+		glScaled(4, 1.3, 0.9);
 		cubo(color_marron.data());
 		glPopMatrix();
-
+		
 		glPushMatrix();
-		glTranslated(0.2, 2, -7);
-		glScaled(3.8, 4, 0.1);
+		glTranslated(0, 2, -7);
+		glScaled(4, 4, 0.1);
 		cubo(color_marron.data());
 		glPopMatrix();
 
