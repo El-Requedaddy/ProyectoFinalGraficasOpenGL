@@ -652,11 +652,11 @@ void igvEscena3D::calculoTrayectoriaPelota() {
 
 void igvEscena3D::visualizar() {
 	// crear luces
-	GLfloat luz0[4] = { 5.0,5.0,5.0,1 }; // luz puntual  
-	glLightfv(GL_LIGHT0, GL_POSITION, luz0); // la luz se coloca aquí si permanece fija y no se mueve con la escena
-	glEnable(GL_LIGHT0);
+	//GLfloat luz0[4] = { 5.0,5.0,5.0,1 }; // luz puntual  
+	//glLightfv(GL_LIGHT0, GL_POSITION, luz0); // la luz se coloca aquí si permanece fija y no se mueve con la escena
+	//glEnable(GL_LIGHT0);
 
-	/*igvPunto3D pos(0.0, 6.0, 0.0);
+	igvPunto3D pos(0.0, 6.0, 0.0);
 	igvColor amb(0.0, 0.0, 0.0, 1.0);
 	igvColor dif(1.0, 1.0, 1.0, 1.0);
 	igvColor esp(1.0, 1.0, 1.0, 1.0);
@@ -670,7 +670,7 @@ void igvEscena3D::visualizar() {
 	  igvColor esp_f(1.0, 1.0, 1.0, 1.0);
 	  igvPunto3D dirF_f(0,0,-1);
 	  igvFuenteLuz foco(GL_LIGHT1, pos_f, amb_f, dif_f, esp_f, 1.0, 0, 0, dirF_f,10, 0);
-	  foco.aplicar();*/
+	  foco.aplicar();
 
 	  //std::cout << X << "-" << Y << std::endl;
 
@@ -736,45 +736,32 @@ void igvEscena3D::visualizar2() {
 
 void igvEscena3D::visualizarVB() {
 	if (!modo_act) {
-		/*glBegin(GL_TRIANGLES);
-		glVertex3d(0, 0, 0);
-		glVertex3d(1, 0, 0);
-		glVertex3d(1, 0, -1);
-		glEnd();
+		//pintar_robot();
+		glPushMatrix();
+		glRotated(getRotacion(), 0, 1, 0);
 
-		glBegin(GL_TRIANGLES);
-		glVertex3d(1, 0, -1);
-		glVertex3d(0, 0, -1);
-		glVertex3d(0, 0, 0);
-		glEnd();*/
+			glPushMatrix();
+			//glRotated(getRotacion(), 0, 1, 0);
+			glTranslated(-2,1,-6.5);
+			glScaled(0.5, 0.5, 0.5);
+			modelos->Estanteria();
+			glPopMatrix();
 
+			glPushMatrix();
+			//glRotated(getRotacion(), 0, 1, 0);
+			glScaled(1, 0.4, 1);
+			//modelos->visualizar();
+			modelos->Mostrador();
+			glPopMatrix();
 
+			glPushMatrix();
+			glTranslated(0, 0, 2);
+			glRotated(180, 0, 1, 0);
+			glScaled(0.2, 0.2, 0.2);
+			pintar_robot();
+			glPopMatrix();
 
-		pintar_robot();
-	//	glPushMatrix();
-	//	glRotated(getRotacion(), 0, 1, 0);
-	//	glPushMatrix();
-	//	//glRotated(getRotacion(), 0, 1, 0);
-	//	glTranslated(-2,1,-6.5);
-	//	glScaled(0.5, 0.5, 0.5);
-	//	modelos->Estanteria();
-	//	glPopMatrix();
-
-	//	glPushMatrix();
-	//	//glRotated(getRotacion(), 0, 1, 0);
-	//	glScaled(1, 0.4, 1);
-	//	//modelos->visualizar();
-	//	modelos->Mostrador();
-	//	glPopMatrix();
-
-	//	glPushMatrix();
-	//	glTranslated(0, 0, 2);
-	//	glRotated(180, 0, 1, 0);
-	//	glScaled(0.2, 0.2, 0.2);
-	//	pintar_robot();
-	//	glPopMatrix();
-
-	//glPopMatrix();
+		glPopMatrix();
 	}
 	else {
 

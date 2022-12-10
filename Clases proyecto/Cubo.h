@@ -9,12 +9,12 @@
 #include <vector>
 #endif
 
-class Cubo {
+static class Cubo {
 
 public:
 	Cubo();
 	~Cubo();
-	void visualizar();
+	static void visualizar();
 
 
 };

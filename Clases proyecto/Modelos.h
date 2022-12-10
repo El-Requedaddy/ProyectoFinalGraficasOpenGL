@@ -11,6 +11,7 @@
 #include "Sphere.h"
 #include "Cylinder.h"
 #include "Colores.h"
+#include "Cubo.h"
 class Modelos
 {
 private:

@@ -63,8 +63,7 @@ void Modelos::cubo(GLfloat color_cubo[]) {
 	glMaterialfv(GL_FRONT, GL_EMISSION, color_cubo);
 	glColor3fv(color_cubo);
 	glPushMatrix();
-
-	glutSolidCube(2);
+	Cubo::visualizar();
 
 	glPopMatrix();
 }
