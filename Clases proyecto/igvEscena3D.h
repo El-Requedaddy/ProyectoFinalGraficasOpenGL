@@ -14,10 +14,16 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
-
+#include "igvFuenteLuz.h"
+#include "igvColor.h"
+#include "Cubo.h"
 
 class igvEscena3D {
 protected:
+
+	float X;
+	float Y;
+	Cubo* cub;
 	////// Apartado C: añadir quí los atributos para el control de los grados de libertad del modelo
 	float rotacionModeloCompleto;
 	float rotacion_cabezaY;
@@ -81,7 +87,10 @@ protected:
 	igvPunto3D coordenadaFinal;
 
 public:
-
+	float GetX() const { return X; }
+	void SetX(float val) { X += val; }
+	float GetY() const { return Y; }
+	void SetY(float val) { Y += val; }
 	// Constructores por defecto y destructor
 	igvEscena3D();
 	~igvEscena3D();
@@ -89,6 +98,7 @@ public:
 	// método con las llamadas OpenGL para visualizar la escena
 	void visualizar(void);
 	void visualizar2(void);
+	void visualizar3(void);
 	void visualizarVB(void);//Método para la visualización en modo selección
 
 

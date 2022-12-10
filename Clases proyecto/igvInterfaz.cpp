@@ -33,7 +33,7 @@ void igvInterfaz::crear_mundo(void) {
 
 	//p0 = igvPunto3D(6.0, 4.0, 8);
 
-	p0 = igvPunto3D(6.0, 4.0, 8);
+	p0 = igvPunto3D(1.5,3,8);
 	r = igvPunto3D(0, 0, 0);
 	V = igvPunto3D(0, 1.0, 0);
 
@@ -78,6 +78,20 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 	switch (key) {
 		////// Apartado C: incluir aquí el cambio de la cámara para mostrar las vistas planta, perfil, alzado o perspectiva 
 		////// Apartado C: incluir aquí la modificación de los grados de libertad del modelo pulsando las teclas correspondientes
+	
+	case '9':
+		interfaz.escena.SetX(0.2);
+		break;
+	case '8':
+		interfaz.escena.SetX(-0.2);
+		break;
+	case '7':
+		interfaz.escena.SetY(0.2);
+		break;
+	case '*': // Apartado D: disminuir en 10 el exponente de Phong del material
+		interfaz.escena.SetY(-0.2);
+		break;
+	
 
 	case 'x': // activa/desactiva la visualizacion de los ejes
 		interfaz.escena.set_ejes(interfaz.escena.get_ejes() ? false : true);

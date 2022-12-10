@@ -58,6 +58,8 @@ public:
 	void multiplicacionEscalar(float s);
 
 	void sumaVectores(igvPunto3D vecSumando);
+
+	float* cloneToFloatArray() const; //Devuelve el punto en un array de float
 };
 #endif
 
