@@ -14,6 +14,9 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
+#include<stdlib.h>
+#include<time.h>
+#include "Juego.h"
 
 
 class igvEscena3D {
@@ -67,12 +70,14 @@ protected:
 	float trasYrobot = 0;
 	float trasZrobot = 2;
 
-	bool animacionPelota = false;
+	bool animacionPelota = true;
 	bool lanzarPelota = false;
 
 	//vector de hitboxes
 	std::vector<hitbox*> hitboxes;
+	juego juego;
 
+	//atributos de la trayectoria de la pelota
 	float a;
 	float movementSpeed = 0.01;
 	float deltaTime = 0.1;
@@ -503,12 +508,15 @@ public:
 		return posicionPelota;
 	}
 
+	//métodos relacionados con el lanzamiento de la pelota, están explicados en su inplementación en cpp correspondiente
 	std::vector<hitbox*>& getHitboxes() { return hitboxes; }
 	int buscarHitbox(float x, float y, float z);
 	void calculoTrayectoriaPelota(hitbox h1, hitbox h2);
 	void activarLanzamientoPelota() { lanzarPelota = true; }
 	void desactivarLanzamientoPelota() { lanzarPelota = false; }
 	bool getLanzandoPelota() { return lanzarPelota; }
+
+	//comprobamos colision entre dos objetos, esto se hace llevandolo a un supuesto plano 2d
 	bool detectarColisiones(hitbox h1, hitbox h2) {
 		bool colisionX = h1.posicion.c[0] + h1.tamano.c[0] >= h2.posicion.c[0] && h2.posicion.c[0] + h2.tamano.c[0] >= h1.posicion.c[0];
 		bool colisionY = h1.posicion.c[2] + h1.tamano.c[2] >= h2.posicion.c[2] && h2.posicion.c[2] + h2.tamano.c[2] >= h1.posicion.c[2];
@@ -516,6 +524,7 @@ public:
 		return colisionX && colisionY;
 	}
 	void actualizarCoordenadasPelota(igvPunto3D final, igvPunto3D inicial);
+	void posicionesObjetos(std::vector<igvPunto3D> &vector);
 };
 
 #endif

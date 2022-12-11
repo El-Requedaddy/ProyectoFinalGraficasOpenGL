@@ -9,4 +9,7 @@ private:
 
 public:
 	juego();
+	void sumarPuntuacion(int a) {
+		puntuacion += a;
+	}
 };

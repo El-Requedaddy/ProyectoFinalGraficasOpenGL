@@ -27,23 +27,30 @@ igvEscena3D::igvEscena3D() {
 	rotacion_pierna_inf = 0;
 	rotacion_pie = 0;
 
-	igvPunto3D aux1(-1.6, 0.9, -6.3);
-	igvPunto3D aux2(-2.1, 0.9, -6.3);
-	igvPunto3D aux3(-1, -0.6, -6.3);
-	igvPunto3D aux4(-1, 0.9, -6.3);
-
+	//creamos vector que contiene todas las posiciones posibles de los objetos en la escena
 	std::vector<igvPunto3D> vectoresPos;
-	vectoresPos.push_back(aux1);
-	vectoresPos.push_back(aux2);
-	vectoresPos.push_back(aux3);
-	vectoresPos.push_back(aux4);
+	posicionesObjetos(vectoresPos);
 
-	for (int i = 0; i < 4; i++) {
-		hitbox* h = new hitbox(vectoresPos[i], igvPunto3D(0.2, 0.2, 0.2));
+	//creamos hitboxes que contendran informacion sobre los objetos
+	//generamos de las posiciones posibles, 10 de ellas para añadir a las hitboxes
+	srand(time(NULL));
+	for (int i = 0; i < 11; i++) {
+		int numero = rand()%vectoresPos.size();
+		int valor = 1 + rand() % 10;
+		if (valor == 6) {
+			valor = 150;
+		}
+		else if (valor == 3 || valor == 1){
+			valor = 100;
+		}
+		else {
+			valor = 50;
+		}
+		hitbox* h = new hitbox(vectoresPos[numero], igvPunto3D(0.2, 0.2, 0.2), valor);
 		hitboxes.push_back(h);
 	}
 
-	coordenadaInicial.set(-1, -0.6, -6.3);
+	coordenadaInicial.set(hitboxes[0]->posicion.c[0], hitboxes[0]->posicion.c[1], hitboxes[0]->posicion.c[2]);
 	/*coordenadaInicial.set(0, 2, 0);*/
 	coordenadaFinal.set(0, 2.5, 2);
 	//coordenadaFinal.set(getRobotX() + 1, getRobotY() + 2.9, getRobotZ() + 4);
@@ -111,6 +118,8 @@ igvEscena3D::igvEscena3D() {
 	}
 
 }
+
+
 
 igvEscena3D::~igvEscena3D() {
 	delete modelos;
@@ -642,8 +651,11 @@ void igvEscena3D::pintar_robotVB() {
 
 void igvEscena3D::calculoTrayectoriaPelota(hitbox h1, hitbox h2) {
 	//trazar trayectoria de la pelota
+	animacionPelota = false;
 	igvPunto3D inic = coordenadaInicial;
 	igvPunto3D fin = coordenadaFinal;
+
+	//formula para trazar camino mediante interpolacion
 	a += movementSpeed * deltaTime;
 	/*a = std::clamp((int)a, 0, 1);*/
 	float resta = 1 - a;
@@ -653,8 +665,21 @@ void igvEscena3D::calculoTrayectoriaPelota(hitbox h1, hitbox h2) {
 	posicionPelota = inic;
 	h1.actualizarCoordenadas(posicionPelota.c[0], posicionPelota.c[1], posicionPelota.c[2]);
 
+	//si la hitbox seleccionada y la hitbox de la pelota entran en contacto, aparece la pelota en la mano del robot y se borra el objeto que es impactado(h2)
 	if (detectarColisiones(h1, h2)) {
 		desactivarLanzamientoPelota();
+		animacionPelota = true;
+		int i = buscarHitbox(h2.posicion.c[0], h2.posicion.c[1], h2.posicion.c[2]);
+		if (hitboxes[i]->getValor() == 50) {
+			juego.sumarPuntuacion(hitboxes[i]->getValor());
+		}
+		else if (hitboxes[i]->getValor() == 100) {
+			juego.sumarPuntuacion(hitboxes[i]->getValor());
+		}
+		else if (hitboxes[i]->getValor() == 150){
+			juego.sumarPuntuacion(hitboxes[i]->getValor());
+		}
+		hitboxes.erase(hitboxes.begin() + i);
 	}
 
 	glPushMatrix();
@@ -727,9 +752,8 @@ void igvEscena3D::visualizar2() {
 
 void igvEscena3D::visualizarVB() {
 
+	//establecemos hitbox de la pelota y sus parametros
 	hitbox h1;
-	hitbox h2;
-
 	h1.tamano.c[0] = 0.2;
 	h1.tamano.c[1] = 0.2;
 	h1.tamano.c[2] = 0.2;
@@ -758,51 +782,35 @@ void igvEscena3D::visualizarVB() {
 		glScaled(0.55, 0.55, 0.55);
 		pintar_robot();
 		glPopMatrix();
-
-		//PRUEBAS ENTORNO
-		/*h2.actualizarCoordenadas(-1, 0.9, -6.3);
-		h2.tamano.c[0] = 0.2;
-		h2.tamano.c[1] = 0.2;
-		h2.tamano.c[2] = 0.2;
-		glPushMatrix();
-		glTranslated(-1.6, 0.9, -6.3);
-		glRotated(90, 0, 0, 1);
-		glScaled(0.7, 0.4, 0.4);
-		glutSolidCube(1);
-		glPopMatrix();
-
-		glPushMatrix();
-		glTranslated(-2.1, 0.9, -6.3);
-		glRotated(90, 0, 0, 1);
-		glScaled(0.7, 0.4, 0.4);
-		glutSolidCube(1);
-		glPopMatrix();
-
-		glPushMatrix();
-		glTranslated(-1, 0.9, -6.3);
-		glRotated(90, 0, 0, 1);
-		glScaled(0.7, 0.4, 0.4);
-		glutSolidCube(1);
-		glPopMatrix();
-
-		glPushMatrix();
-		glTranslated(-1, -0.6, -6.3);
-		glRotated(90, 0, 0, 1);
-		glScaled(0.7, 0.4, 0.4);
-		glutSolidCube(1);
-		glPopMatrix();*/
-
-		glPushMatrix();
+		
+		//dibujamos los objetos del vector de hitboxes sacando su posicion y aplicando esta misma mediante un translated()
 		for (int i = 0; i < hitboxes.size(); i++) {
+			glPushMatrix();
+			if (hitboxes[i]->getValor() == 50) {
+				GLfloat color[] = { color_azul[0], color_azul[1], color_azul[2] };
+				glMaterialfv(GL_FRONT, GL_EMISSION, color);
+				glColor3fv(color);
+			}
+			else if (hitboxes[i]->getValor() == 100) {
+				GLfloat color[] = { color_naranja[0], color_naranja[1], color_naranja[2] };
+				glMaterialfv(GL_FRONT, GL_EMISSION, color);
+				glColor3fv(color);
+			}
+			else if (hitboxes[i]->getValor() == 150){
+				GLfloat color[] = { color_rojo[0], color_rojo[1], color_rojo[2] };
+				glMaterialfv(GL_FRONT, GL_EMISSION, color);
+				glColor3fv(color);
+			}
 			glTranslated(hitboxes[i]->posicion.c[0], hitboxes[i]->posicion.c[1], hitboxes[i]->posicion.c[2]);
 			glRotated(90, 0, 0, 1);
 			glScaled(0.7, 0.4, 0.4);
 			glutSolidCube(1);
+			glPopMatrix();
 		}
-		glPopMatrix();
 
+		//si la pelota se lanza, la trayectoria se va calculando y aplicando en cada frame
 		if (getLanzandoPelota()) {
-			calculoTrayectoriaPelota(h1, h2);
+			calculoTrayectoriaPelota(h1, *hitboxes[0]);
 		}
 
 		glPopMatrix();
@@ -866,6 +874,7 @@ void igvEscena3D::pintar_todo() {
 	glPopMatrix();
 }
 
+//buscar posicion de una hitbox en el vector de hitboxes mediante vector de posicion
 int igvEscena3D::buscarHitbox(float x, float y, float z) {
 	for (int i = 0; i < getHitboxes().size(); i++) {
 		if (x == getHitboxes()[i]->posicion.c[0] && y == getHitboxes()[i]->posicion.c[1] && z == getHitboxes()[i]->posicion.c[2]) {
@@ -880,4 +889,69 @@ int igvEscena3D::buscarHitbox(float x, float y, float z) {
 void igvEscena3D::actualizarCoordenadasPelota(igvPunto3D final, igvPunto3D inicial) {
 	coordenadaFinal = final;
 	coordenadaInicial = inicial;
+}
+
+//crear vector con todas las coordenadas posibles de las latas y objetos a derribar
+void igvEscena3D::posicionesObjetos(std::vector<igvPunto3D> &vector) {
+	igvPunto3D aux1(-2.1, 0.9, -6.3);
+	igvPunto3D aux2(-1.6, 0.9, -6.3);
+	igvPunto3D aux3(-1, 0.9, -6.3);
+	igvPunto3D aux4(-0.5, 0.9, -6.3);
+	igvPunto3D aux5(0, 0.9, -6.3);
+	igvPunto3D aux16(0.5, 0.9, -6.3);
+	igvPunto3D aux17(1, 0.9, -6.3);
+	igvPunto3D aux18(1.5, 0.9, -6.3);
+	igvPunto3D aux19(2, 0.9, -6.3);
+	igvPunto3D aux20(2.5, 0.9, -6.3);
+	igvPunto3D aux6(-2.1, -0.6, -6.3);
+	igvPunto3D aux7(-1.6, -0.6, -6.3);
+	igvPunto3D aux8(-1, -0.6, -6.3);
+	igvPunto3D aux9(-0.5, -0.6, -6.3);
+	igvPunto3D aux10(0, -0.6, -6.3);
+	igvPunto3D aux11(0.5, -0.6, -6.3);
+	igvPunto3D aux12(1, -0.6, -6.3);
+	igvPunto3D aux13(1.5, -0.6, -6.3);
+	igvPunto3D aux14(2, -0.6, -6.3);
+	igvPunto3D aux15(2.5, -0.6, -6.3);
+	igvPunto3D aux21(-2.1, 2.3, -6.3);
+	igvPunto3D aux22(-1.6, 2.3, -6.3);
+	igvPunto3D aux23(-1, 2.3, -6.3);
+	igvPunto3D aux24(-0.5, 2.3, -6.3);
+	igvPunto3D aux25(0, 2.3, -6.3);
+	igvPunto3D aux26(0.5, 2.3, -6.3);
+	igvPunto3D aux27(1, 2.3, -6.3);
+	igvPunto3D aux28(1.5, 2.3, -6.3);
+	igvPunto3D aux29(2, 2.3, -6.3);
+	igvPunto3D aux30(2.5, 2.3, -6.3);
+
+	vector.push_back(aux1);
+	vector.push_back(aux2);
+	vector.push_back(aux3);
+	vector.push_back(aux4);
+	vector.push_back(aux5);
+	vector.push_back(aux6);
+	vector.push_back(aux7);
+	vector.push_back(aux8);
+	vector.push_back(aux9);
+	vector.push_back(aux10);
+	vector.push_back(aux11);
+	vector.push_back(aux12);
+	vector.push_back(aux13);
+	vector.push_back(aux14);
+	vector.push_back(aux15);
+	vector.push_back(aux16);
+	vector.push_back(aux17);
+	vector.push_back(aux18);
+	vector.push_back(aux19);
+	vector.push_back(aux20);
+	vector.push_back(aux21);
+	vector.push_back(aux22);
+	vector.push_back(aux23);
+	vector.push_back(aux24);
+	vector.push_back(aux25);
+	vector.push_back(aux26);
+	vector.push_back(aux27);
+	vector.push_back(aux28);
+	vector.push_back(aux29);
+	vector.push_back(aux30);
 }

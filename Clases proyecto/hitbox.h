@@ -3,11 +3,14 @@
 
 class hitbox {
 
+private:
+	int valorObjeto;
+
 public:
 	igvPunto3D posicion, tamano, velocidad;
 
 	hitbox();
-	hitbox(igvPunto3D _posicion, igvPunto3D _tamano);
+	hitbox(igvPunto3D _posicion, igvPunto3D _tamano, int valor);
 
 	float escalarX, escalarY, escalarZ = 0;
 
@@ -26,6 +29,10 @@ public:
 
 	void setEscalarZ(float scale) {
 		this->escalarZ = scale;
+	}
+
+	int getValor() {
+		return valorObjeto;
 	}
 };
 
