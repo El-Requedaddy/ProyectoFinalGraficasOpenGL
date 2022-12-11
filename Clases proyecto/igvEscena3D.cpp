@@ -46,8 +46,7 @@ igvEscena3D::igvEscena3D() {
 		else {
 			valor = 50;
 		}
-		hitbox* h = new hitbox(vectoresPos[numero], igvPunto3D(0.2, 0.2, 0.2), valor);
-		hitboxes.push_back(h);
+		hitboxes.push_back(new hitbox(vectoresPos[numero], igvPunto3D(0.2, 0.2, 0.2), valor));
 	}
 
 	coordenadaInicial.set(hitboxes[0]->posicion.c[0], hitboxes[0]->posicion.c[1], hitboxes[0]->posicion.c[2]);
@@ -81,7 +80,7 @@ igvEscena3D::igvEscena3D() {
 
 	//Se generan los colores para la selección
 	pos_r = 0;
-	int veces_rojo = 1, veces_azul = 1, veces_gris = 19, veces_verde = 1;
+	int veces_rojo = 1, veces_azul = 1, veces_gris = 29, veces_verde = 1;
 	float ac = 1;
 	for (int i = 0; i < veces_rojo; i++) {
 		colores.push_back(1.0);
@@ -111,6 +110,9 @@ igvEscena3D::igvEscena3D() {
 	pos_g = colores.size();
 	ac = 1;
 	for (int i = 0; i < veces_gris; i++) {
+		if (i == 19) {
+			std::cout << colores.size() << std::endl;
+		}
 		colores.push_back(((0.1 * 255) + ac) / 255);
 		colores.push_back(((0.1 * 255) + ac) / 255);
 		colores.push_back(((0.1 * 255) + ac) / 255);
@@ -670,15 +672,7 @@ void igvEscena3D::calculoTrayectoriaPelota(hitbox h1, hitbox h2) {
 		desactivarLanzamientoPelota();
 		animacionPelota = true;
 		int i = buscarHitbox(h2.posicion.c[0], h2.posicion.c[1], h2.posicion.c[2]);
-		if (hitboxes[i]->getValor() == 50) {
-			juego.sumarPuntuacion(hitboxes[i]->getValor());
-		}
-		else if (hitboxes[i]->getValor() == 100) {
-			juego.sumarPuntuacion(hitboxes[i]->getValor());
-		}
-		else if (hitboxes[i]->getValor() == 150){
-			juego.sumarPuntuacion(hitboxes[i]->getValor());
-		}
+		juego.sumarPuntuacion(hitboxes[i]->getValor());
 		hitboxes.erase(hitboxes.begin() + i);
 	}
 
@@ -783,28 +777,32 @@ void igvEscena3D::visualizarVB() {
 		pintar_robot();
 		glPopMatrix();
 		
+		GLfloat colorin[3];
 		//dibujamos los objetos del vector de hitboxes sacando su posicion y aplicando esta misma mediante un translated()
 		for (int i = 0; i < hitboxes.size(); i++) {
 			glPushMatrix();
 			if (hitboxes[i]->getValor() == 50) {
 				GLfloat color[] = { color_azul[0], color_azul[1], color_azul[2] };
-				glMaterialfv(GL_FRONT, GL_EMISSION, color);
-				glColor3fv(color);
+				colorin[0] = color[0];
+				colorin[1] = color[1];
+				colorin[2] = color[2];
 			}
 			else if (hitboxes[i]->getValor() == 100) {
 				GLfloat color[] = { color_naranja[0], color_naranja[1], color_naranja[2] };
-				glMaterialfv(GL_FRONT, GL_EMISSION, color);
-				glColor3fv(color);
+				colorin[0] = color[0];
+				colorin[1] = color[1];
+				colorin[2] = color[2];
 			}
 			else if (hitboxes[i]->getValor() == 150){
 				GLfloat color[] = { color_rojo[0], color_rojo[1], color_rojo[2] };
-				glMaterialfv(GL_FRONT, GL_EMISSION, color);
-				glColor3fv(color);
+				colorin[0] = color[0];
+				colorin[1] = color[1];
+				colorin[2] = color[2];
 			}
 			glTranslated(hitboxes[i]->posicion.c[0], hitboxes[i]->posicion.c[1], hitboxes[i]->posicion.c[2]);
 			glRotated(90, 0, 0, 1);
-			glScaled(0.7, 0.4, 0.4);
-			glutSolidCube(1);
+			glScaled(0.35, 0.2, 0.2);
+			modelos->cubo(colorin);
 			glPopMatrix();
 		}
 
@@ -821,6 +819,7 @@ void igvEscena3D::visualizarVB() {
 		pintar_robotVB();
 		glPopMatrix();*/
 
+		int contGris = 19;
 		glPushMatrix();
 		glRotated(getRotacion(), 0, 1, 0);
 		glPushMatrix();
@@ -842,6 +841,20 @@ void igvEscena3D::visualizarVB() {
 		glScaled(0.2, 0.2, 0.2);
 		pintar_robotVB();
 		glPopMatrix();
+
+		GLfloat colorin[3];
+		//dibujamos los objetos del vector de hitboxes sacando su posicion y aplicando esta misma mediante un translated()
+		for (int i = 0; i < hitboxes.size(); i++) {
+			glPushMatrix();
+			glTranslated(hitboxes[i]->posicion.c[0], hitboxes[i]->posicion.c[1], hitboxes[i]->posicion.c[2]);
+			glRotated(90, 0, 0, 1);
+			glScaled(0.35, 0.2, 0.2);
+			cambia_color(colores, color_grisOscuro, contGris, 3);
+			hitboxes[i]->setColor(color_grisOscuro);
+			modelos->cubo(color_grisOscuro.data());
+			reinicio_colores();
+			glPopMatrix();
+		}
 
 		glPopMatrix();
 	}

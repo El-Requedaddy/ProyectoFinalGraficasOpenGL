@@ -5,6 +5,7 @@ class hitbox {
 
 private:
 	int valorObjeto;
+	std::vector<GLfloat> colorObjeto;
 
 public:
 	igvPunto3D posicion, tamano, velocidad;
@@ -33,6 +34,14 @@ public:
 
 	int getValor() {
 		return valorObjeto;
+	}
+
+	void setColor(std::vector<GLfloat> color) {
+		colorObjeto = color;
+	}
+
+	std::vector<GLfloat> getColor() {
+		return colorObjeto;
 	}
 };
 

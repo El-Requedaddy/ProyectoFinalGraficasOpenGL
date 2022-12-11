@@ -478,6 +478,10 @@ void igvInterfaz::set_glutMotionFunc(GLint x, GLint y) {
 			a = 0;
 		}
 
+		if (a > 21) { //intervalo de colores de objetos a disparar
+			a = 22;
+		}
+
 		switch (a)//se mira que parte del cuerpo se ha seleccionado y se hace la rotación
 		{
 		case 0://cabeza
@@ -580,7 +584,21 @@ void igvInterfaz::set_glutMotionFunc(GLint x, GLint y) {
 				interfaz.escena.setRotacionpie_izq(y - interfaz.cursorY, false);
 			}
 			break;
-
+		case 22: {
+			int aux = 66;
+			for (int i = 0; i < interfaz.escena.getHitboxes().size(); i++) {
+				if (interfaz.escena.get_colores()[aux] == interfaz.escena.getHitboxes()[i]->getColor()[0] &&
+					interfaz.escena.get_colores()[aux + 1] == interfaz.escena.getHitboxes()[i]->getColor()[1] &&
+					interfaz.escena.get_colores()[aux + 2] == interfaz.escena.getHitboxes()[i]->getColor()[2]) {
+					std::cout << "La posicion de la lata es: " << i << "Posicion: " << interfaz.escena.getHitboxes()[i]->posicion.c[0] << ", " << interfaz.escena.getHitboxes()[i]->posicion.c[1] << ", " << interfaz.escena.getHitboxes()[i]->posicion.c[2];
+					std::cout << std::endl;
+					std::cout << interfaz.escena.getHitboxes()[i]->getColor()[0] << ", " << interfaz.escena.getHitboxes()[i]->getColor()[1] << ", " <<
+						interfaz.escena.getHitboxes()[i]->getColor()[2] << std::endl;
+				}
+				aux += 3;
+			}
+		}
+			break;
 		default:
 			break;
 		}
