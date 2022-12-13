@@ -2,10 +2,16 @@
 
 hitbox::hitbox(): 
 	posicion(0.0f, 0.0f, 0.0f), tamano(1.0f, 1.0f, 1.0f), velocidad(0.0f, 0.0f, 0.0f)
-{}
+{
+	t = clock();
+	aux = clock();
+}
 
-hitbox::hitbox(igvPunto3D _posicion, igvPunto3D _tamano, int valor) :
-	posicion(_posicion), tamano(_tamano), valorObjeto(valor) {}
+hitbox::hitbox(igvPunto3D _posicion, igvPunto3D _tamano, int valor, int refresco) :
+	posicion(_posicion), tamano(_tamano), valorObjeto(valor), tiempoRefresco(refresco) {
+	t = clock();
+	aux = clock();
+}
 
 void hitbox::dibujar() {
 	

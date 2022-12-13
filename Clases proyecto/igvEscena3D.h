@@ -17,7 +17,7 @@
 #include<stdlib.h>
 #include<time.h>
 #include "Juego.h"
-
+#include <ctime>
 
 class igvEscena3D {
 protected:
@@ -75,16 +75,31 @@ protected:
 
 	//vector de hitboxes
 	std::vector<hitbox*> hitboxes;
+	hitbox hitboxDestino;
+
 	juego juego;
 
 	//atributos de la trayectoria de la pelota
 	float a;
-	float movementSpeed = 0.01;
+	float movementSpeed = 0.1;
 	float deltaTime = 0.1;
 	igvPunto3D posicionPelota;
 	igvPunto3D coordenadaInicial; //final 
 	igvPunto3D coordenadaFinal;  //inicial
 
+	//aparicion pelota especial
+	int numLatasTiradas;
+	int numeroGolpes;
+	igvPunto3D coordenadasPelotaEspecial;
+	hitbox pelotaEspecial;
+	bool pelotaEspecialActivada;
+	
+	//control de aparición y desaparición de latas determinado por tiempo
+	std::vector<int> posicionesVectorOcupadas;
+	int numMaxLatas;
+	int numLatas;
+	std::vector<hitbox*> hitboxesPendientes; //hitboxes pendientes de dibujar tras renovar latas
+	std::vector<int> hitboxes_a_borrar; //hitboxes pendientes de eliminar
 public:
 
 	// Constructores por defecto y destructor
@@ -510,10 +525,15 @@ public:
 
 	//métodos relacionados con el lanzamiento de la pelota, están explicados en su inplementación en cpp correspondiente
 	std::vector<hitbox*>& getHitboxes() { return hitboxes; }
-	int buscarHitbox(float x, float y, float z);
+	//Se busca la posición en el vector de una hitbox
+	int buscarHitbox(hitbox &h);
+	//Cálculo de la trayectoria de la pelota, se requieren como dos argumentos la hitbox de la pelota en primer lugar y la hitbox del objeto destino en segundo lugar
 	void calculoTrayectoriaPelota(hitbox h1, hitbox h2);
+	//Se activa el lanzamiento de la pelota, desencadenando el lanzamiento
 	void activarLanzamientoPelota() { lanzarPelota = true; }
+	//Se desactiva el lanzamiento de la pelota
 	void desactivarLanzamientoPelota() { lanzarPelota = false; }
+	//Comprobar si la pelota esta en modo lanzamiento o no, se devuelve su estado booleano
 	bool getLanzandoPelota() { return lanzarPelota; }
 
 	//comprobamos colision entre dos objetos, esto se hace llevandolo a un supuesto plano 2d
@@ -523,8 +543,33 @@ public:
 
 		return colisionX && colisionY;
 	}
-	void actualizarCoordenadasPelota(igvPunto3D final, igvPunto3D inicial);
+	//Actualiza la coordenada final destino a la que se lanza la pelota
+	void actualizarCoordenadaFinal(igvPunto3D inicial);
+	//Se rellena un vector de PUNTOS 3D con todas las posiciones posibles de las latas
 	void posicionesObjetos(std::vector<igvPunto3D> &vector);
+	//Devuelve la posicion de la Pelota Especial en forma de PUNTO 3D
+	igvPunto3D posicionPelotaEspecial();
+	//Se cambia la hitbox destino utilizada al comparar hitboxes
+	void setHitboxDestino(hitbox h) {
+		hitboxDestino = h;
+	}
+	
+	void pintarPelotaEspecial();
+
+	hitbox getPelotaEspecial() {
+		return pelotaEspecial;
+	}
+
+	bool estaPelotaEspecial() {
+		return pelotaEspecialActivada;
+	}
+
+	//Sustituimos lata eliminando la pasada de tiempo y encargándonos de guardar la nueva hitbox sustituta en el vector de pendientes para pintar a posterior sin alterar el pintado de objetos
+	void sustituirLata(const int &i);
+	//Método que se encarga de generar los dos parámetros de hitbox que determinan su valor y tiempo de refresco, consta de paso por referencia
+	void asignarValoryTiempoRefresco(int &num, int &valor, int &tiempo, const int &tam);
+	//
+	void determinarColorLata(const int &i, std::vector<float> &colorin);
 };
 
 #endif

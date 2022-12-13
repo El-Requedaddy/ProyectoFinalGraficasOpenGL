@@ -97,6 +97,7 @@ public:
 	//Método para pintar el elemento seleccionado 
 	void pintar_seleccion();
 
+	void Gestion_seleccion_lanzamiento(GLfloat selectR, GLfloat selectG, GLfloat selectB);
 };
 
 #endif

@@ -32,21 +32,25 @@ void igvInterfaz::crear_mundo(void) {
 
 	//p0 = igvPunto3D(6.0, 4.0, 8);
 
-	/*p0 = igvPunto3D(6.0, 4.0, 8);
+	/*p0 = igvPunto3D(-2.5, 4, 3.5);
+	r = igvPunto3D(0.5, 0, -6.3);
+	V = igvPunto3D(0, 1.0, 0);*/
+
+	p0 = igvPunto3D(2, 4, 4);
+	r = igvPunto3D(0.5, 8, -6.3);
+	V = igvPunto3D(0, 1.0, 0);
+
+	/*p0 = igvPunto3D(0.1, 0.1, 0.5);*/
+	/*p0 = igvPunto3D(0.5, 1.5, 5);
 	r = igvPunto3D(0, 0, 0);
 	V = igvPunto3D(0, 1.0, 0);*/
 
-	/*p0 = igvPunto3D(0.1, 0.1, 0.5);*/
-	p0 = igvPunto3D(0.5, 1, 2.5);
-	r = igvPunto3D(0, 0, 0);
-	V = igvPunto3D(0, 1.0, 0);
+	//interfaz.camara.set(IGV_PARALELA, p0, r, V, -1 * 5, 1 * 5, -1 * 5, 1 * 5, -1 * 3, 200);
 
-	interfaz.camara.set(IGV_PARALELA, p0, r, V, -1 * 5, 1 * 5, -1 * 5, 1 * 5, -1 * 3, 200);
-
-	//interfaz.camara.set(IGV_PARALELA, p0, r, V, -1 * 3, 1 * 3, -1 * 3, 1 * 3, 1, 200);
+	interfaz.camara.set(IGV_PERSPECTIVA, p0, r, V, -1 * 3, 1 * 3, -1 * 3, 1 * 3, 1, 200);
 
 	//parámetros de la perspectiva
-	interfaz.camara.angulo = 60;
+	interfaz.camara.angulo = 75;
 	interfaz.camara.raspecto = 1.0;
 }
 
@@ -57,7 +61,7 @@ void igvInterfaz::configura_entorno(int argc, char** argv,
 	// inicialización de las variables de la interfaz																	
 	ancho_ventana = _ancho_ventana;
 	alto_ventana = _alto_ventana;
-	
+
 	// inicialización de la ventana de visualización
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
@@ -93,19 +97,19 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 		interfaz.escena.setRotacion(10);//todo el modelo
 		break;
 	case 'w':
-		interfaz.escena.setRotacion_cabezaY(10,true);//cabeza
+		interfaz.escena.setRotacion_cabezaY(10, true);//cabeza
 		break;
 	case 'W':
-		interfaz.escena.setRotacion_cabezaY(-10,true);//cabeza
+		interfaz.escena.setRotacion_cabezaY(-10, true);//cabeza
 		break;
 	case 'e':
-		interfaz.escena.setRotacion_brazo_sup(10,true);//brazo supp
+		interfaz.escena.setRotacion_brazo_sup(10, true);//brazo supp
 		break;
 	case 'E':
-		interfaz.escena.setRotacion_brazo_sup(-10,true);
+		interfaz.escena.setRotacion_brazo_sup(-10, true);
 		break;
 	case 'r':
-		interfaz.escena.setRotacion_brazo_inf(10,true);//brazo inf
+		interfaz.escena.setRotacion_brazo_inf(10, true);//brazo inf
 		break;
 	case 'R':
 		interfaz.escena.setRotacion_brazo_inf(-10, true);
@@ -127,7 +131,7 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 		break;
 	case 'U':
 		interfaz.escena.setRotaciondedo2(-10, true);
-		break; 
+		break;
 	case 'i':
 		interfaz.escena.setRotaciondedo3(10, true);//dedo3
 		break;
@@ -249,10 +253,10 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 	break;
 	case '6':
 	{
-		interfaz.escena.setPelota(true);
+		/*interfaz.escena.setPelota(true);*/
 		interfaz.escena.activarLanzamientoPelota();
 	}
-		break;
+	break;
 	case '+': // zoom in
 		interfaz.camara.zoom();
 		interfaz.camara.aplicar();
@@ -268,7 +272,25 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 	case 'B': // decrementar la distancia del plano cercano
 		interfaz.camara.restarZnear();
 		interfaz.camara.aplicar();
-		break;		
+		break;
+	case '8': { //Camara hombro derecho
+		igvPunto3D p0, r, v;
+		p0 = igvPunto3D(2, 4, 4);
+		r = igvPunto3D(0.5, 0, -6.3);
+		v = igvPunto3D(0, 1.0, 0);
+		interfaz.camara.set(IGV_PERSPECTIVA, p0, r, v, -1 * 3, 1 * 3, -1 * 3, 1 * 3, 1, 200);
+		interfaz.camara.aplicar();
+	}
+		break;
+	case '9': { //Camara hombro izquierdo
+		igvPunto3D p0, r, v;
+		p0 = igvPunto3D(-2.5, 4, 3.5);
+		r = igvPunto3D(0.5, 0, -6.3);
+		v = igvPunto3D(0, 1.0, 0);
+		interfaz.camara.set(IGV_PERSPECTIVA, p0, r, v, -1 * 3, 1 * 3, -1 * 3, 1 * 3, 1, 200);
+		interfaz.camara.aplicar();
+	}
+		break;
 	case 27: // tecla de escape para SALIR
 		exit(1);
 		break;
@@ -293,69 +315,77 @@ void igvInterfaz::set_glutDisplayFunc() {
 		// se establece el viewport
 	glViewport(0, 0, interfaz.get_ancho_ventana(), interfaz.get_alto_ventana());
 
-		if(interfaz.modo == IGV_SELECCIONAR){
+	if (interfaz.modo == IGV_SELECCIONAR) {
 
-			glDisable(GL_LIGHTING); // desactiva la iluminacion de la escena
-			glDisable(GL_DITHER);
+		glDisable(GL_LIGHTING); // desactiva la iluminacion de la escena
+		glDisable(GL_DITHER);
 
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			glDisable(GL_TEXTURE_2D);
-			glDisable(GL_CULL_FACE);
-			
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glDisable(GL_TEXTURE_2D);
+		glDisable(GL_CULL_FACE);
 
-			//Reinicio de colores
-			interfaz.resetear_colores();
 
-			//Aplico la cámara
-			interfaz.camara.aplicar();
+		//Reinicio de colores
+		interfaz.resetear_colores();
 
-			// visualiza la escena
-			interfaz.escena.visualizarVB();
-			
-			//Leo el pixel seleccionado
-			GLubyte aux[3];
-			glReadPixels(interfaz.cursorX, interfaz.alto_ventana - interfaz.cursorY, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, &aux);
+		//Aplico la cámara
+		interfaz.camara.aplicar();
 
-			//Comparo los colores del vector  con el color del pixel y me quedo con la posición
-			bool fin = false;
-			for (int i = 0; (i < interfaz.escena.get_colores().size()) && !fin; i+=3) { 
-				GLfloat ss = (GLfloat)aux[0];
-				GLfloat s2 = (GLfloat)aux[1];
-				GLfloat s3 = (GLfloat)aux[2];
-				GLfloat l = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i] * 255.0);
-				GLfloat l2 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 1] * 255.0);
-				GLfloat l3 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 2] * 255.0);
-				if (ss == l && s2 == l2 && s3 == l3) {
-					interfaz.objeto_seleccionado = i;
-					fin = true;
+		// visualiza la escena
+		interfaz.escena.visualizarVB();
+
+		//Leo el pixel seleccionado
+		GLubyte aux[3];
+		glReadPixels(interfaz.cursorX, interfaz.alto_ventana - interfaz.cursorY, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, &aux);
+
+		GLfloat ss = (GLfloat)aux[0];
+		GLfloat s2 = (GLfloat)aux[1];
+		GLfloat s3 = (GLfloat)aux[2];
+
+		//Comparo los colores del vector  con el color del pixel y me quedo con la posición
+		bool fin = false;
+		for (int i = 0; (i < interfaz.escena.get_colores().size()) && !fin; i += 3) {
+			GLfloat ss = (GLfloat)aux[0];
+			GLfloat s2 = (GLfloat)aux[1];
+			GLfloat s3 = (GLfloat)aux[2];
+			//std::cout << ss << "-" << s2 << "-" << s3 << std::endl;
+			GLfloat l = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i] * 255.0);
+			GLfloat l2 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 1] * 255.0);
+			GLfloat l3 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 2] * 255.0);
+			if (ss == l && s2 == l2 && s3 == l3) {
+				interfaz.objeto_seleccionado = i;
+				if (i >= 66) {//los objetos 'diana' a los que se le lanzan cosas están a partir de la posición 66
+					interfaz.Gestion_seleccion_lanzamiento(ss, s2, s3);
 				}
-				else {
-					interfaz.objeto_seleccionado = -1; //si los colores no coinciden se marca
-					
-				}
+				fin = true;
 			}
+			else {
+				interfaz.objeto_seleccionado = -1; //si los colores no coinciden se marca
 
-			 //refresca la ventana
-			glutSwapBuffers();
-			
-			//pinto de otro color la parte seleccionada
-			interfaz.pintar_seleccion();
+			}
+		}
 
-			//vuelvo a activar la visualización
-			interfaz.modo = IGV_VISUALIZAR; // tras la selección hay que pulsar click derecho o sino se vuelve al modo selección 
-				
-			//Habilitar de nuevo la iluminación
-			glEnable(GL_LIGHTING);
-		
-		}
-		else {
-			// aplica la cámara
-			interfaz.camara.aplicar();
-			// visualiza la escena
-			interfaz.escena.visualizar();
-			// refresca la ventana
-			glutSwapBuffers();
-		}
+		//pinto de otro color la parte seleccionada
+		interfaz.pintar_seleccion();
+
+		//vuelvo a activar la visualización
+		interfaz.escena.set_modo(false);
+		interfaz.modo = IGV_VISUALIZAR; // tras la selección hay que pulsar click derecho o sino se vuelve al modo selección 
+		glutPostRedisplay();
+		//glutSwapBuffers();
+
+		//Habilitar de nuevo la iluminación
+		glEnable(GL_LIGHTING);
+
+	}
+	else {
+		// aplica la cámara
+		interfaz.camara.aplicar();
+		// visualiza la escena
+		interfaz.escena.visualizar();
+		// refresca la ventana
+		glutSwapBuffers();
+	}
 }
 
 void igvInterfaz::set_glutIdleFunc() {
@@ -376,11 +406,11 @@ void igvInterfaz::set_glutIdleFunc() {
 				else {
 					interfaz.fin_primera_fase = 1;
 				}
-				
+
 			}
-			
+
 		}
-		if(interfaz.fin_primera_fase == 1){ //fase 1 = bajar brazo
+		if (interfaz.fin_primera_fase == 1) { //fase 1 = bajar brazo
 
 			if (interfaz.escena.getRotacion2_brazo_sup() < -205) {
 				interfaz.escena.setRotacion2_brazo_sup(1, true);
@@ -397,44 +427,50 @@ void igvInterfaz::set_glutIdleFunc() {
 				}
 				else {
 					interfaz.fin_primera_fase = 2;
+
+					//cuando la animacion se completa, se reinicia y la pelota procede a ser lanzada
+					interfaz.escena.activarLanzamientoPelota();
+					interfaz.animar = false;
+					interfaz.resetear();
 				}
-				
-				
+
+
 			}
 
 		}
 
-		if (interfaz.fin_primera_fase == 2) {
-			if (interfaz.escena.getRotacion_cabezaY() < 30) {//bajo cabeza
-				interfaz.escena.setRotacion_cabezaY(1,true);
-			}
-			if (interfaz.escena.getRotacionpierna_sup() < 70 ) { //subo pierna hasta limite
-				interfaz.escena.setRotacionpierna_sup(1, true);
-			}
-			else {
-				//cuando ya este arriba la pierna_sup empiezo a subir la pierna inf y pie
-				if (interfaz.escena.getRotacionpierna_inf() < 40) {
-					interfaz.escena.setRotacionpierna_inf(1, true);
-					interfaz.escena.setRotacionpie(1, true);
-				}
-				else {
-					interfaz.fin_primera_fase = 3; //indico que la fase de subida de la pierna ha finalizado
-				}
-			}
-		}
-		//bajo la pierna
-		if(interfaz.fin_primera_fase == 3 ) {
-			interfaz.escena.setRotacionpierna_sup(-1, true);
-			interfaz.escena.setRotacionpierna_inf(-1, true);
-			if (interfaz.escena.getRotacionpie() < 0) {
-				interfaz.escena.setRotacionpie(-1, true);
-			}
-			
-			interfaz.escena.setRotacion_cabezaY(-0.7,true);
-		}
+		//if (interfaz.fin_primera_fase == 2) {
+		//	if (interfaz.escena.getRotacion_cabezaY() < 30) {//bajo cabeza
+		//		interfaz.escena.setRotacion_cabezaY(1, true);
+		//	}
+		//	if (interfaz.escena.getRotacionpierna_sup() < 70) { //subo pierna hasta limite
+		//		interfaz.escena.setRotacionpierna_sup(1, true);
+		//	}
+		//	else {
+		//		//cuando ya este arriba la pierna_sup empiezo a subir la pierna inf y pie
+		//		if (interfaz.escena.getRotacionpierna_inf() < 40) {
+		//			interfaz.escena.setRotacionpierna_inf(1, true);
+		//			interfaz.escena.setRotacionpie(1, true);
+		//		}
+		//		else {
+		//			interfaz.fin_primera_fase = 3; //indico que la fase de subida de la pierna ha finalizado
+		//		}
+		//	}
+		//}
+		////bajo la pierna
+		//if (interfaz.fin_primera_fase == 3) {
+		//	interfaz.escena.setRotacionpierna_sup(-1, true);
+		//	interfaz.escena.setRotacionpierna_inf(-1, true);
+		//	if (interfaz.escena.getRotacionpie() < 0) {
+		//		interfaz.escena.setRotacionpie(-1, true);
+		//	}
+
+		//	interfaz.escena.setRotacion_cabezaY(-0.7, true);
+		//}
+
 		glutPostRedisplay();
 	}
-	
+
 }
 //Método que reinicializa a las posiciones originales(solo aquellas que son modificadas por la animación)
 void igvInterfaz::resetear() {
@@ -446,7 +482,7 @@ void igvInterfaz::resetear() {
 	interfaz.escena.setRotacionpierna_sup(-interfaz.escena.getRotacionpierna_sup(), true);
 	interfaz.escena.setRotacionpierna_inf(-interfaz.escena.getRotacionpierna_inf(), true);
 	interfaz.escena.setRotacionpie(-interfaz.escena.getRotacionpie(), true);
-	interfaz.escena.setRotacion_cabezaY(-interfaz.escena.getRotacion_cabezaY(),true);
+	interfaz.escena.setRotacion_cabezaY(-interfaz.escena.getRotacion_cabezaY(), true);
 	interfaz.fin_primera_fase = 0;
 	glutPostRedisplay();
 
@@ -465,8 +501,8 @@ void igvInterfaz::set_glutMouseFunc(GLint boton, GLint estado, GLint x, GLint y)
 		interfaz.cursorX = x;
 		interfaz.cursorY = y;
 	}
-
-	glutSwapBuffers();
+	//glutSwapBuffers();
+	glutPostRedisplay();
 }
 
 void igvInterfaz::set_glutMotionFunc(GLint x, GLint y) {
@@ -478,16 +514,12 @@ void igvInterfaz::set_glutMotionFunc(GLint x, GLint y) {
 			a = 0;
 		}
 
-		if (a > 21) { //intervalo de colores de objetos a disparar
-			a = 22;
-		}
-
 		switch (a)//se mira que parte del cuerpo se ha seleccionado y se hace la rotación
 		{
 		case 0://cabeza
 			interfaz.escena.setRotacion_cabezaX(x + 90);//La rotación en x no tiene limitaciones
 			if (y - interfaz.cursorY > -40 && y - interfaz.cursorY < 40) {//limitación de movimiento
-				interfaz.escena.setRotacion_cabezaY(y - interfaz.cursorY,false);
+				interfaz.escena.setRotacion_cabezaY(y - interfaz.cursorY, false);
 			}
 			break;
 		case 4://brazo superior
@@ -495,7 +527,7 @@ void igvInterfaz::set_glutMotionFunc(GLint x, GLint y) {
 				interfaz.escena.setRotacion2_brazo_sup(y - interfaz.cursorY, false);
 			}
 			if (x - interfaz.cursorX > 0 && x - interfaz.cursorX < 180) {
-				interfaz.escena.setRotacion_brazo_sup(x - interfaz.cursorX,false);
+				interfaz.escena.setRotacion_brazo_sup(x - interfaz.cursorX, false);
 			}
 			break;
 		case 5: //brazo inferio
@@ -584,21 +616,6 @@ void igvInterfaz::set_glutMotionFunc(GLint x, GLint y) {
 				interfaz.escena.setRotacionpie_izq(y - interfaz.cursorY, false);
 			}
 			break;
-		case 22: {
-			int aux = 66;
-			for (int i = 0; i < interfaz.escena.getHitboxes().size(); i++) {
-				if (interfaz.escena.get_colores()[aux] == interfaz.escena.getHitboxes()[i]->getColor()[0] &&
-					interfaz.escena.get_colores()[aux + 1] == interfaz.escena.getHitboxes()[i]->getColor()[1] &&
-					interfaz.escena.get_colores()[aux + 2] == interfaz.escena.getHitboxes()[i]->getColor()[2]) {
-					std::cout << "La posicion de la lata es: " << i << "Posicion: " << interfaz.escena.getHitboxes()[i]->posicion.c[0] << ", " << interfaz.escena.getHitboxes()[i]->posicion.c[1] << ", " << interfaz.escena.getHitboxes()[i]->posicion.c[2];
-					std::cout << std::endl;
-					std::cout << interfaz.escena.getHitboxes()[i]->getColor()[0] << ", " << interfaz.escena.getHitboxes()[i]->getColor()[1] << ", " <<
-						interfaz.escena.getHitboxes()[i]->getColor()[2] << std::endl;
-				}
-				aux += 3;
-			}
-		}
-			break;
 		default:
 			break;
 		}
@@ -684,6 +701,50 @@ void igvInterfaz::pintar_seleccion() {
 
 		interfaz.escena.set_modo(false);
 	}
+}
+
+void igvInterfaz::Gestion_seleccion_lanzamiento(GLfloat selectR, GLfloat selectG, GLfloat selectB) {
+	int aux = 66;
+	for (int i = 0; i < interfaz.escena.getHitboxes().size(); i++) {
+		GLfloat p = (GLfloat)(GLubyte)(interfaz.escena.getHitboxes()[i]->getColor()[0] * 255);
+		GLfloat p2 = (GLfloat)(GLubyte)(interfaz.escena.getHitboxes()[i]->getColor()[1] * 255);
+		GLfloat p3 = (GLfloat)(GLubyte)(interfaz.escena.getHitboxes()[i]->getColor()[2] * 255);
+		if (selectR == p && selectG == p2 && selectB == p3) {
+			//----------------------------------------------------------------------------------
+			std::cout << "La posicion de la lata es: " << i << "Posicion: " << interfaz.escena.getHitboxes()[i]->posicion.c[0] << ", " << interfaz.escena.getHitboxes()[i]->posicion.c[1] << ", " << interfaz.escena.getHitboxes()[i]->posicion.c[2];
+			std::cout << std::endl;
+			std::cout << interfaz.escena.getHitboxes()[i]->getColor()[0] << ", " << interfaz.escena.getHitboxes()[i]->getColor()[1] << ", " <<
+				interfaz.escena.getHitboxes()[i]->getColor()[2] << std::endl;
+			interfaz.escena.setHitboxDestino(*interfaz.escena.getHitboxes()[i]);
+
+			//comprobamos que la pelota no está en plena trayectoria en el momento y en caso de no estarlo podemos activar lanzamiento
+			if (!interfaz.escena.getLanzandoPelota()) {
+				interfaz.animar = true;
+			}
+			
+			//------------------------------------------------------------------------------------
+		}
+		aux += 3;
+	}
+
+	if (interfaz.escena.estaPelotaEspecial()) {
+		GLfloat p = (GLfloat)(GLubyte)(interfaz.escena.getPelotaEspecial().getColor()[0] * 255);
+		GLfloat p2 = (GLfloat)(GLubyte)(interfaz.escena.getPelotaEspecial().getColor()[1] * 255);
+		GLfloat p3 = (GLfloat)(GLubyte)(interfaz.escena.getPelotaEspecial().getColor()[2] * 255);
+
+
+		if (selectR == p && selectG == p2 && selectB == p3) {
+			interfaz.escena.setHitboxDestino(interfaz.escena.getPelotaEspecial());
+			interfaz.animar = true;
+		}
+	}
+	//detectar si es pelota especial y actuar de acorde a esta
+	
+	//--------------------------------------------------------
+
+	//glutPostRedisplay();  SI TOCAS ALGO QUE AFECTE A LA VISUALIZACIÓN PON ESTE MÉTODO
+
+	//------------------------------------------------------------------------------
 }
 
 void igvInterfaz::inicializa_callbacks() {
