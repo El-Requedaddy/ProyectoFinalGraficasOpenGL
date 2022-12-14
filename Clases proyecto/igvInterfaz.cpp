@@ -314,6 +314,8 @@ void igvInterfaz::set_glutDisplayFunc() {
 		if(interfaz.modo == IGV_SELECCIONAR){
 
 			glDisable(GL_LIGHTING); // desactiva la iluminacion de la escena
+			/*glDisable(GL_LIGHT0);
+			glDisable(GL_LIGHT1);*/
 			glDisable(GL_DITHER);
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -364,7 +366,7 @@ void igvInterfaz::set_glutDisplayFunc() {
 			interfaz.modo = IGV_VISUALIZAR; // tras la selección hay que pulsar click derecho o sino se vuelve al modo selección 
 			//interfaz.escena.visualizar();
 			glutPostRedisplay();
-				
+			//glutSwapBuffers();
 			//Habilitar de nuevo la iluminación
 			glEnable(GL_LIGHTING);
 		
