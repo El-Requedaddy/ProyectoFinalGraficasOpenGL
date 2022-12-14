@@ -60,7 +60,7 @@ void Modelos::esfera(GLfloat color_esfera[]) {
 }
 
 void Modelos::cubo(GLfloat color_cubo[]) {
-	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, color_cubo);
+	glMaterialfv(GL_FRONT, GL_EMISSION, color_cubo);
 	glColor3fv(color_cubo);
 	glPushMatrix();
 	glTranslated(-1, -1, -1);
