@@ -3,6 +3,4 @@
 
 juego::juego() {
 	puntuacion = 0;
-	t = clock();
-	aux = clock();
 }

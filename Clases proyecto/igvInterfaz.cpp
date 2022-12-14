@@ -36,18 +36,24 @@ void igvInterfaz::crear_mundo(void) {
 	r = igvPunto3D(0.5, 0, -6.3);
 	V = igvPunto3D(0, 1.0, 0);*/
 
+	//ACTIVAR ESTA PARA FUNCIONAMIENTO INTENCIONADO DEL JUEGO
 	p0 = igvPunto3D(2, 4, 4);
 	r = igvPunto3D(0.5, 8, -6.3);
 	V = igvPunto3D(0, 1.0, 0);
+
+	/*p0 = igvPunto3D(2, 3, 4);
+	r = igvPunto3D(0.5, 8, -6.3);
+	V = igvPunto3D(0, 1.0, 0);*/
 
 	/*p0 = igvPunto3D(0.1, 0.1, 0.5);*/
 	/*p0 = igvPunto3D(0.5, 1.5, 5);
 	r = igvPunto3D(0, 0, 0);
 	V = igvPunto3D(0, 1.0, 0);*/
 
-	//interfaz.camara.set(IGV_PARALELA, p0, r, V, -1 * 5, 1 * 5, -1 * 5, 1 * 5, -1 * 3, 200);
+	interfaz.camara.set(IGV_PARALELA, p0, r, V, -1 * 5, 1 * 5, -1 * 5, 1 * 5, -1 * 3, 200);
 
-	interfaz.camara.set(IGV_PERSPECTIVA, p0, r, V, -1 * 3, 1 * 3, -1 * 3, 1 * 3, 1, 200);
+	//ACTIVAR ESTA PARA FUNCIONAMIENTO INTENCIONADO DEL JUEGO
+	//interfaz.camara.set(IGV_PERSPECTIVA, p0, r, V, -1 * 3, 1 * 3, -1 * 3, 1 * 3, 1, 200);
 
 	//parámetros de la perspectiva
 	interfaz.camara.angulo = 75;
@@ -91,10 +97,10 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 		interfaz.escena.set_ejes(interfaz.escena.get_ejes() ? false : true);
 		break;
 	case 'Q':
-		interfaz.escena.setRotacion(-10);//todo el modelo
+		interfaz.escena.IniciarPartida();
 		break;
 	case 'q':
-		interfaz.escena.setRotacion(10);//todo el modelo
+		interfaz.escena.acabarPartida();
 		break;
 	case 'w':
 		interfaz.escena.setRotacion_cabezaY(10, true);//cabeza

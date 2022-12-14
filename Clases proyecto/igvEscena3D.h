@@ -81,7 +81,7 @@ protected:
 
 	//atributos de la trayectoria de la pelota
 	float a;
-	float movementSpeed = 0.1;
+	float movementSpeed = 0.2;
 	float deltaTime = 0.1;
 	igvPunto3D posicionPelota;
 	igvPunto3D coordenadaInicial; //final 
@@ -95,12 +95,28 @@ protected:
 	bool pelotaEspecialActivada;
 	
 	//control de aparición y desaparición de latas determinado por tiempo
-	std::vector<int> posicionesVectorOcupadas;
+	bool posicionesVectorOcupadas[48]; //posiciones ocupadas, a partir del indice 30 las posiciones son de las latas || Tamaño real es 48
 	int numMaxLatas;
 	int numLatas;
 	std::vector<hitbox*> hitboxesPendientes; //hitboxes pendientes de dibujar tras renovar latas
 	std::vector<int> hitboxes_a_borrar; //hitboxes pendientes de eliminar
+
+	int segundos1; //Variable para controlar los segundos que pasan para pintar latas periodicamente en la estanteria
+	int segundos2; //Variable para controlar los segundos que pasan para pintar latas periodicamente
+	int segundos3;
+
+	bool finPartida = true;
+	bool iniciarPartida = false;
 public:
+
+	void IniciarPartida() {
+		iniciarPartida = true;
+		finPartida = false;
+	}
+
+	void acabarPartida() {
+		finPartida = true;
+	}
 
 	// Constructores por defecto y destructor
 	igvEscena3D();
@@ -523,7 +539,22 @@ public:
 		return posicionPelota;
 	}
 
+	//Se cambia la hitbox destino utilizada al comparar hitboxes
+	void setHitboxDestino(hitbox h) {
+		hitboxDestino = h;
+	}
+
+	hitbox getPelotaEspecial() {
+		return pelotaEspecial;
+	}
+
+	bool estaPelotaEspecial() {
+		return pelotaEspecialActivada;
+	}
+
 	//métodos relacionados con el lanzamiento de la pelota, están explicados en su inplementación en cpp correspondiente
+
+	//Devuelve el vector de hitboxes
 	std::vector<hitbox*>& getHitboxes() { return hitboxes; }
 	//Se busca la posición en el vector de una hitbox
 	int buscarHitbox(hitbox &h);
@@ -535,41 +566,21 @@ public:
 	void desactivarLanzamientoPelota() { lanzarPelota = false; }
 	//Comprobar si la pelota esta en modo lanzamiento o no, se devuelve su estado booleano
 	bool getLanzandoPelota() { return lanzarPelota; }
-
-	//comprobamos colision entre dos objetos, esto se hace llevandolo a un supuesto plano 2d
-	bool detectarColisiones(hitbox h1, hitbox h2) {
-		bool colisionX = h1.posicion.c[0] + h1.tamano.c[0] >= h2.posicion.c[0] && h2.posicion.c[0] + h2.tamano.c[0] >= h1.posicion.c[0];
-		bool colisionY = h1.posicion.c[2] + h1.tamano.c[2] >= h2.posicion.c[2] && h2.posicion.c[2] + h2.tamano.c[2] >= h1.posicion.c[2];
-
-		return colisionX && colisionY;
-	}
+	//Comprobamos colision entre dos objetos, esto se hace llevandolo a un supuesto plano 2d
+	bool detectarColisiones(const hitbox &h1, hitbox &h2);
 	//Actualiza la coordenada final destino a la que se lanza la pelota
-	void actualizarCoordenadaFinal(igvPunto3D inicial);
+	void actualizarCoordenadaFinal(const igvPunto3D &inicial);
 	//Se rellena un vector de PUNTOS 3D con todas las posiciones posibles de las latas
 	void posicionesObjetos(std::vector<igvPunto3D> &vector);
-	//Devuelve la posicion de la Pelota Especial en forma de PUNTO 3D
 	igvPunto3D posicionPelotaEspecial();
-	//Se cambia la hitbox destino utilizada al comparar hitboxes
-	void setHitboxDestino(hitbox h) {
-		hitboxDestino = h;
-	}
-	
-	void pintarPelotaEspecial();
-
-	hitbox getPelotaEspecial() {
-		return pelotaEspecial;
-	}
-
-	bool estaPelotaEspecial() {
-		return pelotaEspecialActivada;
-	}
-
 	//Sustituimos lata eliminando la pasada de tiempo y encargándonos de guardar la nueva hitbox sustituta en el vector de pendientes para pintar a posterior sin alterar el pintado de objetos
 	void sustituirLata(const int &i);
-	//Método que se encarga de generar los dos parámetros de hitbox que determinan su valor y tiempo de refresco, consta de paso por referencia
-	void asignarValoryTiempoRefresco(int &num, int &valor, int &tiempo, const int &tam);
-	//
+	//Se determina el color de la lata en funcion de su puntuacion. Se almacena el color por referencia
 	void determinarColorLata(const int &i, std::vector<float> &colorin);
+	//Crea una lata de modo que se añade al vector de hitboxes
+	void crearLata();
+	//
+	void asignarLatasIniciales();
 };
 
 #endif

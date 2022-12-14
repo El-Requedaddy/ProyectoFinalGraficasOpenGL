@@ -35,35 +35,14 @@ igvEscena3D::igvEscena3D() {
 	pelotaEspecial.posicion = coordenadasPelotaEspecial;
 	pelotaEspecialActivada = false;
 
+	segundos1 = 10;
+	segundos2 = 15;
+	segundos3 = 5;
+
 	//creamos vector que contiene todas las posiciones posibles de los objetos en la escena
-	std::vector<igvPunto3D> vectoresPos;
-	posicionesObjetos(vectoresPos);
+	/*asignarLatasIniciales();*/
 
-	//creamos hitboxes que contendran informacion sobre los objetos
-	//generamos de las posiciones posibles, 10 de ellas para añadir a las hitboxes
-	int tiempoRef;
-	srand(time(NULL));
-	for (int i = 0; i < 10; i++) {
-		int numero = rand() % vectoresPos.size();
-		int valor = rand() % 11;
-		if (valor == 6) {
-			valor = 150;
-			tiempoRef = 20 + rand() % (25 - 15);
-		}
-		else if (valor == 3 || valor == 1) {
-			valor = 100;
-			tiempoRef = 30 + rand() % (40 - 25);
-		}
-		else {
-			valor = 50;
-			tiempoRef = 40 + rand() % (50 - 30);
-		}
-		hitboxes.push_back(new hitbox(vectoresPos[numero], igvPunto3D(0.2, 0.2, 0.2), valor, tiempoRef));
-	}
-
-	numLatas = hitboxes.size();
-
-	coordenadaInicial.set(hitboxes[0]->posicion.c[0], hitboxes[0]->posicion.c[1], hitboxes[0]->posicion.c[2]);
+	/*coordenadaInicial.set(hitboxes[0]->posicion.c[0], hitboxes[0]->posicion.c[1], hitboxes[0]->posicion.c[2]);*/
 	/*coordenadaInicial.set(0, 2, 0);*/
 	coordenadaFinal.set(0, 2.5, 2);
 	//coordenadaFinal.set(getRobotX() + 1, getRobotY() + 2.9, getRobotZ() + 4);
@@ -94,7 +73,7 @@ igvEscena3D::igvEscena3D() {
 
 	//Se generan los colores para la selección
 	pos_r = 0;
-	int veces_rojo = 1, veces_azul = 1, veces_gris = 31, veces_verde = 1;
+	int veces_rojo = 1, veces_azul = 1, veces_gris = 48, veces_verde = 1;
 	float ac = 1;
 	for (int i = 0; i < veces_rojo; i++) {
 		colores.push_back(1.0);
@@ -698,9 +677,11 @@ void igvEscena3D::calculoTrayectoriaPelota(hitbox h1, hitbox h2) {
 		}
 		else { //en caso de no ser la pelota especial el objeto destino, se procede de forma normal, se busca la hitox en el vector y se elimina su puntero
 			int i = buscarHitbox(h2);
-			juego.sumarPuntuacion(hitboxes[i]->getValor());
-			hitboxes.erase(hitboxes.begin() + i);
-			numLatasTiradas++;
+			if (i != -1) {
+				juego.sumarPuntuacion(hitboxes[i]->getValor());
+				hitboxes.erase(hitboxes.begin() + i);
+				numLatasTiradas++;
+			}
 		}
 		desactivarLanzamientoPelota();
 		animacionPelota = true;
@@ -803,6 +784,16 @@ void igvEscena3D::visualizarVB() {
 		modelos->Mostrador();
 		glPopMatrix();
 
+		/*glPushMatrix();
+		GLfloat color[] = { color_azul[0], color_azul[1], color_azul[2] };
+		glMaterialfv(GL_FRONT, GL_EMISSION, color);
+		glColor3fv(color);
+		glTranslated(-6, 1.11, -3.5);
+		glRotated(90, 0, 0, 1);
+		glScaled(0.35, 0.2, 0.2);
+		glutSolidCube(2);
+		glPopMatrix();*/
+
 		glPushMatrix();
 		glTranslated(0, 1.5, 2);
 		glRotated(180, 0, 1, 0);
@@ -810,70 +801,95 @@ void igvEscena3D::visualizarVB() {
 		pintar_robot();
 		glPopMatrix();
 
-		GLfloat colorin[3];
-		std::vector<float> colorinAux;
-		//dibujamos los objetos del vector de hitboxes sacando su posicion y aplicando esta misma mediante un translated()
-		for (int i = 0; i < hitboxes.size(); i++) {
-			if (hitboxes[i]->pasadoDeTiempo()) {
-				sustituirLata(i); //dado que la lata ha excedido su tiempo deber ser eliminada y traer una nueva en consecuencia
+		if (iniciarPartida) {
+			asignarLatasIniciales(); 
+			iniciarPartida = false;
+			juego.iniciarReloj();
+			numLatas = hitboxes.size();
+		}
+
+		if (!finPartida) {
+			GLfloat colorin[3];
+			std::vector<float> colorinAux;
+			//dibujamos los objetos del vector de hitboxes sacando su posicion y aplicando esta misma mediante un translated()
+			for (int i = 0; i < hitboxes.size(); i++) {
+				if (hitboxes[i]->pasadoDeTiempo()) {
+					sustituirLata(i); //dado que la lata ha excedido su tiempo deber ser eliminada y traer una nueva en consecuencia
+				}
+				else {
+					glPushMatrix();
+					colorinAux.clear();
+					determinarColorLata(i, colorinAux);
+					colorin[0] = colorinAux[0];
+					colorin[1] = colorinAux[1];
+					colorin[2] = colorinAux[2];
+					glTranslated(hitboxes[i]->posicion.c[0], hitboxes[i]->posicion.c[1], hitboxes[i]->posicion.c[2]);
+					glRotated(90, 0, 0, 1);
+					glScaled(0.35, 0.2, 0.2);
+					modelos->cubo(colorin);
+					glPopMatrix();
+				}
 			}
-			else {
+			glutPostRedisplay();
+
+			if (hitboxes_a_borrar.size() > 0) { //borrar hitboxes cuyo tiempo ha expirado
+				for (int i = 0; i < hitboxes_a_borrar.size(); i++) {
+					hitboxes.erase(hitboxes.begin() + hitboxes_a_borrar[i]);
+				}
+			}
+
+			hitboxes_a_borrar.clear();
+
+			if (hitboxesPendientes.size() > 0) {
+				for (int i = 0; i < hitboxesPendientes.size(); i++) {
+					hitboxes.push_back(hitboxesPendientes[i]);
+				}
+			}
+
+			hitboxesPendientes.clear();
+
+			actualizarCoordenadaFinal(hitboxDestino.posicion);
+			//si la pelota se lanza, la trayectoria se va calculando y aplicando en cada frame
+			if (getLanzandoPelota()) {
 				glPushMatrix();
-				colorinAux.clear();
-				determinarColorLata(i, colorinAux);
-				colorin[0] = colorinAux[0];
-				colorin[1] = colorinAux[1];
-				colorin[2] = colorinAux[2];
-				glTranslated(hitboxes[i]->posicion.c[0], hitboxes[i]->posicion.c[1], hitboxes[i]->posicion.c[2]);
-				glRotated(90, 0, 0, 1);
-				glScaled(0.35, 0.2, 0.2);
-				modelos->cubo(colorin);
+				calculoTrayectoriaPelota(h1, hitboxDestino);
 				glPopMatrix();
 			}
-		}
-		glutPostRedisplay();
 
-		if (hitboxes_a_borrar.size() > 0) { //borrar hitboxes cuyo tiempo ha expirado
-			for (int i = 0; i < hitboxes_a_borrar.size(); i++) {
-				hitboxes.erase(hitboxes.begin() + hitboxes_a_borrar[i]);
+			//generacion pelota grande con vida(necesita varios golpes para ser rota)
+			/*srand(time(NULL));*/
+			/*int numero = rand() % 15;*/
+			std::cout << "Segundos: " << juego.getTiempoTranscurrido() << std::endl;
+			if (juego.getTiempoTranscurrido() > 15 && numeroGolpes < 5) { //numLatasTiradas >= 3 && numeroGolpes < 5
+				glPushMatrix();
+				pelotaEspecialActivada = true;
+				/*Sphere esfera;
+				esfera.setRadius(0.8);*/
+				glMaterialfv(GL_FRONT, GL_EMISSION, color_naranja.data());
+				glColor3fv(color_naranja.data());
+				glTranslated(coordenadasPelotaEspecial.c[0], coordenadasPelotaEspecial.c[1], coordenadasPelotaEspecial.c[2]);
+				/*esfera.setSectorCount(10);
+				esfera.draw();*/
+				glutSolidSphere(1.2, 12, 12);
+				glPopMatrix();
 			}
-		}		
 
-		hitboxes_a_borrar.clear();
-
-		if (hitboxesPendientes.size() > 0) {
-			for (int i = 0; i < hitboxesPendientes.size(); i++) {
-				hitboxes.push_back(hitboxesPendientes[i]);
+			if (juego.getTiempoTranscurrido() > segundos1) {
+				segundos1 += 10;
+				crearLata();
 			}
-		}
 
-		hitboxesPendientes.clear();
+			/*if (juego.getTiempoTranscurrido() > segundos2) {
+				segundos2 += 10;
+				crearLata();
+			}
 
-		actualizarCoordenadaFinal(hitboxDestino.posicion);
-		//si la pelota se lanza, la trayectoria se va calculando y aplicando en cada frame
-		if (getLanzandoPelota()) {
-			glPushMatrix();
-			calculoTrayectoriaPelota(h1, hitboxDestino);
-			glPopMatrix();
+			if (juego.getTiempoTranscurrido() > segundos3) {
+				segundos3 += 15;
+				crearLata();
+			}*/
 		}
-
-		//generacion pelota grande con vida(necesita varios golpes para ser rota)
-		/*srand(time(NULL));*/
-		/*int numero = rand() % 15;*/
-		std::cout << "Segundos: " << juego.getTiempoTranscurrido() << std::endl;
-		if (juego.getTiempoTranscurrido() > 15 && numeroGolpes < 5) { //numLatasTiradas >= 3 && numeroGolpes < 5
-			glPushMatrix();
-			pelotaEspecialActivada = true;
-			/*Sphere esfera;
-			esfera.setRadius(0.8);*/
-			glMaterialfv(GL_FRONT, GL_EMISSION, color_naranja.data());
-			glColor3fv(color_naranja.data());
-			glTranslated(coordenadasPelotaEspecial.c[0], coordenadasPelotaEspecial.c[1], coordenadasPelotaEspecial.c[2]);
-			/*esfera.setSectorCount(10);
-			esfera.draw();*/
-			glutSolidSphere(1.8, 12, 12);
-			glPopMatrix();
-		}
+		
 
 		glPopMatrix();
 	}
@@ -933,7 +949,7 @@ void igvEscena3D::visualizarVB() {
 			glTranslated(coordenadasPelotaEspecial.c[0], coordenadasPelotaEspecial.c[1], coordenadasPelotaEspecial.c[2]);
 			/*esfera.setSectorCount(10);
 			esfera.draw();*/
-			glutSolidSphere(1.8, 12, 12);
+			glutSolidSphere(1.2, 12, 12);
 			reinicio_colores();
 			glPopMatrix();
 		}
@@ -977,11 +993,11 @@ int igvEscena3D::buscarHitbox(hitbox &h) {
 		}
 	}
 
-	return 0;
+	return -1;
 
 }
 
-void igvEscena3D::actualizarCoordenadaFinal(igvPunto3D inicial) {
+void igvEscena3D::actualizarCoordenadaFinal(const igvPunto3D &inicial) {
 	coordenadaInicial = inicial;
 }
 
@@ -1017,6 +1033,24 @@ void igvEscena3D::posicionesObjetos(std::vector<igvPunto3D>& vector) {
 	igvPunto3D aux28(1.5, 2.3, -6.3);
 	igvPunto3D aux29(2, 2.3, -6.3);
 	igvPunto3D aux30(2.5, 2.3, -6.3);
+	igvPunto3D aux31(5, 1.11, -4);
+	igvPunto3D aux32(5, 1.11, -5);
+	igvPunto3D aux33(5, 1.11, -2);
+	igvPunto3D aux34(5, 1.11, -1);
+	igvPunto3D aux35(6.5, 1.11, -2.5);
+	igvPunto3D aux36(6.5, 1.11, -3.7);
+	igvPunto3D aux37(6.5, 1.11, -4.8);
+	igvPunto3D aux38(6.5, 1.11, -5.5);
+	igvPunto3D aux39(6.5, 1.11, -6.5);
+	igvPunto3D aux40(-5, 1.11, -6.5);
+	igvPunto3D aux41(-5, 1.11, -5.5);
+	igvPunto3D aux42(-5, 1.11, -4.8);
+	igvPunto3D aux43(-5, 1.11, -3.7);
+	igvPunto3D aux44(-5, 1.11, -2.5);
+	igvPunto3D aux45(-6, 1.11, -3.5);
+	igvPunto3D aux46(-6, 1.11, -4.8);
+	igvPunto3D aux47(-6, 1.11, -5.5);
+	igvPunto3D aux48(-6, 1.11, -6.5);
 
 	vector.push_back(aux1);
 	vector.push_back(aux2);
@@ -1048,6 +1082,24 @@ void igvEscena3D::posicionesObjetos(std::vector<igvPunto3D>& vector) {
 	vector.push_back(aux28);
 	vector.push_back(aux29);
 	vector.push_back(aux30);
+	vector.push_back(aux31);
+	vector.push_back(aux32);
+	vector.push_back(aux33);
+	vector.push_back(aux34);
+	vector.push_back(aux35);
+	vector.push_back(aux36);
+	vector.push_back(aux37);
+	vector.push_back(aux38);
+	vector.push_back(aux39);
+	vector.push_back(aux40);
+	vector.push_back(aux41);
+	vector.push_back(aux42);
+	vector.push_back(aux43);
+	vector.push_back(aux44);
+	vector.push_back(aux45);
+	vector.push_back(aux46);
+	vector.push_back(aux47);
+	vector.push_back(aux48);
 }
 
 //se selecciona una posicion de la pelota especial al azar por cada golpe que reciba la misma
@@ -1086,29 +1138,77 @@ void igvEscena3D::sustituirLata(const int& i) {
 	std::vector<igvPunto3D> vectoresPos;
 	posicionesObjetos(vectoresPos);
 
+	//Elimino del vector donde indico que posiciones han sido tomadas
+	for (int x = 0; x < vectoresPos.size(); x++) { 
+		for (int j = 0; j < hitboxes.size(); j++) {
+			if (hitboxes[j]->posicion == vectoresPos[x]) {
+				posicionesVectorOcupadas[x] = false;
+			}
+		}
+	}
+
 	hitboxes_a_borrar.push_back(i);
 
-	int tiempoRef;
-	int numero = rand() % vectoresPos.size();
-	int valor = rand() % 11;
-	if (valor == 6) {
-		valor = 150;
-		tiempoRef = 20 + rand() % (25 - 15);
-	}
-	else if (valor == 3 || valor == 1) {
-		valor = 100;
-		tiempoRef = 30 + rand() % (40 - 25);
-	}
-	else {
-		valor = 50;
-		tiempoRef = 40 + rand() % (50 - 30);
-	}
 
-	hitboxesPendientes.push_back(new hitbox(vectoresPos[numero], igvPunto3D(0.2, 0.2, 0.2), valor, tiempoRef));
+
+	int aux = 1;
+	int tiempoRef;
+
+	//Aqui se saca una nueva hitbox que dejamos en un vector de espera para no afectar al procesamiento de las latas ya existentes
+	for (int i = 0; i < aux; i++) {
+		int numero = rand() % vectoresPos.size();
+		int valor = rand() % 11;
+		if (posicionesVectorOcupadas[numero]) {
+			aux++;
+		}
+		else {
+			if (valor == 6 || valor == 2) {
+				valor = 150;
+				tiempoRef = 10 + rand() % (20 - 10);
+			}
+			else if (valor == 3 || valor == 1 || valor == 7) {
+				valor = 100;
+				tiempoRef = 25 + rand() % (40 - 25);
+			}
+			else {
+				valor = 50;
+				tiempoRef = 30 + rand() % (50 - 30);
+			}
+			posicionesVectorOcupadas[numero] = true;
+			hitboxesPendientes.push_back(new hitbox(vectoresPos[numero], igvPunto3D(0.2, 0.2, 0.2), valor, tiempoRef));
+		}
+	}
 }
 
-void igvEscena3D::asignarValoryTiempoRefresco(int &num, int& valor, int& tiempo, const int &tam) {
-	
+void igvEscena3D::crearLata() {
+	std::vector<igvPunto3D> vectoresPos;
+	posicionesObjetos(vectoresPos);
+	int aux = 1;
+	int tiempoRef;
+
+	for (int i = 0; i < aux; i++) {
+		int numero = rand() % vectoresPos.size();
+		int valor = rand() % 11;
+		if (posicionesVectorOcupadas[numero]) {
+			aux++;
+		}
+		else {
+			if (valor == 6 || valor == 2) {
+				valor = 150;
+				tiempoRef = 10 + rand() % (20 - 10);
+			}
+			else if (valor == 3 || valor == 1 || valor == 7) {
+				valor = 100;
+				tiempoRef = 25 + rand() % (40 - 25);
+			}
+			else {
+				valor = 50;
+				tiempoRef = 30 + rand() % (50 - 30);
+			}
+			posicionesVectorOcupadas[numero] = true;
+			hitboxes.push_back(new hitbox(vectoresPos[numero], igvPunto3D(0.2, 0.2, 0.2), valor, tiempoRef));
+		}
+	}
 }
 
 void igvEscena3D::determinarColorLata(const int &i, std::vector<float> &colorin) {
@@ -1131,4 +1231,45 @@ void igvEscena3D::determinarColorLata(const int &i, std::vector<float> &colorin)
 			colorin.push_back(color[2]);
 		}
 	
+}
+
+bool igvEscena3D::detectarColisiones(const hitbox& h1, hitbox& h2) {
+	bool colisionX = h1.posicion.c[0] + h1.tamano.c[0] >= h2.posicion.c[0] && h2.posicion.c[0] + h2.tamano.c[0] >= h1.posicion.c[0];
+	bool colisionY = h1.posicion.c[2] + h1.tamano.c[2] >= h2.posicion.c[2] && h2.posicion.c[2] + h2.tamano.c[2] >= h1.posicion.c[2];
+
+	return colisionX && colisionY;
+}
+
+void igvEscena3D::asignarLatasIniciales() {
+	std::vector<igvPunto3D> vectoresPos;
+	posicionesObjetos(vectoresPos);
+
+	//creamos hitboxes que contendran informacion sobre los objetos
+	//generamos de las posiciones posibles, 10 de ellas para añadir a las hitboxes
+	int tiempoRef;
+	srand(time(NULL));
+	int aux = 10;
+	for (int i = 0; i < aux; i++) {
+		int numero = rand() % vectoresPos.size();
+		int valor = rand() % 11;
+		if (posicionesVectorOcupadas[numero]) {
+			aux++;
+		}
+		else {
+			if (valor == 6 || valor == 2) {
+				valor = 150;
+				tiempoRef = 10 + rand() % (20 - 10);
+			}
+			else if (valor == 3 || valor == 1 || valor == 7) {
+				valor = 100;
+				tiempoRef = 25 + rand() % (40 - 25);
+			}
+			else {
+				valor = 50;
+				tiempoRef = 30 + rand() % (50 - 30);
+			}
+			posicionesVectorOcupadas[numero] = true;
+			hitboxes.push_back(new hitbox(vectoresPos[numero], igvPunto3D(0.2, 0.2, 0.2), valor, tiempoRef));
+		}
+	}
 }

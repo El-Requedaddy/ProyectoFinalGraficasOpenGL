@@ -20,5 +20,8 @@ public:
 		return float(aux) / CLOCKS_PER_SEC;
 	}
 
-
+	void iniciarReloj() {
+		t = clock();
+		aux = clock();
+	}
 };
