@@ -52,7 +52,7 @@ protected:
 	std::vector<GLfloat> color_marron;
 	std::vector<GLfloat> color_naranja;
 
-	int pos_r, pos_a, pos_v, pos_g;
+	int pos_r, pos_a, pos_v, pos_g, pos_juego;
 	// Otros atributos		
 	bool ejes;
 	Modelos* modelos;
@@ -95,9 +95,7 @@ protected:
 	bool pelotaEspecialActivada;
 	
 	//control de aparición y desaparición de latas determinado por tiempo
-	bool posicionesVectorOcupadas[48]; //posiciones ocupadas, a partir del indice 30 las posiciones son de las latas || Tamaño real es 48
-	int numMaxLatas;
-	int numLatas;
+	 //posiciones ocupadas, a partir del indice 30 las posiciones son de las latas || Tamaño real es 48
 	std::vector<hitbox*> hitboxesPendientes; //hitboxes pendientes de dibujar tras renovar latas
 	std::vector<int> hitboxes_a_borrar; //hitboxes pendientes de eliminar
 
@@ -111,7 +109,7 @@ public:
 
 	void IniciarPartida() {
 		iniciarPartida = true;
-		finPartida = false;
+		finPartida = false;															
 	}
 
 	void acabarPartida() {
@@ -503,30 +501,6 @@ public:
 		return trasZrobot;
 	};
 
-	void setxTras(float a) {
-		trasX += a;
-	};
-
-	void setyTras(float a) {
-		trasY += a;
-	};
-
-	void setzTras(float a) {
-		trasZ += a;
-	};
-
-	void setxRot(float a) {
-		rotX += a;
-	};
-
-	void setyRot(float a) {
-		rotY += a;
-	};
-
-	void setzRot(float a) {
-		rotZ += a;
-	};
-
 	void setPelota(bool animado) {
 		animacionPelota = animado;
 	}
@@ -570,17 +544,30 @@ public:
 	bool detectarColisiones(const hitbox &h1, hitbox &h2);
 	//Actualiza la coordenada final destino a la que se lanza la pelota
 	void actualizarCoordenadaFinal(const igvPunto3D &inicial);
-	//Se rellena un vector de PUNTOS 3D con todas las posiciones posibles de las latas
-	void posicionesObjetos(std::vector<igvPunto3D> &vector);
-	igvPunto3D posicionPelotaEspecial();
 	//Sustituimos lata eliminando la pasada de tiempo y encargándonos de guardar la nueva hitbox sustituta en el vector de pendientes para pintar a posterior sin alterar el pintado de objetos
 	void sustituirLata(const int &i);
 	//Se determina el color de la lata en funcion de su puntuacion. Se almacena el color por referencia
 	void determinarColorLata(const int &i, std::vector<float> &colorin);
 	//Crea una lata de modo que se añade al vector de hitboxes
 	void crearLata();
-	//
+	//Inicializa las latas y les asigna sus atributos requeridos
 	void asignarLatasIniciales();
+	//Se procesan las colisiones cuando se impacta con una lata u objeto y se procede con su desenlace
+	void procesarColisiones(const hitbox &h1, hitbox h2);
+	//Se interpola la trayectoria que va siguiendo la pelota de modo que se pueda alcanzar el objeto seleccionado
+	void interpolacionTrayectoria(hitbox &h1, hitbox &h2);
+
+	//Toda la creación de latas, sustitución y demás es llevado a cabo en este método
+	void gestionarLatasEventos();
+	//Toda la creación y asignación de pelota especial se lleva en este método
+	void gestionarPelotaEspecialEventos();
+	//Controla la aparición periódica de pelotas dentro de la escena
+	void spawnPelotas();
+
+	//Toda la creación de latas, sustitución y demás en la selección es llevado a cabo en este método 
+	void gestionarLatasEventosVB();
+	//Toda la creación y asignación en la selección de pelota especial se lleva en este método
+	void gestionarPelotaEspecialEventosVB();
 };
 
 #endif

@@ -403,11 +403,11 @@ void igvInterfaz::set_glutIdleFunc() {
 
 		if (interfaz.fin_primera_fase == 0) { //fase 0 = subir brazo
 			if (interfaz.escena.getRotacion2_brazo_sup() > -220) {
-				interfaz.escena.setRotacion2_brazo_sup(-1, true);
+				interfaz.escena.setRotacion2_brazo_sup(-2, true);
 			}
 			else {
 				if (interfaz.escena.getRotacion_brazo_inf() != -90) {
-					interfaz.escena.setRotacion_brazo_inf(-1, true);
+					interfaz.escena.setRotacion_brazo_inf(-2, true);
 				}
 				else {
 					interfaz.fin_primera_fase = 1;
@@ -419,17 +419,17 @@ void igvInterfaz::set_glutIdleFunc() {
 		if (interfaz.fin_primera_fase == 1) { //fase 1 = bajar brazo
 
 			if (interfaz.escena.getRotacion2_brazo_sup() < -205) {
-				interfaz.escena.setRotacion2_brazo_sup(1, true);
+				interfaz.escena.setRotacion2_brazo_sup(2, true);
 			}
 			else {
 				if (interfaz.escena.getRotacion2_brazo_sup() < -110) {
-					interfaz.escena.setRotacion2_brazo_sup(1, true);
+					interfaz.escena.setRotacion2_brazo_sup(2, true);
 				}
 				if (interfaz.escena.getRotacion_brazo_inf() < 0) {
-					interfaz.escena.setRotacion_brazo_inf(0.8, true);
-					interfaz.escena.setRotaciondedo1(1, true);
-					interfaz.escena.setRotaciondedo2(-1, true);
-					interfaz.escena.setRotaciondedo3(1, true);
+					interfaz.escena.setRotacion_brazo_inf(1.6, true);
+					interfaz.escena.setRotaciondedo1(2, true);
+					interfaz.escena.setRotaciondedo2(-2, true);
+					interfaz.escena.setRotaciondedo3(2, true);
 				}
 				else {
 					interfaz.fin_primera_fase = 2;
@@ -717,16 +717,14 @@ void igvInterfaz::Gestion_seleccion_lanzamiento(GLfloat selectR, GLfloat selectG
 		GLfloat p3 = (GLfloat)(GLubyte)(interfaz.escena.getHitboxes()[i]->getColor()[2] * 255);
 		if (selectR == p && selectG == p2 && selectB == p3) {
 			//----------------------------------------------------------------------------------
-			std::cout << "La posicion de la lata es: " << i << "Posicion: " << interfaz.escena.getHitboxes()[i]->posicion.c[0] << ", " << interfaz.escena.getHitboxes()[i]->posicion.c[1] << ", " << interfaz.escena.getHitboxes()[i]->posicion.c[2];
+			/*std::cout << "La posicion de la lata es: " << i << "Posicion: " << interfaz.escena.getHitboxes()[i]->posicion.c[0] << ", " << interfaz.escena.getHitboxes()[i]->posicion.c[1] << ", " << interfaz.escena.getHitboxes()[i]->posicion.c[2];
 			std::cout << std::endl;
 			std::cout << interfaz.escena.getHitboxes()[i]->getColor()[0] << ", " << interfaz.escena.getHitboxes()[i]->getColor()[1] << ", " <<
-				interfaz.escena.getHitboxes()[i]->getColor()[2] << std::endl;
+				interfaz.escena.getHitboxes()[i]->getColor()[2] << std::endl;*/
 			interfaz.escena.setHitboxDestino(*interfaz.escena.getHitboxes()[i]);
 
 			//comprobamos que la pelota no está en plena trayectoria en el momento y en caso de no estarlo podemos activar lanzamiento
-			if (!interfaz.escena.getLanzandoPelota()) {
 				interfaz.animar = true;
-			}
 			
 			//------------------------------------------------------------------------------------
 		}
