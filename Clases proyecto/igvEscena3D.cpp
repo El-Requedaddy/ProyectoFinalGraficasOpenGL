@@ -7,7 +7,7 @@
 // Metodos constructores 
 
 igvEscena3D::igvEscena3D() {
-	ejes = true;
+	ejes = false;
 	modelos = new Modelos();
 	// Apartado C: inicializar los atributos para el control de los grados de libertad del modelo 
 	rotacion_cabezaY = 0;
@@ -29,6 +29,11 @@ igvEscena3D::igvEscena3D() {
 
 	X = 0;
 	Y = 0;
+	SetAng_foco(6);
+	SetExp_foco(40);
+	SetGB_dif(0.8);
+	GB_esp = 0.8;
+	foco_activo = false;
 
 	coordenadaInicial.set(0, -4, 0);
 	coordenadaFinal.set(getRobotX() + 1, getRobotY() + 2.9, getRobotZ() + 4);
@@ -655,27 +660,42 @@ void igvEscena3D::visualizar() {
 	//glLightfv(GL_LIGHT0, GL_POSITION, luz0); // la luz se coloca aquí si permanece fija y no se mueve con la escena
 	//glEnable(GL_LIGHT0);
 
+	//LUZ PUNTUAL
 	igvPunto3D pos(-2.0, 6.0, 5.0);
-	igvColor amb(0.0, 0.0, 0.0, 1.0);
-	igvColor dif(1.0, 1.0, 1.0, 1.0);
-	igvColor esp(1.0, 1.0, 1.0, 1.0);
-
-	igvFuenteLuz luz(GL_LIGHT0, pos, amb, dif, esp, 1.0, 0.0, 0.0);
+	igvColor amb(0.5, 0.5, 0.5, 1.0);
+	igvColor dif(0.7, 0.7, 0.7, 1.0);
+	igvColor esp(0.8, 0.8, 0.8, 1.0);
+	igvFuenteLuz luz(GL_LIGHT0, pos, amb, dif, esp, 1.0, 0.0, 0.0,false);
 	luz.aplicar();
 
-	  igvPunto3D pos_f(X,Y,5);
-	  igvColor amb_f(0.0, 0.0, 0.0, 1.0);
-	  igvColor dif_f(0.8, 0.8, 0.8, 1.0);
-	  igvColor esp_f(1.0, 1.0, 1.0, 1.0);
-	  igvPunto3D dirF_f(0,0,-1);
-	  igvFuenteLuz foco(GL_LIGHT1, pos_f, amb_f, dif_f, esp_f, 1, 0, 0, dirF_f,7, 40);
-	  foco.aplicar();
+	//LUZ FOCO
+	igvPunto3D pos_f(X, Y ,5);
+	igvColor amb_f(0, 0.0, 0.0, 1.0);
+	igvColor dif_f(0, GetGB_dif(), GetGB_dif(), 1.0);
+	igvColor esp_f(0, GB_esp, GB_esp, 1.0);
+	igvPunto3D dirF_f(0,0,-1);
+	igvFuenteLuz foco(GL_LIGHT1, pos_f, amb_f, dif_f, esp_f, 1, 0, 0, dirF_f,GetAng_foco(), GetExp_foco(),false);
+	if (!foco_activo) {
+		foco.apagar();
+		foco.aplicar();
+	}
+	else {
+		foco.encender();
+		foco.aplicar();
+	}
+	  
+	//LUZ DIRECCIONAL
+	igvPunto3D pos_d(0, 1.5, -5);
+	igvColor amb_d(0.7, 0.7, 0.7, 1.0);
+	igvColor dif_d(0.8, 0.8, 0.8, 1.0);
+	igvColor esp_d(0.5, 0.5, 0.5, 1.0);
+	igvFuenteLuz direccional(GL_LIGHT2, pos_d, amb_d, dif_d, esp_d, 1, 0, 0, true);
+	direccional.aplicar();
 
-	//// crear el modelo
-	//glPushMatrix(); // guarda la matriz de modelado
-	//// se pintan los ejes
-	//if (ejes) pintar_ejes();
-	//glPopMatrix();
+	glPushMatrix();
+	// se pintan los ejes
+	if (ejes) pintar_ejes();
+	glPopMatrix();
 
 	glPushMatrix();
 	visualizarVB();
@@ -729,42 +749,16 @@ void igvEscena3D::visualizar2() {
 
 void igvEscena3D::visualizarVB() {
 	if (!modo_act) {
-		//modelos->visualizar();
-		//glPushMatrix();
-		//glShadeModel(GL_SMOOTH);
-		//igvColor ambM(0.1, 0.1, 0.1);
-		//igvColor difM(0.7, 0.7, 0.7);
-		//igvColor espM(1, 1, 1);
-		//igvMaterial material(ambM, difM, espM, 80);
-		//material.aplicar();
-		////glTranslated(0, -1, -6);
-		////glScaled(2,2,2);
-		//pintar_robot();
-		////modelos->cubo(color_grisOscuro.data());
-		//glPopMatrix();
-		//
-		//glPushMatrix();
-		//igvColor ambM2(0.1, 0.1, 0.1, 1);
-		//igvColor difM2(Y, 0.0, 0.0, 1);
-		//igvColor espM2(0.5, 0.0, 0.0, 1);
-		//igvMaterial material2(ambM2, difM2, espM2, 120);
-		//material2.aplicar();
-		////glScaled(2, 2, 2);
-		//modelos->cubo(color_grisOscuro.data());
-		//glPopMatrix();
-		//pintar_robot();
-		//glPushMatrix();
-		//glRotated(getRotacion(), 0, 1, 0);
-		
-			
+		glPushMatrix();
 
-			glPushMatrix();
 			glShadeModel(GL_SMOOTH);
 			igvColor ambMo(0.1, 0.1, 0.1);
 			igvColor difMo(0.5, 0.5, 0.5);
 			igvColor espMo(0.3, 0.3, 0.3);
 			igvMaterial material2(ambMo, difMo, espMo, 90);
 			material2.aplicar();
+
+			glPushMatrix();
 			glScaled(1, 0.4, 1);
 			modelos->Mostrador();
 			glPopMatrix();
@@ -772,7 +766,7 @@ void igvEscena3D::visualizarVB() {
 			glShadeModel(GL_SMOOTH);
 			igvColor ambM(0.1, 0.1, 0.1);
 			igvColor difM(0.7, 0.7, 0.7);
-			igvColor espM(1, 1, 1);
+			igvColor espM(0.8, 0.8, 0.8);
 			igvMaterial material(ambM, difM, espM, 80);
 			material.aplicar();
 
@@ -783,7 +777,6 @@ void igvEscena3D::visualizarVB() {
 			glPopMatrix();
 
 			glPushMatrix();
-			
 			glTranslated(0, 0, 2);
 			glRotated(180, 0, 1, 0);
 			glScaled(0.2, 0.2, 0.2);
@@ -799,24 +792,24 @@ void igvEscena3D::visualizarVB() {
 		glPopMatrix();*/
 		
 		glPushMatrix();
-		glRotated(getRotacion(), 0, 1, 0);
-		glPushMatrix();
-		glTranslated(-2, 1, -6.5);
-		glScaled(0.5, 0.5, 0.5);
-		modelos->Estanteria();
-		glPopMatrix();
 
-		glPushMatrix();
-		glScaled(1, 0.4, 1);
-		modelos->Mostrador();
-		glPopMatrix();
+			glPushMatrix();
+			glTranslated(-2, 1, -6.5);
+			glScaled(0.5, 0.5, 0.5);
+			modelos->Estanteria();
+			glPopMatrix();
 
-		glPushMatrix();
-		glTranslated(0, 0, 2);
-		glRotated(180, 0, 1, 0);
-		glScaled(0.2, 0.2, 0.2);
-		pintar_robotVB();
-		glPopMatrix();
+			glPushMatrix();
+			glScaled(1, 0.4, 1);
+			modelos->Mostrador();
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslated(0, 0, 2);
+			glRotated(180, 0, 1, 0);
+			glScaled(0.2, 0.2, 0.2);
+			pintar_robotVB();
+			glPopMatrix();
 
 		glPopMatrix();
 	}
@@ -827,16 +820,13 @@ void igvEscena3D::pintar_todo() {
 	glPushMatrix();
 	glRotated(getRotacion(), 0, 1, 0);
 		glPushMatrix();
-		//glRotated(getRotacion(), 0, 1, 0);
 		glTranslated(-2,1,-6.5);
 		glScaled(0.5, 0.5, 0.5);
 		modelos->Estanteria();
 		glPopMatrix();
 
 		glPushMatrix();
-		//glRotated(getRotacion(), 0, 1, 0);
 		glScaled(1, 0.4, 1);
-		//modelos->visualizar();
 		modelos->Mostrador();
 		glPopMatrix();
 

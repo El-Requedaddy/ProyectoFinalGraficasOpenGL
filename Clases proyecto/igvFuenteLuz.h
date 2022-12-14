@@ -17,6 +17,7 @@ class igvFuenteLuz {
 	protected:
 		// Atributos
 		unsigned int idLuz; // identificador de la luz (GL_LIGHT0 a GL_LIGHT7)
+		bool direccional; // atributo que indica si es una luza direccional o no.
 
     igvPunto3D posicion; // posición de la luz
 
@@ -46,14 +47,14 @@ class igvFuenteLuz {
 		igvFuenteLuz(const unsigned int _idLuz,
 			           const igvPunto3D & _posicion,
 			           const igvColor & cAmb, const igvColor & cDif, const igvColor & cEsp,
-								 const double a0, const double a1, const double a2);
+								 const double a0, const double a1, const double a2, bool es_direccional);
 
 		// foco
 		igvFuenteLuz(const unsigned int _idLuz,
 			           const igvPunto3D & _posicion,
 			           const igvColor& cAmb, const igvColor& cDif, const igvColor& cEsp,
 								 const double a0, const double a1, const double a2,
-								 const igvPunto3D& dir_foco, const double ang_foco, const double exp_foco);
+								 const igvPunto3D& dir_foco, const double ang_foco, const double exp_foco, bool es_direccional);
 
 		// Metodos
 		igvPunto3D & getPosicion(void); // devuelve la posición de la luz

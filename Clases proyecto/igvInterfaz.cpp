@@ -102,126 +102,49 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 	case 'q':
 		interfaz.escena.setRotacion(10);//todo el modelo
 		break;
-	case 'w':
-		interfaz.escena.setRotacion_cabezaY(10,true);//cabeza
+
+		//---------------------------------GESTIÓN DE LUCES-------------------------------
+
+	case 'w': // Aumentar ángulo de foco
+		if(interfaz.escena.GetAng_foco() + 3 <= 90) // límites que tiene el ángulo según la teoría
+			interfaz.escena.SetAng_foco(3);
 		break;
-	case 'W':
-		interfaz.escena.setRotacion_cabezaY(-10,true);//cabeza
+	case 'W': //Disminuir ángulo de foco
+		if (interfaz.escena.GetAng_foco() - 3 >= 0)
+			interfaz.escena.SetAng_foco(-3);;
 		break;
-	case 'e':
-		interfaz.escena.setRotacion_brazo_sup(10,true);//brazo supp
+	case 'e': //aumentar´Exponente
+		if (interfaz.escena.GetExp_foco() + 2 <= 179) //  límites que tiene el ángulo según la teoría
+			interfaz.escena.SetExp_foco(2);
 		break;
-	case 'E':
-		interfaz.escena.setRotacion_brazo_sup(-10,true);
+	case 'E': //diminuir exponente
+		if (interfaz.escena.GetExp_foco() - 2 >= 0)
+			interfaz.escena.SetExp_foco(-2);;//cabeza
 		break;
-	case 'r':
-		interfaz.escena.setRotacion_brazo_inf(10,true);//brazo inf
+	case 'r': //aumentar G y B de refleción difusa
+		if (interfaz.escena.GetGB_dif() + 0.1 <= 1.0) 
+			interfaz.escena.SetGB_dif(0.1);
 		break;
-	case 'R':
-		interfaz.escena.setRotacion_brazo_inf(-10, true);
+	case 'R': //disminuir G y B de refleción difusa
+		if (interfaz.escena.GetGB_dif() - 0.1 >= 0.0)
+			interfaz.escena.SetGB_dif(-0.1);
 		break;
-	case 't':
-		interfaz.escena.setRotacionMuneca(10, true);//muñeca
+	case 't': //aumentar G y B de refleción especular
+		if (interfaz.escena.GetGB_esp() + 0.1 <= 1.0)
+			interfaz.escena.SetGB_esp(0.1);
 		break;
-	case 'T':
-		interfaz.escena.setRotacionMuneca(-10, true);
+	case 'T': //disminuir G y B de refleción especular
+		if (interfaz.escena.GetGB_esp() - 0.1 >= 0.0)
+			interfaz.escena.SetGB_esp(-0.1);
 		break;
-	case 'y':
-		interfaz.escena.setRotaciondedo1(10, true);//dedo1
+	case 'y': //Apagar/Encender foco
+		interfaz.escena.SetFoco_activo(interfaz.escena.GetFoco_activo() ? false : true);
 		break;
-	case 'Y':
-		interfaz.escena.setRotaciondedo1(-10, true);
+	case 'Y': //Apagar/Encender foco
+		interfaz.escena.SetFoco_activo(interfaz.escena.GetFoco_activo() ? false : true);
 		break;
-	case 'u':
-		interfaz.escena.setRotaciondedo2(10, true);//dedo2
-		break;
-	case 'U':
-		interfaz.escena.setRotaciondedo2(-10, true);
-		break; 
-	case 'i':
-		interfaz.escena.setRotaciondedo3(10, true);//dedo3
-		break;
-	case 'I':
-		interfaz.escena.setRotaciondedo3(-10, true);
-		break;
-	case 'o':
-		interfaz.escena.setRotacionpierna_sup(10, true);//pierna_sup
-		break;
-	case 'O':
-		interfaz.escena.setRotacionpierna_sup(-10, true);
-		break;
-	case 'p':
-		interfaz.escena.setRotacionpierna_inf(10, true);//pierna_inf
-		break;
-	case 'P':
-		interfaz.escena.setRotacionpierna_inf(-10, true);
-		break;
-	case 'm':
-		interfaz.escena.setRotacionpie(10, true);//pie
-		break;
-	case 'M':
-		interfaz.escena.setRotacionpie(-10, true);
-		break;
-	case 's':
-		interfaz.escena.setRotacion_brazo_sup_izq(10, true);//brazo supp
-		break;
-	case 'S':
-		interfaz.escena.setRotacion_brazo_sup_izq(-10, true);
-		break;
-	case 'd':
-		interfaz.escena.setRotacion_brazo_inf_izq(10, true);//brazo inf
-		break;
-	case 'D':
-		interfaz.escena.setRotacion_brazo_inf_izq(-10, true);
-		break;
-	case 'f':
-		interfaz.escena.setRotacionMunecaIzq(10, true);//muñeca
-		break;
-	case 'F':
-		interfaz.escena.setRotacionMunecaIzq(-10, true);
-		break;
-	case 'g':
-		interfaz.escena.setRotaciondedo4(10, true);//dedo1
-		break;
-	case 'G':
-		interfaz.escena.setRotaciondedo4(-10, true);
-		break;
-	case 'h':
-		interfaz.escena.setRotaciondedo5(10, true);//dedo2
-		break;
-	case 'H':
-		interfaz.escena.setRotaciondedo5(-10, true);
-		break;
-	case 'j':
-		interfaz.escena.setRotaciondedo6(10, true);//dedo3
-		break;
-	case 'J':
-		interfaz.escena.setRotaciondedo6(-10, true);
-		break;
-	case 'k':
-		interfaz.escena.setRotacion2_brazo_sup(10, true);//rotacion2_brazo_sup
-		break;
-	case 'K':
-		interfaz.escena.setRotacion2_brazo_sup(-10, true);
-		break;
-	case 'l':
-		interfaz.escena.setRotacionpierna_sup_izq(10, true);
-		break;
-	case 'L':
-		interfaz.escena.setRotacionpierna_sup_izq(-10, true);
-		break;
-	case '<':
-		interfaz.escena.setRotacionpierna_inf_izq(10, true);
-		break;
-	case '>':
-		interfaz.escena.setRotacionpierna_inf_izq(-10, true);
-		break;
-	case 'z':
-		interfaz.escena.setRotacionpie_izq(10, true);
-		break;
-	case 'Z':
-		interfaz.escena.setRotacionpie_izq(-10, true);
-		break;
+	//--------------------------------------GESTIÓN ANIMACIÓN------------------------------------------------------------------------
+	
 	case 'a':
 		if (interfaz.animar) interfaz.animar = false;
 		else
@@ -230,6 +153,9 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 	case 'n':
 		interfaz.resetear();
 		break;
+
+		//-------------------------------------GESTIÓN CÁMARA---------------------------------------------------------
+
 	case '1': // cambia el tipo de proyección de paralela a perspectiva y viceversa
 		interfaz.camara.setTipoCamara(IGV_PERSPECTIVA);
 		interfaz.camara.aplicar();

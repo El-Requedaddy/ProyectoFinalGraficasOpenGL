@@ -20,9 +20,11 @@
 #include "igvMaterial.h"
 class igvEscena3D {
 protected:
+	//Atributos de luces
+	float ang_foco, exp_foco, GB_dif, GB_esp; 
+	float X, Y;
+	bool foco_activo;
 
-	float X;
-	float Y;
 	////// Apartado C: añadir quí los atributos para el control de los grados de libertad del modelo
 	float rotacionModeloCompleto;
 	float rotacion_cabezaY;
@@ -86,10 +88,6 @@ protected:
 	igvPunto3D coordenadaFinal;
 
 public:
-	float GetX() const { return X; }
-	void SetX(float val) { X += val; }
-	float GetY() const { return Y; }
-	void SetY(float val) { Y += val; }
 	// Constructores por defecto y destructor
 	igvEscena3D();
 	~igvEscena3D();
@@ -450,10 +448,26 @@ public:
 		}
 	}
 
-	
+	//------------------------------MODIFICADORES DE ASPECTOS DE LAS LUCES------------------------------------
+
+	//Gestión posición de foco
+	float GetX() const { return X; }
+	void SetX(float val) { X += val; }
+	float GetY() const { return Y; }
+	void SetY(float val) { Y += val; }
+
+	float GetAng_foco() const { return ang_foco; }
+	void SetAng_foco(float val) { ang_foco += val; }
+	float GetExp_foco() const { return exp_foco; }
+	void SetExp_foco(float val) { exp_foco += val; }
+	float GetGB_dif() const { return GB_dif; }
+	void SetGB_dif(float val) { GB_dif += val; }
+	float GetGB_esp() const { return GB_esp; }
+	void SetGB_esp(float val) { GB_esp += val; }
+
 	bool get_ejes() { return ejes; };
 	void set_ejes(bool _ejes) { ejes = _ejes; };
-
+	//-----------------------------------------------------------------------------------------------------------------
 
 	//métodos movimiento robot
 	void setxRobot(float a) {
@@ -519,6 +533,11 @@ public:
 	void desactivarLanzamientoPelota() { lanzarPelota = false; }
 	bool getLanzandoPelota() { return lanzarPelota; }
 	float clamp(float v, float lo, float hi);
+
+
+
+	bool GetFoco_activo() const { return foco_activo; }
+	void SetFoco_activo(bool val) { foco_activo = val; }
 };
 
 #endif

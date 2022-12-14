@@ -8,7 +8,7 @@ igvFuenteLuz::igvFuenteLuz() {
 igvFuenteLuz::igvFuenteLuz(const unsigned int _idLuz,
 													 const igvPunto3D  & _posicion,
 													 const igvColor & cAmb, const igvColor & cDif, const igvColor & cEsp,
-													 const double a0, const double a1, const double a2) {
+													 const double a0, const double a1, const double a2, bool es_direccional) {
 
   idLuz = _idLuz;
 														 
@@ -28,13 +28,15 @@ igvFuenteLuz::igvFuenteLuz(const unsigned int _idLuz,
 	exponente_foco = 0;
 
 	encendida = true;
+
+	direccional = es_direccional;
 }
 
 igvFuenteLuz::igvFuenteLuz(const unsigned int _idLuz,
 			                     const igvPunto3D & _posicion, 
 			                     const igvColor& cAmb, const igvColor& cDif, const igvColor& cEsp,
 								           const double a0, const double a1, const double a2,
-													 const igvPunto3D& dir_foco, const double ang_foco, const double exp_foco) {
+													 const igvPunto3D& dir_foco, const double ang_foco, const double exp_foco, bool es_direccional) {
 
   idLuz = _idLuz;
 														 
@@ -53,6 +55,8 @@ igvFuenteLuz::igvFuenteLuz(const unsigned int _idLuz,
 	exponente_foco = exp_foco;
 
 	encendida = true;
+
+	direccional = es_direccional;
 }
 
 // Metodos publicos ----------------------------------------
@@ -134,8 +138,15 @@ void igvFuenteLuz::aplicar(void) {
 //	desactivar la luz
 	if (esta_encendida()) {
 		glEnable(idLuz);
-		GLfloat aux[] = { posicion.c[0], posicion.c[1], posicion.c[2], 1 };
-		glLightfv(idLuz, GL_POSITION, aux);
+		if (!direccional) {
+			GLfloat puntual[] = { posicion.c[0], posicion.c[1], posicion.c[2], 1 };
+			glLightfv(idLuz, GL_POSITION, puntual);
+		}
+		else {
+			GLfloat direc[] = { posicion.c[0], posicion.c[1], posicion.c[2], 0 };
+			glLightfv(idLuz, GL_POSITION, direc);
+		}
+		
 		glLightfv(idLuz, GL_AMBIENT, colorAmbiente.cloneToFloatArray());
 		glLightfv(idLuz, GL_DIFFUSE, colorDifuso.cloneToFloatArray());
 		glLightfv(idLuz, GL_SPECULAR, colorEspecular.cloneToFloatArray());
@@ -143,8 +154,6 @@ void igvFuenteLuz::aplicar(void) {
 		glLightf(idLuz, GL_LINEAR_ATTENUATION, (GLfloat)aten_a1);
 		glLightf(idLuz, GL_QUADRATIC_ATTENUATION, (GLfloat)aten_a2);
 		glLightfv(idLuz, GL_SPOT_DIRECTION, direccion_foco.cloneToFloatArray());
-		//glLightf(idLuz, GL_SPOT_DIRECTION, angulo_foco);
-		//glLightf(idLuz, GL_SPOT_DIRECTION,exponente_foco);
 		glLightf(idLuz, GL_SPOT_CUTOFF, angulo_foco);
 		glLightf(idLuz, GL_SPOT_EXPONENT, exponente_foco);
 	}
