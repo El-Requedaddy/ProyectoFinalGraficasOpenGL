@@ -16,6 +16,7 @@ class igvTextura {
 
 	protected:
 		// Atributos
+		SDL_Surface* imagen;
 		unsigned int idTextura; // identificador de la textura
 		unsigned int alto,  // alto de la textura
 			           ancho; // ancho de la textura
@@ -28,6 +29,8 @@ class igvTextura {
 		~igvTextura();
 
 		// Metodos
+		void vaciar_imagen();
+		void pre_aplicar(); //Establece los parámetros de textura en opengl
 		void aplicar(void); //Establece la textura como la activa
 		void setIdTextura(unsigned int id) { this->idTextura = id;}
 		unsigned int getIdTextura() { return this->idTextura; }

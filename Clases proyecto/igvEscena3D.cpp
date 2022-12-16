@@ -99,13 +99,12 @@ igvEscena3D::igvEscena3D() {
 		colores.push_back(((0.1 * 255) + ac) / 255);
 		ac += 1;
 	}
-	
-	std::string j = "\madera2.jpg";
-	text = new igvTextura(&j[0]);
+
 }
 
 igvEscena3D::~igvEscena3D() {
 	delete modelos;
+	
 }
 
 // Metodos publicos 
@@ -765,15 +764,16 @@ void igvEscena3D::visualizarVB() {
 			igvMaterial material2(ambMo, difMo, espMo, 90);
 			material2.aplicar();
 
-			glEnable(GL_TEXTURE_2D);
+			//glEnable(GL_TEXTURE_2D);
 			//std::string j = "\madera2.jpg";
 			//igvTextura* text = new igvTextura(&j[0]);
-			text->aplicar();
+
 
 			glPushMatrix();
 			glScaled(1, 0.4, 1);
 			modelos->Mostrador();
 			glPopMatrix();
+
 
 			
 			//std::string j = "\estea2.jpg";

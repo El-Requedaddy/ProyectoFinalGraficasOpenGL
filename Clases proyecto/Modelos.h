@@ -31,6 +31,8 @@ private:
 	Sphere* sph;
 	Cylinder* cono;
 	Colores* colores_robot;
+	igvTextura* text;
+	igvTextura* text2;
 
 public:
 	Modelos();

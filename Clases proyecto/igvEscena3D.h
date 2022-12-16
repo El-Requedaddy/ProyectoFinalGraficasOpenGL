@@ -61,7 +61,7 @@ protected:
 	// Otros atributos		
 	bool ejes;
 	Modelos* modelos;
-	igvTextura* text;
+
 	bool modo_act;//indicador de si estamos en modo selección
 	std::vector<GLfloat> colores; //Array de los diferentes colores
 

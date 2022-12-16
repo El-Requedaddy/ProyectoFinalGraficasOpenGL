@@ -26,10 +26,17 @@ Modelos::Modelos() :h(1), b(3){
 	color_marron.push_back(0.0f);
 
 
+
 	cil = new Cylinder(0.3, 0.3, 1, 40, 20, true);
 	sph = new Sphere(1, 40, 40, true);
 	cono = new Cylinder(1.5, 0, 2.3459236, 40, 40, true);
 	colores_robot = new Colores();
+
+	std::string j = "\madera2.jpg";
+	text = new igvTextura(&j[0]);
+
+	std::string j2 = "\ladrillos.jpg";
+	text2 = new igvTextura(&j2[0]);
 }
 
 Modelos::~Modelos() {
@@ -37,6 +44,8 @@ Modelos::~Modelos() {
 	delete sph;
 	delete cono;
 	delete colores_robot;
+	text->vaciar_imagen(); //elimino la imagen
+	text2->vaciar_imagen();
 }
 
 
@@ -457,9 +466,12 @@ void Modelos::Estanteria() {
 
 void Modelos::Mostrador() {
 	glPushMatrix();
-		//std::string j = "\madera2.jpg";
-		//igvTextura* text = new igvTextura(&j[0]);
-		//text->aplicar();
+		
+		glEnable(GL_TEXTURE_2D);
+
+		text->pre_aplicar();
+		text->aplicar();
+		text->setIdTextura(2);
 
 		glPushMatrix();
 		glScaled(4, 1.3, 0.9);
@@ -484,13 +496,16 @@ void Modelos::Mostrador() {
 
 		//std::string j2 = "\ladrillos.jpg";
 		//igvTextura text2(&j2[0]);
-		//text2.aplicar();
+		text2->pre_aplicar();
+		text2->aplicar();
+		text2->setIdTextura(2);
 
 		glPushMatrix();
 		glTranslated(0, 2, -7);
 		glScaled(4, 4, 0.1);
 		cubo(color_marron.data());
 		glPopMatrix();
+		glDisable(GL_TEXTURE_2D);
 
 	glPopMatrix();
 }
