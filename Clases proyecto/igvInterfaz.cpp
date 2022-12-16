@@ -143,6 +143,15 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 	case 'Y': //Apagar/Encender foco
 		interfaz.escena.SetFoco_activo(interfaz.escena.GetFoco_activo() ? false : true);
 		break;
+	case 'u': { //Apagar/Encender foco
+		igvPunto3D p0, r, v;
+		p0 = igvPunto3D(2, 4, 4);
+		r = igvPunto3D(0.5, 0, -6.3);
+		v = igvPunto3D(0, 1.0, 0);
+		interfaz.camara.set(IGV_PERSPECTIVA, p0, r, v, -1 * 3, 1 * 3, -1 * 3, 1 * 3, 1, 200);
+		interfaz.camara.aplicar();
+	}
+		break;
 	//--------------------------------------GESTIÓN ANIMACIÓN------------------------------------------------------------------------
 	
 	case 'a':

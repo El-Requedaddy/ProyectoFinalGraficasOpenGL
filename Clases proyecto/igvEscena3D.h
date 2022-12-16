@@ -18,6 +18,7 @@
 #include "igvColor.h"
 #include "Cubo.h"
 #include "igvMaterial.h"
+#include "igvTextura.h"
 class igvEscena3D {
 protected:
 	//Atributos de luces
@@ -60,6 +61,7 @@ protected:
 	// Otros atributos		
 	bool ejes;
 	Modelos* modelos;
+	igvTextura* text;
 	bool modo_act;//indicador de si estamos en modo selección
 	std::vector<GLfloat> colores; //Array de los diferentes colores
 

@@ -100,6 +100,8 @@ igvEscena3D::igvEscena3D() {
 		ac += 1;
 	}
 	
+	std::string j = "\madera2.jpg";
+	text = new igvTextura(&j[0]);
 }
 
 igvEscena3D::~igvEscena3D() {
@@ -685,7 +687,7 @@ void igvEscena3D::visualizar() {
 	}
 	  
 	//LUZ DIRECCIONAL
-	igvPunto3D pos_d(0, 1.5, -5);
+	igvPunto3D pos_d(X, Y, -5);
 	igvColor amb_d(0.7, 0.7, 0.7, 1.0);
 	igvColor dif_d(0.8, 0.8, 0.8, 1.0);
 	igvColor esp_d(0.5, 0.5, 0.5, 1.0);
@@ -751,6 +753,11 @@ void igvEscena3D::visualizarVB() {
 	if (!modo_act) {
 		glPushMatrix();
 
+		/*std::string j = "\madera2.jpg";
+		igvTextura text(&j[0]);
+	    text.aplicar();*/
+		//glRotated(rotacionModeloCompleto, 1, 0, 0);
+		//modelos->cubo(color_grisOscuro.data());
 			glShadeModel(GL_SMOOTH);
 			igvColor ambMo(0.1, 0.1, 0.1);
 			igvColor difMo(0.5, 0.5, 0.5);
@@ -758,10 +765,27 @@ void igvEscena3D::visualizarVB() {
 			igvMaterial material2(ambMo, difMo, espMo, 90);
 			material2.aplicar();
 
+			glEnable(GL_TEXTURE_2D);
+			//std::string j = "\madera2.jpg";
+			//igvTextura* text = new igvTextura(&j[0]);
+			text->aplicar();
+
 			glPushMatrix();
 			glScaled(1, 0.4, 1);
 			modelos->Mostrador();
 			glPopMatrix();
+
+			
+			//std::string j = "\estea2.jpg";
+			//igvTextura text(&j[0]);
+			//text.aplicar();
+			//glPushMatrix();
+			//glRotated(rotacionModeloCompleto, 0, 1, 0);
+			//glRotated(90, 0, 0, 1);
+			//glScaled(0.35, 0.2, 0.2);
+			//modelos->cubo(color_grisOscuro.data());
+
+			//glPopMatrix();
 
 			glShadeModel(GL_SMOOTH);
 			igvColor ambM(0.1, 0.1, 0.1);

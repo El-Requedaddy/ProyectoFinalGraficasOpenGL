@@ -12,6 +12,7 @@
 #include "Cylinder.h"
 #include "Colores.h"
 #include "Cubo.h"
+#include "igvTextura.h"
 class Modelos
 {
 private:

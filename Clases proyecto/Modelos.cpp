@@ -457,6 +457,9 @@ void Modelos::Estanteria() {
 
 void Modelos::Mostrador() {
 	glPushMatrix();
+		//std::string j = "\madera2.jpg";
+		//igvTextura* text = new igvTextura(&j[0]);
+		//text->aplicar();
 
 		glPushMatrix();
 		glScaled(4, 1.3, 0.9);
@@ -477,6 +480,12 @@ void Modelos::Mostrador() {
 		cubo(color_marron.data());
 		glPopMatrix();
 		
+		//text.setIdTextura(2); // se cambia el id para q no se pinte más esa textura
+
+		//std::string j2 = "\ladrillos.jpg";
+		//igvTextura text2(&j2[0]);
+		//text2.aplicar();
+
 		glPushMatrix();
 		glTranslated(0, 2, -7);
 		glScaled(4, 4, 0.1);
