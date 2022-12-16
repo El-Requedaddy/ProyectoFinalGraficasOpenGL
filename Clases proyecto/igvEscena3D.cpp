@@ -33,10 +33,6 @@ igvEscena3D::igvEscena3D() {
 	pelotaEspecial.posicion = coordenadasPelotaEspecial;
 	pelotaEspecialActivada = false;
 
-	segundos1 = 10;
-	segundos2 = 15;
-	segundos3 = 5;
-
 	//creamos vector que contiene todas las posiciones posibles de los objetos en la escena
 	/*asignarLatasIniciales();*/
 
@@ -727,6 +723,8 @@ void igvEscena3D::visualizar2() {
 
 void igvEscena3D::visualizarVB() {
 
+	//comprobamos si se ha pasado el tiempo
+
 	if (!modo_act) {
 		//pintar_robot();
 		glPushMatrix();
@@ -762,9 +760,20 @@ void igvEscena3D::visualizarVB() {
 		if (!finPartida) {
 			gestionarLatasEventos();
 			gestionarPelotaEspecialEventos();
-			spawnPelotas();
+			if (juego.getNumLatas() < juego.getMaxLatas() ) {
+				spawnPelotas();
+			}
+		}
+		else {
+			limpiarMemoriaYReinicio();
 		}
 
+		if (juego.getTiempoTranscurrido() > 100) { //si se llega al maximo de tiempo se acaba la partida forzosamente
+			finPartida = true;
+			iniciarPartida = false;
+		}
+
+		std::cout << "Num latas: " << juego.getNumLatas() << std::endl;
 		/*std::cout << "Segundos: " << juego.getTiempoTranscurrido() << std::endl;*/
 		glPopMatrix();
 	}
@@ -897,7 +906,6 @@ void igvEscena3D::procesarColisiones(const hitbox& h1, hitbox h2) {
 		if (h2.getPosicionFloat() == pelotaEspecial.getPosicionFloat()) { //si la hitbox es la pelota especial se procede a asignar una nueva posicion aleatoria a esta
 			numeroGolpes++;
 			if (numeroGolpes == 3) { //si son 5 golpes los que hay significa que la pelota es destruida, procesamos los puntos por lo tanto y aumentamos el numero de tiradas
-				numLatasTiradas++;
 				juego.sumarPuntuacion(1000);
 			}
 			else {
@@ -911,7 +919,7 @@ void igvEscena3D::procesarColisiones(const hitbox& h1, hitbox h2) {
 				juego.sumarPuntuacion(hitboxes[i]->getValor());
 				juego.liberarPosicion(hitboxes, i);
 				hitboxes.erase(hitboxes.begin() + i);
-				numLatasTiradas++;
+				juego.eliminarLata();
 			}
 		}
 		desactivarLanzamientoPelota();
@@ -972,6 +980,7 @@ void igvEscena3D::gestionarLatasEventos() {
 		}
 		for (int i = 0; i < hitboxes_a_borrar.size(); i++) {
 			hitboxes.erase(hitboxes.begin() + hitboxes_a_borrar[i]);
+			juego.eliminarLata();
 		}
 	}
 
@@ -1011,20 +1020,20 @@ void igvEscena3D::gestionarPelotaEspecialEventos() {
 }
 
 void igvEscena3D::spawnPelotas() {
-	if (juego.getTiempoTranscurrido() > segundos1) {
-		segundos1 += 7;
+	if (juego.getTiempoTranscurrido() > juego.getSeg1()) {
+		juego.sumadoSeg1();
 		crearLata();
 	}
 
-	if (juego.getTiempoTranscurrido() > segundos2) {
-		segundos2 += 7;
+	if (juego.getTiempoTranscurrido() > juego.getSeg2()) {
+		juego.sumadoSeg2();
 		crearLata();
 	}
 
-	/*if (juego.getTiempoTranscurrido() > segundos3) {
-		segundos3 += 15;
+	if (juego.getTiempoTranscurrido() > juego.getSeg3()) {
+		juego.sumadoSeg3();
 		crearLata();
-	}*/
+	}
 }
 
 void igvEscena3D::gestionarLatasEventosVB() {
@@ -1065,4 +1074,27 @@ void igvEscena3D::gestionarPelotaEspecialEventosVB() {
 		reinicio_colores();
 		glPopMatrix();
 	}
+}
+
+void igvEscena3D::limpiarMemoriaYReinicio() {
+	if (hitboxes.size() > 0) {
+		hitboxes.clear();
+	}
+	if (hitboxesPendientes.size() > 0) {
+		hitboxesPendientes.clear();
+	}
+	if (hitboxes_a_borrar.size() > 0) {
+		hitboxes_a_borrar.clear();
+	}
+	numeroGolpes = 0;
+	juego.reiniciarNumLatas();
+	numLatasTiradas = 0;
+	finPartida = true;
+	iniciarPartida = false;
+	animacionPelota = true;
+	lanzarPelota = false;
+	juego.reiniciarPosicionesOcupadas();
+	juego.actualizarRecord();
+	coordenadasPelotaEspecial = juego.nuevaPosicionPelotaEspecial();
+	pelotaEspecial.actualizarCoordenadas(coordenadasPelotaEspecial.c[0], coordenadasPelotaEspecial.c[1], coordenadasPelotaEspecial.c[2]);
 }

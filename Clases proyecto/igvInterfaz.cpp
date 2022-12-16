@@ -75,6 +75,8 @@ void igvInterfaz::configura_entorno(int argc, char** argv,
 	glutInitWindowPosition(_pos_X, _pos_Y);
 	glutCreateWindow(_titulo.c_str());
 
+	create_menu(); //crear el menu de opciones
+
 	glEnable(GL_DEPTH_TEST); // activa el ocultamiento de superficies por z-buffer
 	glClearColor(1.0, 1.0, 1.0, 0.0); // establece el color de fondo de la ventana
 
@@ -192,23 +194,29 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 	case 'H':
 		interfaz.escena.setRotaciondedo5(-10, true);
 		break;
-	case 'j':
-		interfaz.escena.setRotaciondedo6(10, true);//dedo3
+	case 'j': //movimiento panorámica derecha
+		interfaz.camara.panoramica(0.3);
+		interfaz.camara.aplicar();
 		break;
-	case 'J':
-		interfaz.escena.setRotaciondedo6(-10, true);
+	case 'J': //movimiento panorámica izquierda
+		interfaz.camara.panoramica(-0.3);
+		interfaz.camara.aplicar();
 		break;
 	case 'k':
-		interfaz.escena.setRotacion2_brazo_sup(10, true);//rotacion2_brazo_sup
+		interfaz.camara.masxP0(0.1);
+		interfaz.camara.aplicar();
 		break;
 	case 'K':
-		interfaz.escena.setRotacion2_brazo_sup(-10, true);
+		interfaz.camara.menosxP0(-0.1);
+		interfaz.camara.aplicar();
 		break;
 	case 'l':
-		interfaz.escena.setRotacionpierna_sup_izq(10, true);
+		interfaz.camara.masyP0(0.1);
+		interfaz.camara.aplicar();
 		break;
 	case 'L':
-		interfaz.escena.setRotacionpierna_sup_izq(-10, true);
+		interfaz.camara.menosyP0(-0.1);
+		interfaz.camara.aplicar();
 		break;
 	case '<':
 		interfaz.escena.setRotacionpierna_inf_izq(10, true);
@@ -216,11 +224,13 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 	case '>':
 		interfaz.escena.setRotacionpierna_inf_izq(-10, true);
 		break;
-	case 'z':
-		interfaz.escena.setRotacionpie_izq(10, true);
+	case 'z': //mover camara en z positivo
+		interfaz.camara.maszP0(0.1);
+		interfaz.camara.aplicar();
 		break;
-	case 'Z':
-		interfaz.escena.setRotacionpie_izq(-10, true);
+	case 'Z': //mover camara en z negativo
+		interfaz.camara.menoszP0(-0.1);
+		interfaz.camara.aplicar();
 		break;
 	case 'a':
 		if (interfaz.animar) interfaz.animar = false;
@@ -763,4 +773,56 @@ void igvInterfaz::inicializa_callbacks() {
 
 void igvInterfaz::Update(float dt) {
 
+}
+
+//creacion del menú
+void igvInterfaz::create_menu() {
+
+	int menu_id = glutCreateMenu(menuHandle);
+	glutAddMenuEntry("Iniciar partida", 1);
+	glutAddMenuEntry("Terminar partida", 2);
+	glutAddMenuEntry("Mostrar puntuación", 3);
+	glutCreateMenu(menuHandle);
+
+	int menu_camara = glutCreateMenu(menuHandle2);
+	glutAddMenuEntry("Cambiar a perspectiva", 4);
+	glutAddMenuEntry("Cambiar a paralela", 5);
+	glutCreateMenu(menuHandle2);
+
+	glutAddSubMenu("Juego de lanzar latas", menu_id);
+	glutAddSubMenu("Modificar cámara", menu_camara);
+
+	glutAttachMenu(GLUT_RIGHT_BUTTON);
+}
+
+void igvInterfaz::menuHandle(int value)
+{
+	switch (value) {
+	case 1: 
+		interfaz.escena.IniciarPartida();
+		break;
+	case 2:
+		interfaz.escena.acabarPartida();
+		break;
+	case 3:
+		interfaz.escena.acabarPartida();
+		break;
+	}
+	glutPostRedisplay(); // renew the content of the window
+}
+
+void igvInterfaz::menuHandle2(int value)
+{
+	switch (value) {
+	case 4:
+		interfaz.escena.IniciarPartida();
+		break;
+	case 5:
+		interfaz.escena.acabarPartida();
+		break;
+	case 6:
+		interfaz.escena.acabarPartida();
+		break;
+	}
+	glutPostRedisplay(); // renew the content of the window
 }

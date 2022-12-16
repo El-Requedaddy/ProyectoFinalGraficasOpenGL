@@ -6,6 +6,47 @@ juego::juego() {
 
 	posicionesObjetos(vectoresPos);
 	posicionPelotaEspecial();
+	numMaxLatas = 21;
+
+	segundos1 = 5;
+	segundos2 = 5;
+	segundos3 = 5;
+}
+
+void juego::setSegundos1(int a) {
+	segundos1 = a;
+}
+
+void juego::setSegundos2(int a) {
+	segundos2 = a;
+}
+
+void juego::setSegundos3(int a) {
+	segundos3 = a;
+}
+
+void juego::sumadoSeg1() {
+	segundos1 += 1;
+}
+
+void juego::sumadoSeg2() {
+	segundos2 += 1;
+}
+
+void juego::sumadoSeg3() {
+	segundos3 += 1;
+}
+
+int juego::getSeg1() {
+	return segundos1;
+}
+
+int juego::getSeg2() {
+	return segundos2;
+}
+
+int juego::getSeg3() {
+	return segundos3;
 }
 
 void juego::setPosicionesOcupadas(int i, bool ocupada) {
@@ -49,9 +90,23 @@ void juego::inicializarLata(std::vector<hitbox*>& hitboxes, const int& i) {
 				tiempoRef = 25 + rand() % (45 - 25);
 			}
 			posicionesVectorOcupadas[numero] = true;
+			numLatas++;
 			hitboxes.push_back(new hitbox(vectoresPos[numero], igvPunto3D(0.2, 0.2, 0.2), valor, tiempoRef));
 		}
 	}
+}
+
+void juego::reiniciarPosicionesOcupadas() {
+	for (int i = 0; i < 49; i++) {
+		posicionesVectorOcupadas[i] = false;
+	}
+}
+
+void juego::actualizarRecord() { 
+	if (punt_maxima < puntuacion) {
+		punt_maxima = puntuacion;
+	}
+	puntuacion = 0;
 }
 
 void juego::posicionesObjetos(std::vector<igvPunto3D>& vector) {

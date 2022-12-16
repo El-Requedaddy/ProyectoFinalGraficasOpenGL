@@ -47,7 +47,7 @@ protected:
 
 	bool boton_retenido; // indica si el botón está pulsado (true) o se ha soltado (false)
 
-
+	int menuSelection; //atributo para el menú
 
 public:
 	// Constructores por defecto y destructor
@@ -98,6 +98,11 @@ public:
 	void pintar_seleccion();
 
 	void Gestion_seleccion_lanzamiento(GLfloat selectR, GLfloat selectG, GLfloat selectB);
+
+	//menú del juego
+	static void menuHandle(int value);
+	static void menuHandle2(int value);
+	void create_menu();
 };
 
 #endif

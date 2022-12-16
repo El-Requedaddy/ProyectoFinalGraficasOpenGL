@@ -99,13 +99,19 @@ protected:
 	std::vector<hitbox*> hitboxesPendientes; //hitboxes pendientes de dibujar tras renovar latas
 	std::vector<int> hitboxes_a_borrar; //hitboxes pendientes de eliminar
 
-	int segundos1; //Variable para controlar los segundos que pasan para pintar latas periodicamente en la estanteria
-	int segundos2; //Variable para controlar los segundos que pasan para pintar latas periodicamente
-	int segundos3;
-
 	bool finPartida = true;
 	bool iniciarPartida = false;
+
+	
+
 public:
+	const int EscenaA = 1;
+	const int EscenaB = 2;
+	const int EscenaC = 3;
+
+	const char* Nombre_EscenaA = "Escena A";
+	const char* Nombre_EscenaB = "Escena B";
+	const char* Nombre_EscenaC = "Escena C";
 
 	void IniciarPartida() {
 		iniciarPartida = true;
@@ -568,6 +574,8 @@ public:
 	void gestionarLatasEventosVB();
 	//Toda la creación y asignación en la selección de pelota especial se lleva en este método
 	void gestionarPelotaEspecialEventosVB();
+	//Limpia toda la memoria y variables del juego para empezar de nuevo
+	void limpiarMemoriaYReinicio();
 };
 
 #endif
