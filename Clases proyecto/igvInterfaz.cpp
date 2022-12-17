@@ -323,11 +323,11 @@ void igvInterfaz::set_glutIdleFunc() {
 
 		if (interfaz.fin_primera_fase == 0) { //fase 0 = subir brazo
 			if (interfaz.escena.getRotacion2_brazo_sup() > -220) {
-				interfaz.escena.setRotacion2_brazo_sup(-1, true);
+				interfaz.escena.setRotacion2_brazo_sup(-8, true);
 			}
 			else {
 				if (interfaz.escena.getRotacion_brazo_inf() != -90) {
-					interfaz.escena.setRotacion_brazo_inf(-1, true);
+					interfaz.escena.setRotacion_brazo_inf(-8, true);
 				}
 				else {
 					interfaz.fin_primera_fase = 1;
@@ -339,17 +339,17 @@ void igvInterfaz::set_glutIdleFunc() {
 		if(interfaz.fin_primera_fase == 1){ //fase 1 = bajar brazo
 
 			if (interfaz.escena.getRotacion2_brazo_sup() < -205) {
-				interfaz.escena.setRotacion2_brazo_sup(1, true);
+				interfaz.escena.setRotacion2_brazo_sup(8, true);
 			}
 			else {
 				if (interfaz.escena.getRotacion2_brazo_sup() < -110) {
-					interfaz.escena.setRotacion2_brazo_sup(1, true);
+					interfaz.escena.setRotacion2_brazo_sup(8, true);
 				}
 				if (interfaz.escena.getRotacion_brazo_inf() < 0) {
-					interfaz.escena.setRotacion_brazo_inf(0.8, true);
-					interfaz.escena.setRotaciondedo1(1, true);
-					interfaz.escena.setRotaciondedo2(-1, true);
-					interfaz.escena.setRotaciondedo3(1, true);
+					interfaz.escena.setRotacion_brazo_inf(6.4, true);
+					interfaz.escena.setRotaciondedo1(8, true);
+					interfaz.escena.setRotaciondedo2(-8, true);
+					interfaz.escena.setRotaciondedo3(8, true);
 				}
 				else {
 					interfaz.fin_primera_fase = 2;

@@ -752,6 +752,7 @@ void igvEscena3D::visualizarVB() {
 		glRotated(rotacionModeloCompleto, 0, 1, 0);
 		glPushMatrix();
 
+
 			glShadeModel(GL_SMOOTH);
 			igvColor ambMo(0.1, 0.1, 0.1);
 			igvColor difMo(0.5, 0.5, 0.5);
