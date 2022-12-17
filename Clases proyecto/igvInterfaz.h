@@ -14,6 +14,7 @@
 #include "igvEscena3D.h"
 #include "igvCamara.h"
 #include "hitbox.h"
+#include "Juego.h"
 
 using namespace std;
 
@@ -33,6 +34,7 @@ protected:
 	int fin_primera_fase;//atributo utilizado para la gestión de la animación
 	igvEscena3D escena; // escena que se visualiza en la ventana definida por igvInterfaz
 	igvCamara camara; // cámara que se utiliza para visualizar la escena
+	/*juego datosJuego;*/
 
 	igvPunto3D p0, r, V;
 
@@ -45,7 +47,8 @@ protected:
 
 	bool boton_retenido; // indica si el botón está pulsado (true) o se ha soltado (false)
 
-	bool cambio;
+	int menuSelection; //atributo para el menú
+
 
 public:
 	// Constructores por defecto y destructor
@@ -90,18 +93,17 @@ public:
 	//práctica final
 	void Update(float dt);
 
-	bool detectarColisiones(hitbox h1, hitbox h2) {
-		bool colisionX = h1.posicion.c[0] + h1.tamano.c[0] >= h2.posicion.c[0] && h2.posicion.c[0] + h2.tamano.c[0] >= h1.posicion.c[0];
-		bool colisionY = h1.posicion.c[2] + h1.tamano.c[2] >= h2.posicion.c[2] && h2.posicion.c[2] + h2.tamano.c[2] >= h1.posicion.c[2];
-
-		return colisionX && colisionY;
-	}
-
 	//Método para resetear los colores originales del robot
 	void resetear_colores();
 	//Método para pintar el elemento seleccionado 
 	void pintar_seleccion();
 
+	void Gestion_seleccion_lanzamiento(GLfloat selectR, GLfloat selectG, GLfloat selectB);
+
+	//menú del juego
+	static void menuHandle(int value);
+	static void menuHandle2(int value);
+	void create_menu();
 };
 
 #endif

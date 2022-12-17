@@ -19,6 +19,11 @@
 #include "Cubo.h"
 #include "igvMaterial.h"
 #include "igvTextura.h"
+#include<stdlib.h>
+#include<time.h>
+#include "Juego.h"
+#include <ctime>
+
 class igvEscena3D {
 protected:
 	//Atributos de luces
@@ -57,7 +62,7 @@ protected:
 	std::vector<GLfloat> color_marron;
 	std::vector<GLfloat> color_naranja;
 
-	int pos_r, pos_a, pos_v, pos_g;
+	int pos_r, pos_a, pos_v, pos_g, pos_juego;
 	// Otros atributos		
 	bool ejes;
 	Modelos* modelos;
@@ -74,30 +79,50 @@ protected:
 
 	float trasXrobot = 0;
 	float trasYrobot = 0;
-	float trasZrobot = 0;
+	float trasZrobot = 2;
 
-	bool animacionPelota = false;
+	bool animacionPelota = true;
 	bool lanzarPelota = false;
 
 	//vector de hitboxes
 	std::vector<hitbox*> hitboxes;
+	hitbox hitboxDestino;
 
+	juego juego;
+
+	//atributos de la trayectoria de la pelota
 	float a;
-	float movementSpeed = 0.1;
+	float movementSpeed = 0.2;
 	float deltaTime = 0.1;
 	igvPunto3D posicionPelota;
-	igvPunto3D coordenadaInicial;
-	igvPunto3D coordenadaFinal;
+	igvPunto3D coordenadaInicial; //final 
+	igvPunto3D coordenadaFinal;  //inicial
+
+	//aparicion pelota especial
+	int numLatasTiradas;
+	int numeroGolpes;
+	igvPunto3D coordenadasPelotaEspecial;
+	hitbox pelotaEspecial;
+	bool pelotaEspecialActivada;
+	
+	//control de aparición y desaparición de latas determinado por tiempo
+	 //posiciones ocupadas, a partir del indice 30 las posiciones son de las latas || Tamaño real es 48
+	std::vector<hitbox*> hitboxesPendientes; //hitboxes pendientes de dibujar tras renovar latas
+	std::vector<int> hitboxes_a_borrar; //hitboxes pendientes de eliminar
+
+	bool finPartida = true;
+	bool iniciarPartida = false;
+
+	
 
 public:
+
 	// Constructores por defecto y destructor
 	igvEscena3D();
 	~igvEscena3D();
 
 	// método con las llamadas OpenGL para visualizar la escena
 	void visualizar(void);
-	void visualizar2(void);
-	void visualizar3(void);
 	void visualizarVB(void);//Método para la visualización en modo selección
 
 
@@ -467,6 +492,11 @@ public:
 	float GetGB_esp() const { return GB_esp; }
 	void SetGB_esp(float val) { GB_esp += val; }
 
+
+	bool GetFoco_activo() const { return foco_activo; }
+	void SetFoco_activo(bool val) { foco_activo = val; }
+
+
 	bool get_ejes() { return ejes; };
 	void set_ejes(bool _ejes) { ejes = _ejes; };
 	//-----------------------------------------------------------------------------------------------------------------
@@ -492,30 +522,6 @@ public:
 		return trasZrobot;
 	};
 
-	void setxTras(float a) {
-		trasX += a;
-	};
-
-	void setyTras(float a) {
-		trasY += a;
-	};
-
-	void setzTras(float a) {
-		trasZ += a;
-	};
-
-	void setxRot(float a) {
-		rotX += a;
-	};
-
-	void setyRot(float a) {
-		rotY += a;
-	};
-
-	void setzRot(float a) {
-		rotZ += a;
-	};
-
 	void setPelota(bool animado) {
 		animacionPelota = animado;
 	}
@@ -528,18 +534,74 @@ public:
 		return posicionPelota;
 	}
 
+	//Se cambia la hitbox destino utilizada al comparar hitboxes
+	void setHitboxDestino(hitbox h) {
+		hitboxDestino = h;
+	}
+
+	hitbox getPelotaEspecial() {
+		return pelotaEspecial;
+	}
+
+	bool estaPelotaEspecial() {
+		return pelotaEspecialActivada;
+	}
+
+	//métodos relacionados con el lanzamiento de la pelota, están explicados en su inplementación en cpp correspondiente
+
+	//Devuelve el vector de hitboxes
 	std::vector<hitbox*>& getHitboxes() { return hitboxes; }
-	int buscarHitbox(float x, float y, float z);
-	void calculoTrayectoriaPelota();
+	//Se busca la posición en el vector de una hitbox
+	int buscarHitbox(hitbox &h);
+	//Cálculo de la trayectoria de la pelota, se requieren como dos argumentos la hitbox de la pelota en primer lugar y la hitbox del objeto destino en segundo lugar
+	void calculoTrayectoriaPelota(hitbox h1, hitbox h2);
+	//Se activa el lanzamiento de la pelota, desencadenando el lanzamiento
 	void activarLanzamientoPelota() { lanzarPelota = true; }
+	//Se desactiva el lanzamiento de la pelota
 	void desactivarLanzamientoPelota() { lanzarPelota = false; }
+	//Comprobar si la pelota esta en modo lanzamiento o no, se devuelve su estado booleano
 	bool getLanzandoPelota() { return lanzarPelota; }
-	float clamp(float v, float lo, float hi);
 
+	//Comprobamos colision entre dos objetos, esto se hace llevandolo a un supuesto plano 2d
+	bool detectarColisiones(const hitbox &h1, hitbox &h2);
+	//Actualiza la coordenada final destino a la que se lanza la pelota
+	void actualizarCoordenadaFinal(const igvPunto3D &inicial);
+	//Sustituimos lata eliminando la pasada de tiempo y encargándonos de guardar la nueva hitbox sustituta en el vector de pendientes para pintar a posterior sin alterar el pintado de objetos
+	void sustituirLata(const int &i);
+	//Se determina el color de la lata en funcion de su puntuacion. Se almacena el color por referencia
+	void determinarColorLata(const int &i, std::vector<float> &colorin);
+	//Crea una lata de modo que se añade al vector de hitboxes
+	void crearLata();
+	//Inicializa las latas y les asigna sus atributos requeridos
+	void asignarLatasIniciales();
+	//Se procesan las colisiones cuando se impacta con una lata u objeto y se procede con su desenlace
+	void procesarColisiones(const hitbox &h1, hitbox h2);
+	//Se interpola la trayectoria que va siguiendo la pelota de modo que se pueda alcanzar el objeto seleccionado
+	void interpolacionTrayectoria(hitbox &h1, hitbox &h2);
 
+	//Toda la creación de latas, sustitución y demás es llevado a cabo en este método
+	void gestionarLatasEventos();
+	//Toda la creación y asignación de pelota especial se lleva en este método
+	void gestionarPelotaEspecialEventos();
+	//Controla la aparición periódica de pelotas dentro de la escena
+	void spawnPelotas();
 
-	bool GetFoco_activo() const { return foco_activo; }
-	void SetFoco_activo(bool val) { foco_activo = val; }
+	//Toda la creación de latas, sustitución y demás en la selección es llevado a cabo en este método 
+	void gestionarLatasEventosVB();
+	//Toda la creación y asignación en la selección de pelota especial se lleva en este método
+	void gestionarPelotaEspecialEventosVB();
+	//Limpia toda la memoria y variables del juego para empezar de nuevo
+	void limpiarMemoriaYReinicio();
+
+	void IniciarPartida() {
+		iniciarPartida = true;
+		finPartida = false;
+	}
+
+	void acabarPartida() {
+		finPartida = true;
+	}
+
 };
 
 #endif

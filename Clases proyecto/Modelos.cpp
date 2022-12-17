@@ -499,17 +499,6 @@ void Modelos::Mostrador() {
 		
 		text->cambiar_id(); // Se cambia el id para que no se pinte más esta textura
 
-		//text2->pre_aplicar();
-		//text2->aplicar();
-
-		//glPushMatrix();
-		//glTranslated(0, 2, -7);
-		//glScaled(4, 4, 0.1);
-		//cubo(color_marron.data());
-		//glPopMatrix();
-		//
-		//text2->cambiar_id(); //se cambia id para no pintar más esta textura
-
 	glPopMatrix();
 }
 void Modelos::visualizar() {

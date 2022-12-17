@@ -59,10 +59,12 @@ void igvPunto3D::sumaVectores(igvPunto3D vecSumando) {
 	c[X] = c[X] + vecSumando.c[X];
 	c[Y] = c[Y] + vecSumando.c[Y];
 	c[Z] = c[Z] + vecSumando.c[Z];
+
 }
 
 float* igvPunto3D::cloneToFloatArray() const
 {
 	float* res = new float[4]{ (float)c[0], (float)c[1], (float)c[2], 1.0 };
 	return res;
+
 }

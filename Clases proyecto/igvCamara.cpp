@@ -79,25 +79,21 @@ void igvCamara::aplicar(void) {
 }
 
 void igvCamara::zoom() {
-	//if (factor < 10) {
-		factor++;
+
 		xwmin = xwmin + 0.05;
 		xwmax = xwmax - 0.05;
 		ywmin = ywmin + 0.05;
 		ywmax = ywmax - 0.05;
 		angulo = angulo - 0.5;
-	//}
+
 }
 
 void igvCamara::zoomOut() {
-	//if (factor > 0) {
-		factor--;
 		xwmin = xwmin - 0.05;
 		xwmax = xwmax + 0.05;
 		ywmin = ywmin - 0.05;
 		ywmax = ywmax + 0.05;
 		angulo = angulo + 0.5;
-	//}
 }
 
 void igvCamara::sumarZnear() {
@@ -108,3 +104,34 @@ void igvCamara::restarZnear() {
 	znear = znear - 0.2;
 }
 
+void igvCamara::maszP0(float a) {
+	P0.c[2] += a;
+}
+
+void igvCamara::menoszP0(float a) {
+	P0.c[2] += a;
+}
+
+void igvCamara::masyP0(float a) {
+	P0.c[1] += a;
+}
+
+void igvCamara::menosyP0(float a) {
+	P0.c[1] += a;
+}
+
+void igvCamara::masxP0(float a) {
+	P0.c[0] += a;
+}
+
+void igvCamara::menosxP0(float a) {
+	P0.c[0] += a;
+}
+
+void igvCamara::panoramica(float a) {
+	r.c[0] += a;
+}
+
+void igvCamara::cabeceo(float a) {
+	r.c[1] += a;
+}

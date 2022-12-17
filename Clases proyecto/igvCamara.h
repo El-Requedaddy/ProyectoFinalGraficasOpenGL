@@ -89,6 +89,19 @@ public:
 	void restarZnear(); 		// asociadas a los parámetros de la cámara 
 	void zoomOut();
 	void zoom();
+
+	//mover camara de posicion
+	void maszP0(float a);
+	void menoszP0(float a);
+	void masyP0(float a);
+	void menosyP0(float a);
+	void masxP0(float a);
+	void menosxP0(float a);
+
+	//movimiento panoramico
+	void panoramica(float a);
+	void cabeceo(float a);
+
 };
 
 #endif
