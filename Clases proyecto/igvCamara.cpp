@@ -129,3 +129,7 @@ void igvCamara::menosxP0(float a) {
 void igvCamara::panoramica(float a) {
 	r.c[0] += a;
 }
+
+void igvCamara::cabeceo(float a) {
+	r.c[1] += a;
+}

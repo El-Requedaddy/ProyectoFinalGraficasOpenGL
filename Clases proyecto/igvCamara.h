@@ -100,6 +100,8 @@ public:
 
 	//movimiento panoramico
 	void panoramica(float a);
+	void cabeceo(float a);
+
 };
 
 #endif

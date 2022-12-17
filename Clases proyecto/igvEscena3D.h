@@ -105,13 +105,6 @@ protected:
 	
 
 public:
-	const int EscenaA = 1;
-	const int EscenaB = 2;
-	const int EscenaC = 3;
-
-	const char* Nombre_EscenaA = "Escena A";
-	const char* Nombre_EscenaB = "Escena B";
-	const char* Nombre_EscenaC = "Escena C";
 
 	void IniciarPartida() {
 		iniciarPartida = true;

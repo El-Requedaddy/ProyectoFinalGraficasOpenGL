@@ -22,7 +22,6 @@ igvInterfaz::igvInterfaz() {
 
 igvInterfaz::~igvInterfaz() {}
 
-
 // Metodos publicos ----------------------------------------
 
 void igvInterfaz::crear_mundo(void) {
