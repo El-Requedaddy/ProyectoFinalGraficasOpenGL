@@ -330,7 +330,7 @@ void Cubo::visualizar() {
 
 
 void Cubo::cara_abajo() {
-	float ini_x = 0, ini_y = 0, ini_z = 0, tam_x = 2, tam_y = 2, tam_z = 2, div_x = 50, div_y = 50, div_z = 50;
+	float ini_x = 0, ini_y = 0, ini_z = 0, tam_x = 2, tam_y = 2, tam_z = 2, div_x = 15, div_y = 15, div_z = 15;
 
 	glBegin(GL_QUADS);
 	glNormal3f(0, 1, 0);
