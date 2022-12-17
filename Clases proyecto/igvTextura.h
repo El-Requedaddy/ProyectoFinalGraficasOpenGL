@@ -30,6 +30,7 @@ class igvTextura {
 
 		// Metodos
 		void vaciar_imagen();
+		void cambiar_id(); //se utiliza para que no se piinte más esta textura
 		void pre_aplicar(); //Establece los parámetros de textura en opengl
 		void aplicar(void); //Establece la textura como la activa
 		void setIdTextura(unsigned int id) { this->idTextura = id;}

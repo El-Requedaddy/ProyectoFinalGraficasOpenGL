@@ -31,8 +31,9 @@ private:
 	Sphere* sph;
 	Cylinder* cono;
 	Colores* colores_robot;
-	igvTextura* text;
-	igvTextura* text2;
+	igvTextura* text;	//textura de madera
+	igvTextura* text2; //textura de ladrillo
+	igvTextura* text3; //textura de suelo
 
 public:
 	Modelos();
@@ -56,6 +57,8 @@ public:
 	//Primitivas Puesto
 	void Estanteria();
 	void Mostrador();
+	void Suelo();
+	void Pared();
 
 	//Primitivas básicas
 	void cilindro(GLfloat color_cilindro[]);

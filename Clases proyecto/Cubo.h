@@ -14,7 +14,9 @@ static class Cubo {
 public:
 	Cubo();
 	~Cubo();
-	static void visualizar();
+	static void visualizar(); //cubo
+	static void cara_abajo(); //solo quad de abajo
+	static void cara_derecha(); //solo quad de abajo
 
 
 };

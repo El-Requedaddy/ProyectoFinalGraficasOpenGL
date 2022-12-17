@@ -90,14 +90,14 @@ void igvCamara::zoom() {
 }
 
 void igvCamara::zoomOut() {
-	if (factor > 0) {
+	//if (factor > 0) {
 		factor--;
 		xwmin = xwmin - 0.05;
 		xwmax = xwmax + 0.05;
 		ywmin = ywmin - 0.05;
 		ywmax = ywmax + 0.05;
 		angulo = angulo + 0.5;
-	}
+	//}
 }
 
 void igvCamara::sumarZnear() {

@@ -32,7 +32,7 @@ void igvInterfaz::crear_mundo(void) {
 	//V = igvPunto3D(0, 1.0, 0);
 
 	//p0 = igvPunto3D(6.0, 4.0, 8);
-	p0 = igvPunto3D(0, 2, 5);
+	p0 = igvPunto3D(0, 0.2, 5);
 	//p0 = igvPunto3D(1.5,3,8);
 	r = igvPunto3D(0, 0, 0);
 	V = igvPunto3D(0, 1.0, 0);

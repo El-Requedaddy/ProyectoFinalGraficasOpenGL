@@ -656,10 +656,9 @@ void igvEscena3D::calculoTrayectoriaPelota() {
 }
 
 void igvEscena3D::visualizar() {
-	// crear luces
-	//GLfloat luz0[4] = { 5.0,5.0,5.0,1 }; // luz puntual  
-	//glLightfv(GL_LIGHT0, GL_POSITION, luz0); // la luz se coloca aquí si permanece fija y no se mueve con la escena
-	//glEnable(GL_LIGHT0);
+	
+	//ACTIVO LAS TEXTURAS
+	glEnable(GL_TEXTURE_2D);
 
 	//LUZ PUNTUAL
 	igvPunto3D pos(-2.0, 6.0, 5.0);
@@ -686,7 +685,7 @@ void igvEscena3D::visualizar() {
 	}
 	  
 	//LUZ DIRECCIONAL
-	igvPunto3D pos_d(X, Y, -5);
+	igvPunto3D pos_d(0, 8, -5);
 	igvColor amb_d(0.7, 0.7, 0.7, 1.0);
 	igvColor dif_d(0.8, 0.8, 0.8, 1.0);
 	igvColor esp_d(0.5, 0.5, 0.5, 1.0);
@@ -750,13 +749,9 @@ void igvEscena3D::visualizar2() {
 
 void igvEscena3D::visualizarVB() {
 	if (!modo_act) {
+		glRotated(rotacionModeloCompleto, 0, 1, 0);
 		glPushMatrix();
 
-		/*std::string j = "\madera2.jpg";
-		igvTextura text(&j[0]);
-	    text.aplicar();*/
-		//glRotated(rotacionModeloCompleto, 1, 0, 0);
-		//modelos->cubo(color_grisOscuro.data());
 			glShadeModel(GL_SMOOTH);
 			igvColor ambMo(0.1, 0.1, 0.1);
 			igvColor difMo(0.5, 0.5, 0.5);
@@ -764,12 +759,9 @@ void igvEscena3D::visualizarVB() {
 			igvMaterial material2(ambMo, difMo, espMo, 90);
 			material2.aplicar();
 
-			//glEnable(GL_TEXTURE_2D);
-			//std::string j = "\madera2.jpg";
-			//igvTextura* text = new igvTextura(&j[0]);
-
 
 			glPushMatrix();
+			glTranslated(0, -0.5, 0.35);
 			glScaled(1, 0.4, 1);
 			modelos->Mostrador();
 			glPopMatrix();
@@ -795,7 +787,7 @@ void igvEscena3D::visualizarVB() {
 			material.aplicar();
 
 			glPushMatrix();
-			glTranslated(-2,1,-6.5);
+			glTranslated(-2,0.65,-6.5);
 			glScaled(0.5, 0.5, 0.5);
 			modelos->Estanteria();
 			glPopMatrix();
@@ -805,6 +797,30 @@ void igvEscena3D::visualizarVB() {
 			glRotated(180, 0, 1, 0);
 			glScaled(0.2, 0.2, 0.2);
 			pintar_robot();
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslated(0, 0, 1);
+			glScaled(4, 1, 4);
+			modelos->Suelo();
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslated(7.7, 0.6, 5);
+			modelos->Pared();
+			glPopMatrix();
+
+			glPushMatrix();
+			//glTranslated(-7.7,3.8,-7);
+			glTranslated(-7.7, 0.6, -3);
+			glRotated(180, 0, 1, 0);
+			modelos->Pared();
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslated(4, 0.6, -7);
+			glRotated(90, 0, 1, 0);
+			modelos->Pared();
 			glPopMatrix();
 
 		glPopMatrix();

@@ -32,11 +32,14 @@ Modelos::Modelos() :h(1), b(3){
 	cono = new Cylinder(1.5, 0, 2.3459236, 40, 40, true);
 	colores_robot = new Colores();
 
-	std::string j = "\madera2.jpg";
+	std::string j = "\madera.jpg";
 	text = new igvTextura(&j[0]);
 
 	std::string j2 = "\ladrillos.jpg";
 	text2 = new igvTextura(&j2[0]);
+
+	std::string j3 = "\lbaldosas3.jpg";
+	text3 = new igvTextura(&j3[0]);
 }
 
 Modelos::~Modelos() {
@@ -46,6 +49,10 @@ Modelos::~Modelos() {
 	delete colores_robot;
 	text->vaciar_imagen(); //elimino la imagen
 	text2->vaciar_imagen();
+	text3->vaciar_imagen();
+	delete text;
+	delete text2;
+	delete text3;
 }
 
 
@@ -466,12 +473,10 @@ void Modelos::Estanteria() {
 
 void Modelos::Mostrador() {
 	glPushMatrix();
-		
-		glEnable(GL_TEXTURE_2D);
 
 		text->pre_aplicar();
 		text->aplicar();
-		text->setIdTextura(2);
+
 
 		glPushMatrix();
 		glScaled(4, 1.3, 0.9);
@@ -492,25 +497,94 @@ void Modelos::Mostrador() {
 		cubo(color_marron.data());
 		glPopMatrix();
 		
-		//text.setIdTextura(2); // se cambia el id para q no se pinte más esa textura
+		text->cambiar_id(); // Se cambia el id para que no se pinte más esta textura
 
-		//std::string j2 = "\ladrillos.jpg";
-		//igvTextura text2(&j2[0]);
-		text2->pre_aplicar();
-		text2->aplicar();
-		text2->setIdTextura(2);
+		//text2->pre_aplicar();
+		//text2->aplicar();
 
-		glPushMatrix();
-		glTranslated(0, 2, -7);
-		glScaled(4, 4, 0.1);
-		cubo(color_marron.data());
-		glPopMatrix();
-		glDisable(GL_TEXTURE_2D);
+		//glPushMatrix();
+		//glTranslated(0, 2, -7);
+		//glScaled(4, 4, 0.1);
+		//cubo(color_marron.data());
+		//glPopMatrix();
+		//
+		//text2->cambiar_id(); //se cambia id para no pintar más esta textura
 
 	glPopMatrix();
 }
 void Modelos::visualizar() {
 
-	Mostrador();
+	Suelo();
+
+}
+
+void Modelos::Suelo() {
+	text3->pre_aplicar();
+	text3->aplicar();
+	glPushMatrix();
+	glTranslated(-1, -1, -1);
+		glPushMatrix();
+		glTranslated(-1, 0, -1);
+		Cubo::cara_abajo();
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslated(1, 0, -1);
+		Cubo::cara_abajo();
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslated(-1, 0, 1);
+		Cubo::cara_abajo();
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslated(1, 0, 1);
+		Cubo::cara_abajo();
+		glPopMatrix();
+	glPopMatrix();
+	text3->cambiar_id(); //se cambia id para no pintar más esta textura
+
+}
+
+void Modelos::Pared() {
+	text2->pre_aplicar();
+	text2->aplicar();
+	glPushMatrix();
+		
+		glPushMatrix();
+		//glTranslated(7, 1, 1);
+		glRotated(90, 0, 1, 0);
+		glScaled(4, 1.6, 0.2);
+		cubo(color_marron.data());
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslated(0, 3.2, 0);
+		glRotated(90, 0, 1, 0);
+		glScaled(4, 1.6, 0.2);
+		cubo(color_marron.data());
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslated(0, 0, -8);
+		glRotated(180, 1, 0, 0);
+		glRotated(90, 0, 1, 0);
+		glScaled(4, 1.6, 0.2);
+		cubo(color_marron.data());
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslated(0, 3.2, -8);
+		glRotated(180, 1, 0, 0);
+		glRotated(90, 0, 1, 0);
+		glScaled(4, 1.6, 0.2);
+		cubo(color_marron.data());
+		glPopMatrix();
+		
+
+	glPopMatrix();
+
+	text2->cambiar_id(); //se cambia id para no pintar más esta textura
 
 }

@@ -182,3 +182,60 @@ void Cubo::visualizar() {
 	ini_z = 0;
 
 }
+
+void Cubo::cara_abajo() {
+	float ini_x = 0, ini_y = 0, ini_z = 0, tam_x = 2, tam_y = 2, tam_z = 2, div_x = 50, div_y = 50, div_z = 50;
+
+	glBegin(GL_QUADS);
+	glNormal3f(0, 1, 0);
+	for (int x = 0; x < div_x; x++) {
+		for (int z = 0; z < div_z; z++) {
+
+			glTexCoord2d(ini_x / tam_x, 1 - ini_z / tam_z);
+			glVertex3f(ini_x, ini_y, ini_z);
+
+			glTexCoord2f(ini_x / tam_x, 1 - (ini_z + tam_z / div_z) / tam_z);
+			glVertex3f(ini_x, ini_y, ini_z + tam_z / div_z);
+
+			glTexCoord2f((ini_x + tam_x / div_x) / tam_x, 1 - (ini_z + tam_z / div_z) / tam_z);
+			glVertex3f(ini_x + tam_x / div_x, ini_y, ini_z + tam_z / div_z);
+
+			glTexCoord2f((ini_x + tam_x / div_x) / tam_x, 1 - ini_z / tam_z);
+			glVertex3f(ini_x + tam_x / div_x, ini_y, ini_z);
+
+			ini_z += tam_z / div_z;
+		}
+		ini_z = 0;
+		ini_x += tam_x / div_x;
+	}
+	glEnd();
+}
+
+void Cubo::cara_derecha() {
+	float ini_x = 0, ini_y = 0, ini_z = 0, tam_x = 2, tam_y = 2, tam_z = 2, div_x = 50, div_y = 50, div_z = 50;
+	glBegin(GL_QUADS);
+	glNormal3f(-1, 0, 0);
+
+	for (int x = 0; x < div_z; x++) {
+		for (int z = 0; z < div_y; z++) {
+
+			glTexCoord2f(ini_y / tam_y, 1 - ini_z / tam_z);
+			glVertex3f(tam_x, ini_y, ini_z);
+
+			glTexCoord2f((ini_y + tam_y / div_y) / tam_y, 1 - ini_z / tam_z);
+			glVertex3f(tam_x, ini_y + tam_y / div_y, ini_z);
+
+			glTexCoord2f((ini_y + tam_y / div_y) / tam_y, 1 - (ini_z + tam_z / div_z) / tam_z);
+			glVertex3f(tam_x, ini_y + tam_y / div_y, ini_z + tam_z / div_z);
+
+			glTexCoord2f(ini_y / tam_y, 1 - (ini_z + tam_z / div_z) / tam_z);
+			glVertex3f(tam_x, ini_y, ini_z + tam_z / div_z);
+
+			ini_y += tam_y / div_y;
+		}
+		ini_y = 0;
+		ini_z += tam_z / div_z;
+	}
+	glEnd();
+
+}
