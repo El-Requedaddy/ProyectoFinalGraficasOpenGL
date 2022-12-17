@@ -749,7 +749,7 @@ void igvEscena3D::visualizar2() {
 
 void igvEscena3D::visualizarVB() {
 	if (!modo_act) {
-		glRotated(rotacionModeloCompleto, 0, 1, 0);
+		//glRotated(rotacionModeloCompleto, 0, 1, 0);
 		glPushMatrix();
 
 
@@ -760,25 +760,11 @@ void igvEscena3D::visualizarVB() {
 			igvMaterial material2(ambMo, difMo, espMo, 90);
 			material2.aplicar();
 
-
 			glPushMatrix();
 			glTranslated(0, -0.5, 0.35);
 			glScaled(1, 0.4, 1);
 			modelos->Mostrador();
 			glPopMatrix();
-
-
-			
-			//std::string j = "\estea2.jpg";
-			//igvTextura text(&j[0]);
-			//text.aplicar();
-			//glPushMatrix();
-			//glRotated(rotacionModeloCompleto, 0, 1, 0);
-			//glRotated(90, 0, 0, 1);
-			//glScaled(0.35, 0.2, 0.2);
-			//modelos->cubo(color_grisOscuro.data());
-
-			//glPopMatrix();
 
 			glShadeModel(GL_SMOOTH);
 			igvColor ambM(0.1, 0.1, 0.1);
@@ -812,7 +798,6 @@ void igvEscena3D::visualizarVB() {
 			glPopMatrix();
 
 			glPushMatrix();
-			//glTranslated(-7.7,3.8,-7);
 			glTranslated(-7.7, 0.6, -3);
 			glRotated(180, 0, 1, 0);
 			modelos->Pared();

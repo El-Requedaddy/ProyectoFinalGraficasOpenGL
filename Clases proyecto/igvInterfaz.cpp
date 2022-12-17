@@ -32,7 +32,7 @@ void igvInterfaz::crear_mundo(void) {
 	//V = igvPunto3D(0, 1.0, 0);
 
 	//p0 = igvPunto3D(6.0, 4.0, 8);
-	p0 = igvPunto3D(0, 0.2, 5);
+	p0 = igvPunto3D(0, 2, 5);
 	//p0 = igvPunto3D(1.5,3,8);
 	r = igvPunto3D(0, 0, 0);
 	V = igvPunto3D(0, 1.0, 0);
@@ -323,11 +323,11 @@ void igvInterfaz::set_glutIdleFunc() {
 
 		if (interfaz.fin_primera_fase == 0) { //fase 0 = subir brazo
 			if (interfaz.escena.getRotacion2_brazo_sup() > -220) {
-				interfaz.escena.setRotacion2_brazo_sup(-8, true);
+				interfaz.escena.setRotacion2_brazo_sup(-4, true);
 			}
 			else {
-				if (interfaz.escena.getRotacion_brazo_inf() != -90) {
-					interfaz.escena.setRotacion_brazo_inf(-8, true);
+				if (interfaz.escena.getRotacion_brazo_inf() -4 >= -90) {
+					interfaz.escena.setRotacion_brazo_inf(-4, true);
 				}
 				else {
 					interfaz.fin_primera_fase = 1;
@@ -338,18 +338,18 @@ void igvInterfaz::set_glutIdleFunc() {
 		}
 		if(interfaz.fin_primera_fase == 1){ //fase 1 = bajar brazo
 
-			if (interfaz.escena.getRotacion2_brazo_sup() < -205) {
-				interfaz.escena.setRotacion2_brazo_sup(8, true);
+			if (interfaz.escena.getRotacion2_brazo_sup() < -130) {
+				interfaz.escena.setRotacion2_brazo_sup(4, true);
 			}
 			else {
 				if (interfaz.escena.getRotacion2_brazo_sup() < -110) {
-					interfaz.escena.setRotacion2_brazo_sup(8, true);
+					interfaz.escena.setRotacion2_brazo_sup(4, true);
 				}
 				if (interfaz.escena.getRotacion_brazo_inf() < 0) {
-					interfaz.escena.setRotacion_brazo_inf(6.4, true);
-					interfaz.escena.setRotaciondedo1(8, true);
-					interfaz.escena.setRotaciondedo2(-8, true);
-					interfaz.escena.setRotaciondedo3(8, true);
+					interfaz.escena.setRotacion_brazo_inf(3.2, true);
+					interfaz.escena.setRotaciondedo1(4, true);
+					interfaz.escena.setRotaciondedo2(-4, true);
+					interfaz.escena.setRotaciondedo3(4, true);
 				}
 				else {
 					interfaz.fin_primera_fase = 2;
@@ -362,31 +362,32 @@ void igvInterfaz::set_glutIdleFunc() {
 
 		if (interfaz.fin_primera_fase == 2) {
 			if (interfaz.escena.getRotacion_cabezaY() < 30) {//bajo cabeza
-				interfaz.escena.setRotacion_cabezaY(1,true);
+				interfaz.escena.setRotacion_cabezaY(4,true);
 			}
-			if (interfaz.escena.getRotacionpierna_sup() < 70 ) { //subo pierna hasta limite
-				interfaz.escena.setRotacionpierna_sup(1, true);
+			if (interfaz.escena.getRotacionpierna_sup() + 4 < 70 ) { //subo pierna hasta limite
+				interfaz.escena.setRotacionpierna_sup(4, true);
 			}
 			else {
 				//cuando ya este arriba la pierna_sup empiezo a subir la pierna inf y pie
 				if (interfaz.escena.getRotacionpierna_inf() < 40) {
-					interfaz.escena.setRotacionpierna_inf(1, true);
-					interfaz.escena.setRotacionpie(1, true);
+					interfaz.escena.setRotacionpierna_inf(4, true);
+					interfaz.escena.setRotacionpie(4, true);
 				}
 				else {
+					
 					interfaz.fin_primera_fase = 3; //indico que la fase de subida de la pierna ha finalizado
 				}
 			}
 		}
 		//bajo la pierna
 		if(interfaz.fin_primera_fase == 3 ) {
-			interfaz.escena.setRotacionpierna_sup(-1, true);
-			interfaz.escena.setRotacionpierna_inf(-1, true);
+			interfaz.escena.setRotacionpierna_sup(-4, true);
+			interfaz.escena.setRotacionpierna_inf(-4, true);
 			if (interfaz.escena.getRotacionpie() < 0) {
-				interfaz.escena.setRotacionpie(-1, true);
+				interfaz.escena.setRotacionpie(-4, true);
 			}
 			
-			interfaz.escena.setRotacion_cabezaY(-0.7,true);
+			interfaz.escena.setRotacion_cabezaY(-2.8,true);
 		}
 		glutPostRedisplay();
 	}

@@ -26,12 +26,6 @@ igvTextura::igvTextura(char* fichero) {
 	}
 }
 void igvTextura::pre_aplicar(){
-		// Apartado F: Añadir aquí el código para cargar como textura OpenGL la imagen */
-	    //	- Generar el identificador de textura y asignarlo al atributo idTextura (glGenTextures)
-		//	- Enlazar el identificador creado a GL_TEXTURE_2D (glBindTexture)
-		//  - Especificar la textura, asignádole como textura el array imagen (glTexImage2D)
-		//  - Modo de aplicación de la textura (glTexEnvf)
-		//	- Parámetros de la textura: repetición y filtros (glTexParameteri)
 		
 	if (imagen) {
 		glGenTextures(1, &idTextura);
@@ -47,11 +41,6 @@ void igvTextura::pre_aplicar(){
 
 
 		glBindTexture(GL_TEXTURE_2D, idTextura);
-
-		/*glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glEnable(GL_TEXTURE_2D);*/
-
-
 		
 	}
 	
