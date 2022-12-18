@@ -604,4 +604,3 @@ void Modelos::Pared() {
 
 }
 
-void Modelos::latas()
