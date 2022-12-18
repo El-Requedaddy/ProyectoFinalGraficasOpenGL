@@ -1,4 +1,5 @@
 #include "igvTextura.h"
+#include <iostream>
 
 // Metodos constructores y destructor
 
@@ -23,12 +24,13 @@ igvTextura::igvTextura(char* fichero) {
 		printf("Cargando %s: %dx%d %dbpp\n", fichero,
 			imagen->w, imagen->h, imagen->format->BitsPerPixel);
 
+
 	}
+
 }
 void igvTextura::pre_aplicar(){
-		
 	if (imagen) {
-		glGenTextures(1, &idTextura);
+		//glGenTextures(1, &idTextura);
 		glBindTexture(GL_TEXTURE_2D, idTextura);
 
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -39,21 +41,21 @@ void igvTextura::pre_aplicar(){
 
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imagen->w, imagen->h, 0, GL_RGB, GL_UNSIGNED_BYTE, imagen->pixels);
 
-
 		glBindTexture(GL_TEXTURE_2D, idTextura);
 		
 	}
 	
 }
-
-void igvTextura::cambiar_id() {
-	glBindTexture(GL_TEXTURE_2D, 0);
-}
+//
+//void igvTextura::cambiar_id() {
+//	glBindTexture(GL_TEXTURE_2D, 0);
+//}
 
 void igvTextura::vaciar_imagen() {
 	SDL_FreeSurface(imagen);
 }
 void igvTextura::aplicar(void) {
+	std::cout << idTextura << std::endl;
   glBindTexture(GL_TEXTURE_2D, idTextura);
 }
 

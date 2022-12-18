@@ -34,6 +34,9 @@ private:
 	igvTextura* text;	//textura de madera
 	igvTextura* text2; //textura de ladrillo
 	igvTextura* text3; //textura de suelo
+	igvTextura* text4;	//textura de cocacola
+	igvTextura* text5; //textura de pepsi
+	igvTextura* text6; //textura de fanta
 
 public:
 	Modelos();
@@ -59,6 +62,7 @@ public:
 	void Mostrador();
 	void Suelo();
 	void Pared();
+	void latas(GLfloat color_lata[], int version = 1);
 
 	//Primitivas básicas
 	void cilindro(GLfloat color_cilindro[]);

@@ -185,7 +185,7 @@ Cubo::~Cubo() {
 
 
 void Cubo::visualizar() {
-	float ini_x = 0, ini_y = 0, ini_z = 0, tam_x = 2, tam_y = 2, tam_z = 2, div_x = 15, div_y = 15, div_z = 15,
+	float ini_x = 0, ini_y = 0, ini_z = 0, tam_x = 2, tam_y = 2, tam_z = 2, div_x = 5, div_y = 5, div_z = 5,
 	ini_x2 = 0, ini_x3 = 0, ini_x4 = 0,ini_x5 = 0, ini_y2 = 0, ini_y3 = 0, ini_y4 = 0, ini_y5 = 0, ini_z2 = 0, ini_z3 = 0, ini_z4 = 0, ini_z5 = 0;
 	//------------------------------------------------------------------------------------------------
 

@@ -34,12 +34,28 @@ Modelos::Modelos() :h(1), b(3){
 
 	std::string j = "\madera.jpg";
 	text = new igvTextura(&j[0]);
+	text->setIdTextura(1);
 
 	std::string j2 = "\ladrillos.jpg";
 	text2 = new igvTextura(&j2[0]);
+	text2->setIdTextura(2);
 
 	std::string j3 = "\lbaldosas3.jpg";
 	text3 = new igvTextura(&j3[0]);
+	text3->setIdTextura(3);
+
+	std::string j4 = "\cocacola3-1.jpg";
+	text4 = new igvTextura(&j4[0]);
+	text4->setIdTextura(4);
+
+	std::string j5 = "\pepsi7.jpg";
+	text5 = new igvTextura(&j5[0]);
+	text5->setIdTextura(5);
+
+	std::string j6 = "\estea.jpg";
+	text6 = new igvTextura(&j6[0]);
+	text6->setIdTextura(6);
+
 }
 
 Modelos::~Modelos() {
@@ -50,9 +66,15 @@ Modelos::~Modelos() {
 	text->vaciar_imagen(); //elimino la imagen
 	text2->vaciar_imagen();
 	text3->vaciar_imagen();
+	text4->vaciar_imagen(); //elimino la imagen
+	text5->vaciar_imagen();
+	text6->vaciar_imagen();
 	delete text;
 	delete text2;
 	delete text3;
+	delete text4;
+	delete text5;
+	delete text6;
 }
 
 
@@ -473,10 +495,10 @@ void Modelos::Estanteria() {
 
 void Modelos::Mostrador() {
 	glPushMatrix();
-
+	glEnable(GL_TEXTURE_2D);
+	text->setIdTextura(1);
 		text->pre_aplicar();
 		text->aplicar();
-
 
 		glPushMatrix();
 		glScaled(4, 1.3, 0.9);
@@ -497,7 +519,8 @@ void Modelos::Mostrador() {
 		cubo(color_marron.data());
 		glPopMatrix();
 		
-		text->cambiar_id(); // Se cambia el id para que no se pinte más esta textura
+		glDisable(GL_TEXTURE_2D);
+		//text->cambiar_id(); // Se cambia el id para que no se pinte más esta textura
 
 	glPopMatrix();
 }
@@ -508,6 +531,7 @@ void Modelos::visualizar() {
 }
 
 void Modelos::Suelo() {
+	glEnable(GL_TEXTURE_2D);
 	text3->pre_aplicar();
 	text3->aplicar();
 	glPushMatrix();
@@ -532,11 +556,13 @@ void Modelos::Suelo() {
 		Cubo::cara_abajo();
 		glPopMatrix();
 	glPopMatrix();
-	text3->cambiar_id(); //se cambia id para no pintar más esta textura
+	//text3->cambiar_id(); //se cambia id para no pintar más esta textura
+	glDisable(GL_TEXTURE_2D);
 
 }
 
 void Modelos::Pared() {
+	glEnable(GL_TEXTURE_2D);
 	text2->pre_aplicar();
 	text2->aplicar();
 	glPushMatrix();
@@ -573,7 +599,9 @@ void Modelos::Pared() {
 		
 
 	glPopMatrix();
-
-	text2->cambiar_id(); //se cambia id para no pintar más esta textura
+	glDisable(GL_TEXTURE_2D);
+	//text2->cambiar_id(); //se cambia id para no pintar más esta textura
 
 }
+
+void Modelos::latas()
