@@ -27,6 +27,8 @@ igvEscena3D::igvEscena3D() {
 	rotacion_pierna_sup = 0;
 	rotacion_pierna_inf = 0;
 	rotacion_pie = 0;
+	escalado_lata = 1;
+	traslación_lata = 0;
 
 	X = 0;
 	Y = 0;
@@ -83,7 +85,7 @@ igvEscena3D::igvEscena3D() {
 	//Se generan los colores para la selección
 	pos_juego = 66;
 	pos_r = 0;
-	int veces_rojo = 1, veces_azul = 1, veces_gris = 48, veces_verde = 1;
+	int veces_rojo = 1, veces_azul = 1, veces_gris = 49, veces_verde = 1;
 	float ac = 1;
 	for (int i = 0; i < veces_rojo; i++) {
 		colores.push_back(1.0);
@@ -118,7 +120,6 @@ igvEscena3D::igvEscena3D() {
 		colores.push_back(((0.1 * 255) + ac) / 255);
 		ac += 1;
 	}
-
 }
 
 
@@ -826,23 +827,22 @@ void igvEscena3D::visualizarVB() {
 
 	//comprobamos si se ha pasado el tiempo
 
+	if (GetEs_smooth()) { //Se aplica GL_Smooth o GL_FLAT
+		glShadeModel(GL_SMOOTH);
+	}
+	else {
+		glShadeModel(GL_FLAT);
+	}
+
 	if (!modo_act) {
 		//glRotated(rotacionModeloCompleto, 0, 1, 0);
 		glPushMatrix();
-
-			glShadeModel(GL_SMOOTH);
+			//Material mostrador
 			igvColor ambMo(0.1, 0.1, 0.1);
 			igvColor difMo(0.5, 0.5, 0.5);
 			igvColor espMo(0.3, 0.3, 0.3);
 			igvMaterial material2(ambMo, difMo, espMo, 90);
 			material2.aplicar();
-
-			//glPushMatrix();
-			////glRotated(getRotacion(), 0, 1, 0);
-			//glScaled(1.2, 0.6, 1.2);
-			////modelos->visualizar();
-			//modelos->Mostrador();
-			//glPopMatrix();
 
 			glPushMatrix();
 			glScaled(1.4, 1.4, 1.4);
@@ -852,38 +852,35 @@ void igvEscena3D::visualizarVB() {
 				modelos->Mostrador();
 				glPopMatrix();
 
-				glShadeModel(GL_SMOOTH);
+				//Material metálico
 				igvColor ambM(0.1, 0.1, 0.1);
 				igvColor difM(0.7, 0.7, 0.7);
 				igvColor espM(0.8, 0.8, 0.8);
 				igvMaterial material(ambM, difM, espM, 80);
 				material.aplicar();
 
+				//Estantería
 				glPushMatrix();
 				glTranslated(-2.75,1.2,-6.5);
 				glScaled(0.7, 0.7, 0.7);
 				modelos->Estanteria();
 				glPopMatrix();
 
-				//glPushMatrix();
-				//glTranslated(0, 0, 2);
-				//glRotated(180, 0, 1, 0);
-				//glScaled(0.2, 0.2, 0.2);
-				//pintar_robot();
-				//glPopMatrix();
-
+				//Suelo
 				glPushMatrix();
 				glTranslated(0, 0, 1);
 				glScaled(4, 1, 4);
 				modelos->Suelo();
 				glPopMatrix();
 
+				//Pared derecha
 				glPushMatrix();
 				glTranslated(7.7, 0.6, 5);
 				glScaled(1.25, 1.25, 1.25);
 				modelos->Pared();
 				glPopMatrix();
 
+				//Pared izquierda
 				glPushMatrix();
 				glTranslated(-7.7, 0.6, -3);
 				glRotated(180, 0, 1, 0);
@@ -891,6 +888,7 @@ void igvEscena3D::visualizarVB() {
 				modelos->Pared();
 				glPopMatrix();
 
+				//Pared fondo
 				glPushMatrix();
 				glTranslated(4, 0.6, -7);
 				glRotated(90, 0, 1, 0);
@@ -900,13 +898,37 @@ void igvEscena3D::visualizarVB() {
 
 			glPopMatrix();
 
-			glPushMatrix();
-			glTranslated(0, 1.2, 3.2);
-			glRotated(180, 0, 1, 0);
-			glScaled(0.55, 0.55, 0.55);
-			pintar_robot();
-			glPopMatrix();
+			if (!estaEnRobot()) {
+				//Robot(grafo de escenas)
+				glPushMatrix();
+				glTranslated(0, 1.2, 3.2);
+				glRotated(180, 0, 1, 0);
+				glScaled(0.55, 0.55, 0.55);
+				pintar_robot();
+				glPopMatrix();
+			}
 
+			//Robot perteneciente al modelo robot
+			if (estaEnRobot()) {
+				glPushMatrix();
+				glTranslated(0, 1.2, 4);
+				glRotated(180, 0, 1, 0);
+				glRotated(rotacionModeloCompleto, 0, 1, 0);
+				glScaled(0.55, 0.55, 0.55);
+				pintar_robot();
+				glPopMatrix();
+
+				//LATA ESCALABLE
+				glPushMatrix();
+				glTranslated(0, 0, -3);
+				glTranslated(traslación_lata, 0, 0);
+				glScaled(escalado_lata, escalado_lata, escalado_lata);
+				modelos->latas(color_grisOscuro.data());
+				glPopMatrix();
+			}
+				
+
+		//Métodos para iniciar partida
 		if (iniciarPartida) {
 			asignarLatasIniciales(); 
 			iniciarPartida = false;
@@ -914,6 +936,7 @@ void igvEscena3D::visualizarVB() {
 			/*numLatas = hitboxes.size();*/
 		}
 
+		//Métodos durante la partida
 		if (!finPartida) {
 			gestionarLatasEventos();
 			gestionarPelotaEspecialEventos();
@@ -921,12 +944,11 @@ void igvEscena3D::visualizarVB() {
 				spawnPelotas();
 			}
 			gestionarTextos();
-		}
-
-		else {
+		} else {  //Limpiado de memoria si termina la partida
 			limpiarMemoriaYReinicio();
 		}
 
+		//Control de tiempo sobre el juego
 		if (juego.getTiempoTranscurrido() > 100) { //si se llega al maximo de tiempo se acaba la partida forzosamente
 			finPartida = true;
 			iniciarPartida = false;
@@ -937,6 +959,8 @@ void igvEscena3D::visualizarVB() {
 		glPopMatrix();
 	}
 	else {
+
+	int aux = colores.size() -3;
 
 		glPushMatrix();
 
@@ -972,6 +996,18 @@ void igvEscena3D::visualizarVB() {
 			glPopMatrix();
 		}
 		
+		if (estaEnRobot()) {
+			//LATA ESCALABLE
+			glPushMatrix();
+			glTranslated(0, 0, -3);
+			glTranslated(traslación_lata, 0, 0);
+			glScaled(escalado_lata, escalado_lata, escalado_lata);
+			cambia_color(colores, color_grisOscuro, aux, 3);
+			modelos->latas(color_grisOscuro.data(), false);
+			reinicio_colores();
+			glPopMatrix();
+		} 
+
 		if (estaEnJuego()) {
 			gestionarLatasEventosVB();
 			gestionarPelotaEspecialEventosVB();
@@ -981,29 +1017,6 @@ void igvEscena3D::visualizarVB() {
 		glPopMatrix();
 	}
 
-}
-
-void igvEscena3D::pintar_todo() {
-	glPushMatrix();
-	glRotated(getRotacion(), 0, 1, 0);
-		glPushMatrix();
-		glTranslated(-2,1,-6.5);
-		glScaled(0.5, 0.5, 0.5);
-		modelos->Estanteria();
-		glPopMatrix();
-
-		glPushMatrix();
-		glScaled(1, 0.4, 1);
-		modelos->Mostrador();
-		glPopMatrix();
-
-	glPushMatrix();
-	glTranslated(0, 0, 2);
-	glScaled(0.2, 0.2, 0.2);
-	pintar_robot();
-	glPopMatrix();
-
-	glPopMatrix();
 }
 
 //buscar posicion de una hitbox en el vector de hitboxes mediante vector de posicion

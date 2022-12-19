@@ -47,15 +47,6 @@ Modelos::Modelos() :h(1), b(3){
 	std::string j4 = "\cocacola3-1.jpg";
 	text4 = new igvTextura(&j4[0]);
 	text4->setIdTextura(4);
-
-	std::string j5 = "\pepsi7.jpg";
-	text5 = new igvTextura(&j5[0]);
-	text5->setIdTextura(5);
-
-	std::string j6 = "\estea.jpg";
-	text6 = new igvTextura(&j6[0]);
-	text6->setIdTextura(6);
-
 }
 
 Modelos::~Modelos() {
@@ -67,14 +58,11 @@ Modelos::~Modelos() {
 	text2->vaciar_imagen();
 	text3->vaciar_imagen();
 	text4->vaciar_imagen(); //elimino la imagen
-	text5->vaciar_imagen();
-	text6->vaciar_imagen();
 	delete text;
 	delete text2;
 	delete text3;
 	delete text4;
-	delete text5;
-	delete text6;
+
 }
 
 
@@ -613,3 +601,17 @@ void Modelos::Pared() {
 
 }
 
+void Modelos::latas(GLfloat color_lata[], bool textura) {
+	if (textura) {
+		glEnable(GL_TEXTURE_2D);
+		text4->pre_aplicar();
+		text4->aplicar();
+	}
+	glPushMatrix();
+	glRotated(90, 0, 0, 1);
+	glScaled(0.35, 0.2, 0.2);
+	lata(color_lata);
+	glPopMatrix();
+
+	glDisable(GL_TEXTURE_2D);
+}

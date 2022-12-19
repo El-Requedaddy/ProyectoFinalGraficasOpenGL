@@ -11,10 +11,6 @@
 
 static class Cubo {
 
-private:
-	/*std::vector<GLfloat> vertexCubo;
-	std::vector<GLfloat> textCoordCubo;*/
-
 public:
 	Cubo();
 	~Cubo();

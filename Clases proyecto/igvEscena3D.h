@@ -13,7 +13,7 @@
 #include "igvPunto3D.h"
 #include <vector>
 #include <algorithm>
-#include <iostream>
+//#include <iostream>
 #include "igvFuenteLuz.h"
 #include "igvColor.h"
 #include "Cubo.h"
@@ -64,6 +64,9 @@ protected:
 	float rotacion_pierna_inf_izq;
 	float rotacion_pie_izq;
 
+	float escalado_lata;
+	float traslación_lata;
+
 	std::vector<GLfloat> color_grisOscuro;
 	std::vector<GLfloat> color_rojo;
 	std::vector<GLfloat> color_verdeAzul;
@@ -109,6 +112,8 @@ protected:
 
 	bool finPartida = true;
 	bool iniciarPartida = false;
+
+	bool Es_smooth = true;
 
 	
 
@@ -630,6 +635,12 @@ public:
 		}
 		std::cout << "El estado del menu es: " << estadoMenu << std::endl;
 	}
+	bool GetEs_smooth() const { return Es_smooth; }
+	void SetEs_smooth(bool val) { Es_smooth = val; }
+	float GetEscalado_lata() const { return escalado_lata; }
+	void SetEscalado_lata(float val) { escalado_lata = val; }
+	float GetTraslación_lata() const { return traslación_lata; }
+	void SetTraslación_lata(float val) { traslación_lata = val; }
 };
 
 #endif

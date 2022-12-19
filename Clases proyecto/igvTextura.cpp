@@ -46,16 +46,12 @@ void igvTextura::pre_aplicar(){
 	}
 	
 }
-//
-//void igvTextura::cambiar_id() {
-//	glBindTexture(GL_TEXTURE_2D, 0);
-//}
+
 
 void igvTextura::vaciar_imagen() {
 	SDL_FreeSurface(imagen);
 }
 void igvTextura::aplicar(void) {
-	std::cout << idTextura << std::endl;
   glBindTexture(GL_TEXTURE_2D, idTextura);
 }
 
