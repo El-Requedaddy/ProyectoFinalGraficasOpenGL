@@ -106,6 +106,15 @@ void Modelos::cubo(GLfloat color_cubo[]) {
 	glPopMatrix();
 }
 
+void Modelos::lata(GLfloat color_cubo[]) {
+	glMaterialfv(GL_FRONT, GL_EMISSION, color_cubo);
+	glColor3fv(color_cubo);
+	glPushMatrix();
+	glTranslated(-1, -1, -1);
+	Cubo::visualizarLata();
+	glPopMatrix();
+}
+
 void Modelos::cono3D(GLfloat color_cono[]) {
 	glMaterialfv(GL_FRONT, GL_EMISSION, color_cono);
 	glColor3fv(color_cono);
@@ -246,12 +255,12 @@ void Modelos::brazo_superior(int lado) {
 	}
 	glPushMatrix();
 
-			glPushMatrix(); //Transformaciones del brazo superior
-			glTranslated(1.61, 0, 0);
-			glRotated(-90, 0, 1, 0);
-			glScaled(1.1, 1.1, 1.1);
-			cilindro(color_br_sup.data());
-			glPopMatrix();
+		glPushMatrix(); //Transformaciones del brazo superior
+		glTranslated(1.61, 0, 0);
+		glRotated(-90, 0, 1, 0);
+		glScaled(1.1, 1.1, 1.1);
+		cilindro(color_br_sup.data());
+		glPopMatrix();
 
 
 	glPopMatrix();   //Fin brazo(sin hombro)

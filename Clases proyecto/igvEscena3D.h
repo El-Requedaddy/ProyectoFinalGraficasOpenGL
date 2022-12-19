@@ -23,6 +23,9 @@
 #include<time.h>
 #include "Juego.h"
 #include <ctime>
+#include <string> 
+#include <cstring>
+#include <iostream>
 
 class igvEscena3D {
 protected:
@@ -30,6 +33,12 @@ protected:
 	float ang_foco, exp_foco, GB_dif, GB_esp; 
 	float X, Y;
 	bool foco_activo;
+
+	//atributos que controlan la escena
+	bool menu = true;
+	bool juegoL = false; //el juego está en modo juego de disparar latas
+	bool robot = false; //el juego está en modo jugar con el robot
+	int estadoMenu;
 
 	////// Apartado C: añadir quí los atributos para el control de los grados de libertad del modelo
 	float rotacionModeloCompleto;
@@ -61,6 +70,7 @@ protected:
 	std::vector<GLfloat> color_azul;
 	std::vector<GLfloat> color_marron;
 	std::vector<GLfloat> color_naranja;
+	std::vector<GLfloat> color_negro;
 
 	int pos_r, pos_a, pos_v, pos_g, pos_juego;
 	// Otros atributos		
@@ -70,17 +80,6 @@ protected:
 	bool modo_act;//indicador de si estamos en modo selección
 	std::vector<GLfloat> colores; //Array de los diferentes colores
 
-	//Atributos proyecto final!!!
-	float trasX = 1.5;
-	float trasY = -2.7;
-	float trasZ = 0.1;
-
-	float rotX, rotY, rotZ = 0;
-
-	float trasXrobot = 0;
-	float trasYrobot = 0;
-	float trasZrobot = 2;
-
 	bool animacionPelota = true;
 	bool lanzarPelota = false;
 
@@ -88,15 +87,13 @@ protected:
 	std::vector<hitbox*> hitboxes;
 	hitbox hitboxDestino;
 
-	juego juego;
-
 	//atributos de la trayectoria de la pelota
 	float a;
 	float movementSpeed = 0.2;
 	float deltaTime = 0.1;
 	igvPunto3D posicionPelota;
-	igvPunto3D coordenadaInicial; //final 
-	igvPunto3D coordenadaFinal;  //inicial
+	igvPunto3D coordenadaFinalLanzamiento; //final 
+	igvPunto3D coordenadaInicialLanzamiento;  //inicial
 
 	//aparicion pelota especial
 	int numLatasTiradas;
@@ -117,6 +114,8 @@ protected:
 
 public:
 
+	juego juego;
+
 	// Constructores por defecto y destructor
 	igvEscena3D();
 	~igvEscena3D();
@@ -124,6 +123,7 @@ public:
 	// método con las llamadas OpenGL para visualizar la escena
 	void visualizar(void);
 	void visualizarVB(void);//Método para la visualización en modo selección
+	void visualizarMenu(void);
 
 
 	//----------------------------------Métodos para la visualización de las diferentes partes de la escena-----------------------------
@@ -501,27 +501,6 @@ public:
 	void set_ejes(bool _ejes) { ejes = _ejes; };
 	//-----------------------------------------------------------------------------------------------------------------
 
-	//métodos movimiento robot
-	void setxRobot(float a) {
-		trasXrobot += a;
-	};
-
-	void setyRobot(float a) {
-		trasYrobot += a;
-	};
-
-	float getRobotX() {
-		return trasXrobot;
-	};
-
-	float getRobotY() {
-		return trasYrobot;
-	};
-
-	float getRobotZ() {
-		return trasZrobot;
-	};
-
 	void setPelota(bool animado) {
 		animacionPelota = animado;
 	}
@@ -593,6 +572,9 @@ public:
 	//Limpia toda la memoria y variables del juego para empezar de nuevo
 	void limpiarMemoriaYReinicio();
 
+	//generación de textos que muestran puntuación y tiempo transcurrido
+	void gestionarTextos();
+
 	void IniciarPartida() {
 		iniciarPartida = true;
 		finPartida = false;
@@ -602,6 +584,52 @@ public:
 		finPartida = true;
 	}
 
+	void drawText(float x, float y, float z, const char* text);
+
+	//métodos que indican en que escena nos encontramos para limitar acciones entre diferentes escenas
+
+	bool estaEnMenu() {
+		return menu;
+	}
+
+	bool estaEnJuego() {
+		return juegoL;
+	}
+
+	bool estaEnRobot() {
+		return robot;
+	}
+
+	void setEnMenu(bool e) {
+		menu = e;
+	}
+
+	void setEnJuego(bool e) {
+		juegoL = e;
+	}
+
+	void setEnRobot(bool e) {
+		robot = e;
+	}
+
+	int getEstadoMenu() {
+		return estadoMenu;
+	}
+
+	void modificarEstadoMenu(int a) {
+		if (estadoMenu == 2 && a == 1) {
+			estadoMenu = 0;
+		}
+		else if (estadoMenu == 0 && a == -1) {
+			estadoMenu = 2;
+		} else if (a == 1 || a == -1){
+			estadoMenu += a;
+		}
+		else {
+			estadoMenu = 0;
+		}
+		std::cout << "El estado del menu es: " << estadoMenu << std::endl;
+	}
 };
 
 #endif

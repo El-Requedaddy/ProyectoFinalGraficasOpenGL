@@ -6,6 +6,8 @@
 
 // Metodos constructores 
 igvEscena3D::igvEscena3D() {
+	estadoMenu = 0;
+
 	ejes = false;
 	modelos = new Modelos();
 	// Apartado C: inicializar los atributos para el control de los grados de libertad del modelo 
@@ -47,7 +49,7 @@ igvEscena3D::igvEscena3D() {
 
 	/*coordenadaInicial.set(hitboxes[0]->posicion.c[0], hitboxes[0]->posicion.c[1], hitboxes[0]->posicion.c[2]);*/
 	/*coordenadaInicial.set(0, 2, 0);*/
-	coordenadaFinal.set(0, 2.5, 2);
+	coordenadaInicialLanzamiento.set(0, 2.5, 2);
 	//coordenadaFinal.set(getRobotX() + 1, getRobotY() + 2.9, getRobotZ() + 4);
 
 	color_verdeAzul.push_back(0.0f);
@@ -73,6 +75,10 @@ igvEscena3D::igvEscena3D() {
 	color_rojo.push_back(1.0f);
 	color_rojo.push_back(0.0f);
 	color_rojo.push_back(0.0f);
+
+	color_negro.push_back(0.0f);
+	color_negro.push_back(0.0f);
+	color_negro.push_back(0.0f);
 
 	//Se generan los colores para la selección
 	pos_juego = 66;
@@ -234,7 +240,7 @@ void igvEscena3D::pintar_robot() {
 		culo.push_back(0.5f);
 		culo.push_back(0.5f);
 		glScaled(0.4, 0.4, 0.4);
-		glutSolidSphere(1.2, 32, 32);
+		modelos->esfera(color_rojo.data());
 		glPopMatrix();
 	}
 
@@ -669,7 +675,6 @@ void igvEscena3D::calculoTrayectoriaPelota(hitbox h1, hitbox h2) {
 }
 
 void igvEscena3D::visualizar() {
-	
 	//ACTIVO LAS TEXTURAS
 	glEnable(GL_TEXTURE_2D);
 
@@ -714,6 +719,107 @@ void igvEscena3D::visualizar() {
 	visualizarVB();
 	glPopMatrix();
 
+
+
+}
+
+void igvEscena3D::visualizarMenu() {
+	glEnable(GL_TEXTURE_2D);
+
+	igvPunto3D pos_f;
+
+	//Dependiendo del estado del menú, el foco apuntará al cubo de la opcion correspondiente
+	if (estadoMenu == 0) {
+		pos_f.set(-3, 2.7, -7);
+	}
+	else if (estadoMenu == 1) {
+		pos_f.set(0, 2.7, -7);
+	}
+	else if (estadoMenu == 2){
+		pos_f.set(3, 2.7, -7);
+	}
+
+	igvColor amb_f(0, 0.0, 0.0, 1.0);
+	igvColor dif_f(0, GetGB_dif(), GetGB_dif(), 1.0);
+	igvColor esp_f(0, GB_esp, GB_esp, 1.0);
+	igvPunto3D dirF_f(0, 0, -1);
+	igvFuenteLuz foco(GL_LIGHT3, pos_f, amb_f, dif_f, esp_f, 1, 0, 0, dirF_f, 20, GetExp_foco(), false);
+	foco.encender();
+	foco.aplicar();
+
+	glPushMatrix();
+	glScaled(1.4, 1.4, 1.4);
+		glPushMatrix();
+		glScaled(1.4, 1.4, 1.4);
+
+		glShadeModel(GL_SMOOTH);
+		igvColor ambM(0.1, 0.1, 0.1);
+		igvColor difM(0.7, 0.7, 0.7);
+		igvColor espM(0.8, 0.8, 0.8);
+		igvMaterial material(ambM, difM, espM, 80);
+		material.aplicar();
+
+		//glPushMatrix();
+		//glTranslated(0, 0, 2);
+		//glRotated(180, 0, 1, 0);
+		//glScaled(0.2, 0.2, 0.2);
+		//pintar_robot();
+		//glPopMatrix();
+
+		glPushMatrix();
+		glTranslated(0, 0, 1);
+		glScaled(4, 1, 4);
+		modelos->Suelo();
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslated(7.7, 0.6, 5);
+		glScaled(1.25, 1.25, 1.25);
+		modelos->Pared();
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslated(-7.7, 0.6, -3);
+		glRotated(180, 0, 1, 0);
+		glScaled(1.25, 1.25, 1.25);
+		modelos->Pared();
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslated(4, 0.6, -7);
+		glRotated(90, 0, 1, 0);
+		glScaled(1.25, 1.5, 1.25);
+		modelos->Pared();
+		glPopMatrix();
+
+	glPopMatrix();
+
+	glPushMatrix();
+
+
+	//Se procede a crear los botones de seleccion de opciones
+	glTranslated(-2, 2, -9.5);
+	glRotated(180, 1, 0, 0);
+	glScaled(0.55, 0.3, 0.3);
+	modelos->cubo(color_grisOscuro.data());
+	drawText(-0.8, -0.25, -9.5, "Jugar");
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslated(0, 2, -9.5);
+	glRotated(180, 1, 0, 0);
+	glScaled(0.55, 0.3, 0.3);
+	modelos->cubo(color_grisOscuro.data());
+	drawText(-0.75, -0.25, -9.5, "Robot");
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslated(2, 2, -9.5);
+	glRotated(180, 1, 0, 0);
+	glScaled(0.55, 0.3, 0.3);
+	modelos->cubo(color_grisOscuro.data());
+	drawText(-0.70, -0.25, -9.5, "Salir");
+	glPopMatrix();
 }
 
 void igvEscena3D::visualizarVB() {
@@ -723,7 +829,6 @@ void igvEscena3D::visualizarVB() {
 	if (!modo_act) {
 		//glRotated(rotacionModeloCompleto, 0, 1, 0);
 		glPushMatrix();
-
 
 			glShadeModel(GL_SMOOTH);
 			igvColor ambMo(0.1, 0.1, 0.1);
@@ -740,75 +845,67 @@ void igvEscena3D::visualizarVB() {
 			//glPopMatrix();
 
 			glPushMatrix();
-			glTranslated(0, -0.5, 0.35);
-			glScaled(1, 0.4, 1);
-			modelos->Mostrador();
+			glScaled(1.4, 1.4, 1.4);
+				glPushMatrix();
+				glTranslated(0, -0.5, 0.35);
+				glScaled(1, 0.4, 1);
+				modelos->Mostrador();
+				glPopMatrix();
+
+				glShadeModel(GL_SMOOTH);
+				igvColor ambM(0.1, 0.1, 0.1);
+				igvColor difM(0.7, 0.7, 0.7);
+				igvColor espM(0.8, 0.8, 0.8);
+				igvMaterial material(ambM, difM, espM, 80);
+				material.aplicar();
+
+				glPushMatrix();
+				glTranslated(-2.75,1.2,-6.5);
+				glScaled(0.7, 0.7, 0.7);
+				modelos->Estanteria();
+				glPopMatrix();
+
+				//glPushMatrix();
+				//glTranslated(0, 0, 2);
+				//glRotated(180, 0, 1, 0);
+				//glScaled(0.2, 0.2, 0.2);
+				//pintar_robot();
+				//glPopMatrix();
+
+				glPushMatrix();
+				glTranslated(0, 0, 1);
+				glScaled(4, 1, 4);
+				modelos->Suelo();
+				glPopMatrix();
+
+				glPushMatrix();
+				glTranslated(7.7, 0.6, 5);
+				glScaled(1.25, 1.25, 1.25);
+				modelos->Pared();
+				glPopMatrix();
+
+				glPushMatrix();
+				glTranslated(-7.7, 0.6, -3);
+				glRotated(180, 0, 1, 0);
+				glScaled(1.25, 1.25, 1.25);
+				modelos->Pared();
+				glPopMatrix();
+
+				glPushMatrix();
+				glTranslated(4, 0.6, -7);
+				glRotated(90, 0, 1, 0);
+				glScaled(1.25, 1.5, 1.25);
+				modelos->Pared();
+				glPopMatrix();
+
 			glPopMatrix();
 
-			glShadeModel(GL_SMOOTH);
-			igvColor ambM(0.1, 0.1, 0.1);
-			igvColor difM(0.7, 0.7, 0.7);
-			igvColor espM(0.8, 0.8, 0.8);
-			igvMaterial material(ambM, difM, espM, 80);
-			material.aplicar();
-
 			glPushMatrix();
-			glTranslated(-2,0.65,-6.5);
-			glScaled(0.5, 0.5, 0.5);
-			modelos->Estanteria();
-			glPopMatrix();
-
-			//glPushMatrix();
-			//glTranslated(0, 0, 2);
-			//glRotated(180, 0, 1, 0);
-			//glScaled(0.2, 0.2, 0.2);
-			//pintar_robot();
-			//glPopMatrix();
-
-			glPushMatrix();
-			glTranslated(0, 1.5, 2);
+			glTranslated(0, 1.2, 3.2);
 			glRotated(180, 0, 1, 0);
 			glScaled(0.55, 0.55, 0.55);
 			pintar_robot();
 			glPopMatrix();
-
-
-			glPushMatrix();
-			glTranslated(0, 0, 1);
-			glScaled(4, 1, 4);
-			modelos->Suelo();
-			glPopMatrix();
-
-			glPushMatrix();
-			glTranslated(7.7, 0.6, 5);
-			modelos->Pared();
-			glPopMatrix();
-
-			glPushMatrix();
-			glTranslated(-7.7, 0.6, -3);
-			glRotated(180, 0, 1, 0);
-			modelos->Pared();
-			glPopMatrix();
-
-			glPushMatrix();
-			glTranslated(4, 0.6, -7);
-			glRotated(90, 0, 1, 0);
-			modelos->Pared();
-			glPopMatrix();
-
-//=======
-//		//pintar_robot();
-//		glPushMatrix();
-//		glRotated(getRotacion(), 0, 1, 0);
-//		glPushMatrix();
-//		//glRotated(getRotacion(), 0, 1, 0);
-//		glTranslated(-2.5, 1, -6.5);
-//		glScaled(0.7, 0.7, 0.7);
-//		modelos->Estanteria();
-//		glPopMatrix();
-
-
-
 
 		if (iniciarPartida) {
 			asignarLatasIniciales(); 
@@ -823,7 +920,9 @@ void igvEscena3D::visualizarVB() {
 			if (juego.getNumLatas() < juego.getMaxLatas() ) {
 				spawnPelotas();
 			}
+			gestionarTextos();
 		}
+
 		else {
 			limpiarMemoriaYReinicio();
 		}
@@ -833,30 +932,29 @@ void igvEscena3D::visualizarVB() {
 			iniciarPartida = false;
 		}
 
-		std::cout << "Num latas: " << juego.getNumLatas() << std::endl;
+		/*std::cout << "Num latas: " << juego.getNumLatas() << std::endl;*/
 		/*std::cout << "Segundos: " << juego.getTiempoTranscurrido() << std::endl;*/
 		glPopMatrix();
 	}
 	else {
 
-		/*glPushMatrix();
-<<<<<<< HEAD
-		pintar_robotVB();
-		glPopMatrix();*/
-		
 		glPushMatrix();
 
 			glPushMatrix();
-			glTranslated(-2, 1, -6.5);
-			glScaled(0.5, 0.5, 0.5);
-			modelos->Estanteria();
-			glPopMatrix();
+			glScaled(1.4, 1.4, 1.4);
+				glPushMatrix();
+				glTranslated(-2.75, 1.2, -6.5);
+				glScaled(0.7, 0.7, 0.7);
+				modelos->Estanteria();
+				glPopMatrix();
 
-			glPushMatrix();
-			glScaled(1, 0.4, 1);
-			modelos->Mostrador();
-			glPopMatrix();
+				glPushMatrix();
+				glTranslated(0, -0.5, 0.35);
+				glScaled(1, 0.4, 1);
+				modelos->Mostrador();
+				glPopMatrix();
 
+			glPopMatrix();
 			//glPushMatrix();
 			//glTranslated(0, 0, 2);
 			//glRotated(180, 0, 1, 0);
@@ -864,16 +962,21 @@ void igvEscena3D::visualizarVB() {
 			//pintar_robotVB();
 			//glPopMatrix();
 
-		glPushMatrix();
-		glTranslated(0, 1.5, 2);
-		glRotated(180, 0, 1, 0);
-		glScaled(0.55, 0.55, 0.55);
-		pintar_robotVB();
-		glPopMatrix();
 
+		if (estaEnRobot()) {
+			glPushMatrix();
+			glTranslated(0, 1.2, 3.2);
+			glRotated(180, 0, 1, 0);
+			glScaled(0.55, 0.55, 0.55);
+			pintar_robotVB();
+			glPopMatrix();
+		}
+		
+		if (estaEnJuego()) {
+			gestionarLatasEventosVB();
+			gestionarPelotaEspecialEventosVB();
+		}
 		//dibujado de latas y pelota especial en seleccion
-		gestionarLatasEventosVB();
-		gestionarPelotaEspecialEventosVB();
 
 		glPopMatrix();
 	}
@@ -915,9 +1018,8 @@ int igvEscena3D::buscarHitbox(hitbox &h) {
 
 }
 
-
 void igvEscena3D::actualizarCoordenadaFinal(const igvPunto3D &inicial) {
-	coordenadaInicial = inicial;
+	coordenadaFinalLanzamiento = inicial;
 }
 
 void igvEscena3D::sustituirLata(const int& i) {
@@ -994,8 +1096,8 @@ void igvEscena3D::procesarColisiones(const hitbox& h1, hitbox h2) {
 }
 
 void igvEscena3D::interpolacionTrayectoria(hitbox& h1, hitbox& h2) {
-	igvPunto3D inic = coordenadaInicial;
-	igvPunto3D fin = coordenadaFinal;
+	igvPunto3D inic = coordenadaFinalLanzamiento;
+	igvPunto3D fin = coordenadaInicialLanzamiento;
 
 	//formula para trazar camino mediante interpolacion
 	a += movementSpeed * deltaTime;
@@ -1009,6 +1111,7 @@ void igvEscena3D::interpolacionTrayectoria(hitbox& h1, hitbox& h2) {
 }
 
 void igvEscena3D::gestionarLatasEventos() {
+
 	hitbox h1;
 	h1.tamano.c[0] = 0.2;
 	h1.tamano.c[1] = 0.2;
@@ -1030,8 +1133,8 @@ void igvEscena3D::gestionarLatasEventos() {
 			colorin[2] = colorinAux[2];
 			glTranslated(hitboxes[i]->posicion.c[0], hitboxes[i]->posicion.c[1], hitboxes[i]->posicion.c[2]);
 			glRotated(90, 0, 0, 1);
-			glScaled(0.35, 0.2, 0.2);
-			modelos->cubo(colorin);
+			glScaled(0.55, 0.3, 0.3);
+			modelos->lata(colorin);
 			glPopMatrix();
 		}
 	}
@@ -1105,11 +1208,8 @@ void igvEscena3D::gestionarLatasEventosVB() {
 		glPushMatrix();
 		glTranslated(hitboxes[i]->posicion.c[0], hitboxes[i]->posicion.c[1], hitboxes[i]->posicion.c[2]);
 		glRotated(90, 0, 0, 1);
-		glScaled(0.35, 0.2, 0.2);
+		glScaled(0.55, 0.3, 0.3);
 		cambia_color(colores, color_grisOscuro, contGris, 3);
-		if (hitboxes[i]->getValor() == 150) {
-			std::cout << "El color gris de la roja es: " << color_grisOscuro[0] << ", " << color_grisOscuro[1] << ", " << color_grisOscuro[2] << std::endl;
-		}
 		hitboxes[i]->setColor(color_grisOscuro);
 		modelos->cubo(color_grisOscuro.data());
 		reinicio_colores();
@@ -1140,7 +1240,7 @@ void igvEscena3D::gestionarPelotaEspecialEventosVB() {
 }
 
 void igvEscena3D::limpiarMemoriaYReinicio() {
-	if (hitboxes.size() > 0) {
+	if (hitboxes.size() > 0) {  //limpiamos los diferentes vectores
 		hitboxes.clear();
 	}
 	if (hitboxesPendientes.size() > 0) {
@@ -1149,16 +1249,53 @@ void igvEscena3D::limpiarMemoriaYReinicio() {
 	if (hitboxes_a_borrar.size() > 0) {
 		hitboxes_a_borrar.clear();
 	}
-	numeroGolpes = 0;
+	numeroGolpes = 0;   //reiniciamos las estadísticas necesarias
 	juego.reiniciarNumLatas();
 	numLatasTiradas = 0;
 	finPartida = true;
 	iniciarPartida = false;
 	animacionPelota = true;
 	lanzarPelota = false;
-	juego.reiniciarPosicionesOcupadas();
-	juego.actualizarRecord();
+	juego.reiniciarPosicionesOcupadas();  //limpiamos las posiciones anteriormentes ocupadas
+	juego.actualizarRecord();  //se actualiza el record en caso de haberlo
 	coordenadasPelotaEspecial = juego.nuevaPosicionPelotaEspecial();
-	pelotaEspecial.actualizarCoordenadas(coordenadasPelotaEspecial.c[0], coordenadasPelotaEspecial.c[1], coordenadasPelotaEspecial.c[2]);
+	pelotaEspecial.actualizarCoordenadas(coordenadasPelotaEspecial.c[0], coordenadasPelotaEspecial.c[1], coordenadasPelotaEspecial.c[2]); //se actualizan las coordenadas de la pelota especial
 }
 
+void igvEscena3D::drawText(float x, float y, float z, const char* text) {
+	// Establece la posición del texto
+	glRasterPos3f(x, y, z);
+	// Muestra el texto caracter por caracter
+	while (*text) {
+		glPushMatrix();
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *text);
+		text++;
+		glPopMatrix();
+	}
+}
+
+void igvEscena3D::gestionarTextos() {
+
+	if (!juego.getHombroDerecho()) {
+		std::string s = std::to_string(juego.getPuntuacion());
+		const char* str = s.c_str();
+		glPushMatrix();
+		glMaterialfv(GL_FRONT, GL_EMISSION, color_negro.data());
+		glColor3fv(color_negro.data());
+		drawText(-5.4, 5.5, 0, "Puntuacion: ");
+		drawText(-3.7, 5.5, 0, str);
+		glPopMatrix();
+	}
+
+	if (juego.getHombroDerecho()) {
+		std::string s = std::to_string(juego.getPuntuacion());
+		const char* str = s.c_str();
+		glPushMatrix();
+		glMaterialfv(GL_FRONT, GL_EMISSION, color_negro.data());
+		glColor3fv(color_negro.data());
+		drawText(-1.35, 5.5, 0, "Puntuacion: ");
+		drawText(-2.3, 5.5, 0, str);
+		glPopMatrix();
+	}
+	
+}

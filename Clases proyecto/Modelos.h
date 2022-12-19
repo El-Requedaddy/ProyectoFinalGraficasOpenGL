@@ -74,6 +74,7 @@ public:
 		return colores_robot;
 	}
 
+	void lata(GLfloat color_cubo[]);
 
 };
 

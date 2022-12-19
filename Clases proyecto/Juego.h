@@ -22,6 +22,9 @@ private:
 	int segundos1; //Variable para controlar los segundos que pasan para pintar latas periodicamente en la estanteria
 	int segundos2; //Variable para controlar los segundos que pasan para pintar latas periodicamente
 	int segundos3;
+
+	bool hombroDerecho; //Variable que indica que cámara de juego está siendo utilizada, es decir, hombro derecho o izquierdo
+
 public:
 	juego();
 
@@ -61,6 +64,12 @@ public:
 		aux = clock();
 	}
 
+	int getPuntuacion() {
+		return puntuacion;
+	}
+
+	bool getHombroDerecho();
+	void setHombroDerecho(bool e);
 	void setSegundos1(int a);
 	void setSegundos2(int a);
 	void setSegundos3(int a);

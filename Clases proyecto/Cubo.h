@@ -11,10 +11,15 @@
 
 static class Cubo {
 
+private:
+	/*std::vector<GLfloat> vertexCubo;
+	std::vector<GLfloat> textCoordCubo;*/
+
 public:
 	Cubo();
 	~Cubo();
 	static void visualizar(); //cubo
+	static void visualizarLata();
 	static void cara_abajo(); //solo quad de abajo
 	static void cara_derecha(); //solo quad de abajo
 

@@ -9,8 +9,18 @@ juego::juego() {
 	numMaxLatas = 21;
 
 	segundos1 = 5;
-	segundos2 = 5;
-	segundos3 = 5;
+	segundos2 = 7;
+	segundos3 = 9;
+
+	hombroDerecho = true;
+}
+
+bool juego::getHombroDerecho() {
+	return hombroDerecho;
+}
+
+void juego::setHombroDerecho(bool e) {
+	hombroDerecho = e;
 }
 
 void juego::setSegundos1(int a) {
@@ -110,7 +120,7 @@ void juego::actualizarRecord() {
 }
 
 void juego::posicionesObjetos(std::vector<igvPunto3D>& vector) {
-	igvPunto3D aux1(-2.1, 0.9, -6.3);
+	/*igvPunto3D aux1(-2.1, 0.9, -6.3);
 	igvPunto3D aux2(-1.6, 0.9, -6.3);
 	igvPunto3D aux3(-1, 0.9, -6.3);
 	igvPunto3D aux4(-0.5, 0.9, -6.3);
@@ -157,9 +167,59 @@ void juego::posicionesObjetos(std::vector<igvPunto3D>& vector) {
 	igvPunto3D aux45(-6, 1.11, -3.5);
 	igvPunto3D aux46(-6, 1.11, -4.8);
 	igvPunto3D aux47(-6, 1.11, -5.5);
-	igvPunto3D aux48(-6, 1.11, -6.5);
+	igvPunto3D aux48(-6, 1.11, -6.5);*/
 
-	vector.push_back(aux1);
+	//igvPunto3D aux1(-3.8, -0.85, -9); //-2.1, 0.9, -6.3
+	igvPunto3D aux2(-3, -0.85, -9);
+	igvPunto3D aux3(-2.2, -0.85, -9);
+	igvPunto3D aux4(-1.4, -0.85, -9);
+	igvPunto3D aux5(-0.6, -0.85, -9);
+	igvPunto3D aux16(0.2, -0.85, -9);
+	igvPunto3D aux17(1, -0.85, -9);
+	igvPunto3D aux18(1.8, -0.85, -9);
+	igvPunto3D aux19(2.6, -0.85, -9);
+	igvPunto3D aux20(3.4, -0.85, -9);
+	igvPunto3D aux6(-3, 1.3, -9);
+	igvPunto3D aux7(-2.2, 1.3, -9);
+	igvPunto3D aux8(-1.4, 1.3, -9);
+	igvPunto3D aux9(-0.6, 1.3, -9);
+	igvPunto3D aux10(0.2, 1.3, -9);
+	igvPunto3D aux11(1, 1.3, -9);
+	igvPunto3D aux12(1.8, 1.3, -9);
+	igvPunto3D aux13(2.6, 1.3, -9);
+	igvPunto3D aux14(3.4, 1.3, -9);
+	/*igvPunto3D aux15(-3, 1.8, -9);*/
+
+	/*igvPunto3D aux21(-2.1, 3.45, -9); */
+	igvPunto3D aux22(-3, 3.45, -9);
+	igvPunto3D aux23(-2.2, 3.45, -9);
+	igvPunto3D aux24(-1.4, 3.45, -9);
+	igvPunto3D aux25(-0.6, 3.45, -9);
+	igvPunto3D aux26(0.2, 3.45, -9);
+	igvPunto3D aux27(1, 3.45, -9);
+	igvPunto3D aux28(1.8, 3.45, -9);
+	igvPunto3D aux29(2.6, 3.45, -9);
+	igvPunto3D aux30(3.4, 3.45, -9);
+
+	igvPunto3D aux31(7.3, 0.6, -7);
+	igvPunto3D aux32(7.3, 0.6, -5);
+	igvPunto3D aux33(7.3, 0.6, -2);
+	igvPunto3D aux34(7.3, 0.6, -1);
+	igvPunto3D aux35(6, 0.6, -2.5);
+	igvPunto3D aux36(6, 0.6, -3.7);
+	igvPunto3D aux37(6, 0.6, -4.8);
+	igvPunto3D aux38(6, 0.6, -5.5);
+	igvPunto3D aux39(6, 0.6, -6.5);
+	igvPunto3D aux40(-7.3, 0.6, -4);
+	igvPunto3D aux41(-7.3, 0.6, -5);
+	igvPunto3D aux42(-7.3, 0.6, -2);
+	igvPunto3D aux43(-7.3, 0.6, -1);
+	igvPunto3D aux44(-6, 0.6, -2.5);
+	igvPunto3D aux45(-6, 0.6, -3.7);
+	igvPunto3D aux46(-6, 0.6, -4.8);
+	igvPunto3D aux47(-6, 0.6, -5.5);
+	igvPunto3D aux48(-6, 0.6, -6.5);
+
 	vector.push_back(aux2);
 	vector.push_back(aux3);
 	vector.push_back(aux4);
@@ -173,13 +233,13 @@ void juego::posicionesObjetos(std::vector<igvPunto3D>& vector) {
 	vector.push_back(aux12);
 	vector.push_back(aux13);
 	vector.push_back(aux14);
-	vector.push_back(aux15);
+	/*vector.push_back(aux15);*/
 	vector.push_back(aux16);
 	vector.push_back(aux17);
 	vector.push_back(aux18);
 	vector.push_back(aux19);
 	vector.push_back(aux20);
-	vector.push_back(aux21);
+	/*vector.push_back(aux21);*/
 	vector.push_back(aux22);
 	vector.push_back(aux23);
 	vector.push_back(aux24);

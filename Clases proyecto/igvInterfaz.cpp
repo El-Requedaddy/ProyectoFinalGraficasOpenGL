@@ -31,9 +31,9 @@ void igvInterfaz::crear_mundo(void) {
 
 	//p0 = igvPunto3D(6.0, 4.0, 8);
 
-	p0 = igvPunto3D(0, 2, 5);// -> Yessin
+	p0 = igvPunto3D(0, 4, 6);// -> Yessin
 	////p0 = igvPunto3D(1.5,3,8);
-	r = igvPunto3D(0, 0, 0);
+	r = igvPunto3D(0, 3.5, 0);
 
 	/*p0 = igvPunto3D(-2.5, 4, 3.5);
 	r = igvPunto3D(0.5, 0, -6.3);
@@ -148,7 +148,7 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 		if (interfaz.escena.GetGB_dif() - 0.1 >= 0.0)
 			interfaz.escena.SetGB_dif(-0.1);
 		break;
-	case 't': //aumentar G y B de refleción especular
+	case 't': //aumentar G y B de refleción especularf
 		if (interfaz.escena.GetGB_esp() + 0.1 <= 1.0)
 			interfaz.escena.SetGB_esp(0.1);
 		break;
@@ -159,7 +159,7 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 	case 'y': //Apagar/Encender foco
 		interfaz.escena.SetFoco_activo(interfaz.escena.GetFoco_activo() ? false : true);
 		break;
-	case 'Y': //Apagar/Encender foco
+	case 'Y': //Apagar/Encender focod
 		interfaz.escena.SetFoco_activo(interfaz.escena.GetFoco_activo() ? false : true);
 		break;
 
@@ -181,20 +181,22 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 		break;
 	case 'o': { //Camara hombro derecho
 		igvPunto3D p0, r, v;
-		p0 = igvPunto3D(2, 4, 4);
-		r = igvPunto3D(0.5, 0, -6.3);
+		p0 = igvPunto3D(2, 4, 5.5); //4.9
+ 		r = igvPunto3D(2, 0, -6.3);
 		v = igvPunto3D(0, 1.0, 0);
 		interfaz.camara.set(IGV_PERSPECTIVA, p0, r, v, -1 * 3, 1 * 3, -1 * 3, 1 * 3, 1, 200);
 		interfaz.camara.aplicar();
+		interfaz.escena.juego.setHombroDerecho(true);
 	}
 			break;
 	case 'p': { //Camara hombro izquierdo
 		igvPunto3D p0, r, v;
-		p0 = igvPunto3D(-2.5, 4, 3.5);
-		r = igvPunto3D(0.5, 0, -6.3);
+		p0 = igvPunto3D(-2.5, 4, 5.4); //4.2
+		r = igvPunto3D(-2.2, 0, -6.3);
 		v = igvPunto3D(0, 1.0, 0);
 		interfaz.camara.set(IGV_PERSPECTIVA, p0, r, v, -1 * 3, 1 * 3, -1 * 3, 1 * 3, 1, 200);
 		interfaz.camara.aplicar();
+		interfaz.escena.juego.setHombroDerecho(false);
 	}
 			break;
 
@@ -286,6 +288,43 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 		interfaz.camara.restarZnear();
 		interfaz.camara.aplicar();
 		break;
+	case '>': {
+		if (interfaz.escena.estaEnMenu()) {
+			interfaz.escena.modificarEstadoMenu(1);
+		}
+	}
+		break;
+	case '<': {
+		if (interfaz.escena.estaEnMenu()) {
+			interfaz.escena.modificarEstadoMenu(-1);
+		}
+	}
+		break;
+	case 'm': {
+		interfaz.cambiarEscenaEnMenu();
+	}
+		break;
+	case '5': {
+		if (!interfaz.escena.estaEnMenu()) {
+			interfaz.escena.setEnJuego(false);
+			interfaz.escena.limpiarMemoriaYReinicio();
+			interfaz.escena.setEnRobot(false);
+			interfaz.escena.setEnMenu(true);
+			interfaz.escena.modificarEstadoMenu(0);
+			
+			igvPunto3D p0, r, v;
+			p0 = igvPunto3D(0, 4, 6);// -> Yessin
+			r = igvPunto3D(0, 3.5, 0);
+			v = igvPunto3D(0, 1.0, 0);
+			interfaz.camara.set(IGV_PARALELA, p0, r, v, -1 * 5, 1 * 5, -1 * 5, 1 * 5, -1 * 3, 200);
+			interfaz.camara.angulo = 75;
+			interfaz.camara.raspecto = 1.0;
+			glDisable(GL_LIGHT0);
+			glDisable(GL_LIGHT1);
+			glDisable(GL_LIGHT2);
+		}
+	}
+		break;
 	case 27: // tecla de escape para SALIR
 		exit(1);
 		break;
@@ -310,7 +349,7 @@ void igvInterfaz::set_glutDisplayFunc() {
 		// se establece el viewport
 	glViewport(0, 0, interfaz.get_ancho_ventana(), interfaz.get_alto_ventana());
 
-	if (interfaz.modo == IGV_SELECCIONAR) {
+	if (interfaz.modo == IGV_SELECCIONAR && !interfaz.escena.estaEnMenu()) {
 
 		glDisable(GL_LIGHTING); // desactiva la iluminacion de la escena
 		glDisable(GL_DITHER);
@@ -376,7 +415,14 @@ void igvInterfaz::set_glutDisplayFunc() {
 			// aplica la cámara
 			interfaz.camara.aplicar();
 			// visualiza la escena
-			interfaz.escena.visualizar();
+			if (interfaz.escena.estaEnJuego() || interfaz.escena.estaEnRobot()) {
+				interfaz.escena.visualizar();
+			}
+			else if (interfaz.escena.estaEnMenu()) {
+				interfaz.escena.visualizarMenu();
+				/*interfaz.escena.setEnMenu(false);*/
+			}
+			/*interfaz.escena.visualizar();*/
 			// refresca la ventana
 			glutSwapBuffers();
 		}
@@ -418,11 +464,12 @@ void igvInterfaz::set_glutIdleFunc() {
 				}
 				else {
 					interfaz.fin_primera_fase = 2;
-
-					//cuando la animacion se completa, se reinicia y la pelota procede a ser lanzada
-					interfaz.escena.activarLanzamientoPelota();
-					interfaz.animar = false;
-					interfaz.resetear();
+					if (interfaz.escena.estaEnJuego()) {
+						interfaz.escena.activarLanzamientoPelota();
+						interfaz.animar = false;
+						interfaz.resetear();
+					}
+					//cuando la animacion se completa, se reinicia y la pelota procede a ser lanzada	
 				}
 
 
@@ -430,35 +477,37 @@ void igvInterfaz::set_glutIdleFunc() {
 
 		}
 
-		if (interfaz.fin_primera_fase == 2) {
-			if (interfaz.escena.getRotacion_cabezaY() < 30) {//bajo cabeza
-				interfaz.escena.setRotacion_cabezaY(4,true);
-			}
-			if (interfaz.escena.getRotacionpierna_sup() + 4 < 70 ) { //subo pierna hasta limite
-				interfaz.escena.setRotacionpierna_sup(4, true);
-			}
-			else {
-				//cuando ya este arriba la pierna_sup empiezo a subir la pierna inf y pie
-				if (interfaz.escena.getRotacionpierna_inf() < 40) {
-					interfaz.escena.setRotacionpierna_inf(4, true);
-					interfaz.escena.setRotacionpie(4, true);
+		if (interfaz.escena.estaEnRobot()) {
+			if (interfaz.fin_primera_fase == 2) {
+				if (interfaz.escena.getRotacion_cabezaY() < 30) {//bajo cabeza
+					interfaz.escena.setRotacion_cabezaY(4, true);
+				}
+				if (interfaz.escena.getRotacionpierna_sup() + 4 < 70) { //subo pierna hasta limite
+					interfaz.escena.setRotacionpierna_sup(4, true);
 				}
 				else {
-					
-					interfaz.fin_primera_fase = 3; //indico que la fase de subida de la pierna ha finalizado
+					//cuando ya este arriba la pierna_sup empiezo a subir la pierna inf y pie
+					if (interfaz.escena.getRotacionpierna_inf() < 40) {
+						interfaz.escena.setRotacionpierna_inf(4, true);
+						interfaz.escena.setRotacionpie(4, true);
+					}
+					else {
+
+						interfaz.fin_primera_fase = 3; //indico que la fase de subida de la pierna ha finalizado
+					}
 				}
 			}
-		}
-		//bajo la pierna
-		if(interfaz.fin_primera_fase == 3 ) {
-			interfaz.escena.setRotacionpierna_sup(-4, true);
-			interfaz.escena.setRotacionpierna_inf(-4, true);
-			if (interfaz.escena.getRotacionpie() < 0) {
-				interfaz.escena.setRotacionpie(-4, true);
+			//bajo la pierna
+			if (interfaz.fin_primera_fase == 3) {
+				interfaz.escena.setRotacionpierna_sup(-4, true);
+				interfaz.escena.setRotacionpierna_inf(-4, true);
+				if (interfaz.escena.getRotacionpie() < 0) {
+					interfaz.escena.setRotacionpie(-4, true);
+				}
+
+				interfaz.escena.setRotacion_cabezaY(-2.8, true);
 			}
-			
-			interfaz.escena.setRotacion_cabezaY(-2.8,true);
-		}
+		}	
 
 		glutPostRedisplay();
 	}
@@ -773,32 +822,67 @@ void igvInterfaz::create_menu() {
 
 void igvInterfaz::menuHandle(int value)
 {
-	switch (value) {
-	case 1: 
-		interfaz.escena.IniciarPartida();
-		break;
-	case 2:
-		interfaz.escena.acabarPartida();
-		break;
-	case 3:
-		interfaz.escena.acabarPartida();
-		break;
+	if (interfaz.escena.estaEnJuego()) {
+		switch (value) {
+		case 1:
+			interfaz.escena.IniciarPartida();
+			break;
+		case 2:
+			interfaz.escena.acabarPartida();
+			break;
+		case 3:
+			interfaz.escena.acabarPartida();
+			break;
+		}
 	}
+	
 	glutPostRedisplay(); // renew the content of the window
 }
 
 void igvInterfaz::menuHandle2(int value)
 {
-	switch (value) {
-	case 4:
-		interfaz.escena.IniciarPartida();
-		break;
-	case 5:
-		interfaz.escena.acabarPartida();
-		break;
-	case 6:
-		interfaz.escena.acabarPartida();
-		break;
+
+	if (interfaz.escena.estaEnJuego()) {
+		switch (value) {
+		case 4:
+			interfaz.escena.IniciarPartida();
+			break;
+		case 5:
+			interfaz.escena.acabarPartida();
+			break;
+		case 6:
+			interfaz.escena.acabarPartida();
+			break;
+		}
 	}
+	
 	glutPostRedisplay(); // renew the content of the window
+}
+
+void igvInterfaz::cambiarEscenaEnMenu() {
+	if (interfaz.escena.getEstadoMenu() == 0) {
+		interfaz.escena.setEnJuego(true);
+		interfaz.escena.setEnMenu(false);
+		igvPunto3D p0, r, v;
+		p0 = igvPunto3D(2, 4, 5.5); //4.9
+		r = igvPunto3D(2, 0, -6.3);
+		v = igvPunto3D(0, 1.0, 0);
+		interfaz.camara.set(IGV_PERSPECTIVA, p0, r, v, -1 * 3, 1 * 3, -1 * 3, 1 * 3, 1, 200);
+		interfaz.camara.aplicar();
+		glDisable(GL_LIGHT3);
+	}
+	else if (interfaz.escena.getEstadoMenu() == 1) {
+		interfaz.escena.setEnRobot(true);
+		interfaz.escena.setEnMenu(false);
+		igvPunto3D p0, r, v;
+		p0 = igvPunto3D(2, 4, 5.5); //4.9
+		r = igvPunto3D(2, 0, -6.3);
+		v = igvPunto3D(0, 1.0, 0);
+		interfaz.camara.set(IGV_PERSPECTIVA, p0, r, v, -1 * 3, 1 * 3, -1 * 3, 1 * 3, 1, 200);
+		interfaz.camara.aplicar();
+		glDisable(GL_LIGHT3);
+	}
+	else if (interfaz.escena.getEstadoMenu() == 2){
+		exit(0);
+	}
 }
