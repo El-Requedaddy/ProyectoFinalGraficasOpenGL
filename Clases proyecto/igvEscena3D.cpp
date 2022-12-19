@@ -164,94 +164,88 @@ void igvEscena3D::pintar_robot() {
 
 	glPushMatrix();
 
-	glPushMatrix(); //cuello con cabeza
-	glTranslated(0, 3, 0);
-	modelos->cuello();
-	glPushMatrix();
-	glTranslated(0, 1, 0);
-	glRotated(getRotacion_cabezaY(), 1, 0, 0);
-	glRotated(getRotacion_cabezaX(), 0, 1, 0);
-	modelos->cabeza(color_rojo, color_verdeAzul, color_grisOscuro); //se instancia la cabeza
-	glPopMatrix();
+		glPushMatrix(); //cuello con cabeza
+			glTranslated(0, 3, 0);
+			modelos->cuello();
+			glPushMatrix();
+				glTranslated(0, 1, 0);
+				glRotated(getRotacion_cabezaY(), 1, 0, 0);
+				glRotated(getRotacion_cabezaX(), 0, 1, 0);
+				modelos->cabeza(color_rojo, color_verdeAzul, color_grisOscuro); //se instancia la cabeza
+			glPopMatrix();
 
-	glPopMatrix();
-
-	glPushMatrix();//brazo derecho completo
-
-	glTranslated(1.75, 1.3, 0);
-	glScaled(0.7, 1, 1);
-	modelos->brazo();
-
-	glPushMatrix();    //brazo superior completo
-
-	glRotated(getRotacion_brazo_sup(), 0, 0, 1);//rotacion brazo completo
-	glRotated(getRotacion2_brazo_sup(), 1, 0, 0);
-	glRotated(-85, 0, 0, 1);
-	modelos->brazo_superior(0);
-
-	glPushMatrix();   //brazo inferior completo
-
-	glTranslated(2.5, 0, 0);   //Traslación de brazo inferior completa, juntando superior e inferior
-	glRotated(getRotacion_brazo_inf(), 0, 1, 0);   //rotación parte inferior del  brazo
-	modelos->brazo_inferior(0);
-
-	glPushMatrix();
-
-	glTranslated(2.42345, 0, 0);
-	glRotated(getRotacionMuneca(), 0, 0, 1);   //Rotación para mover la muñeca Xd
-	modelos->mano(0);
-
-	glPushMatrix();  //dedo 1
-	glTranslated(0.8265, 0.3, 0);
-	glRotated(getRotaciondedo1(), 0, 0, 1); //mover dedo1
-	modelos->articulacionDedo();
-	glPushMatrix();
-	glTranslated(0.45, 0, 0);
-	modelos->dedo(1);
-	glPopMatrix();
-	glPopMatrix();
-
-	glPushMatrix();  //dedo 2
-	glTranslated(0.8265, -0.2, 0.3);
-	glRotated(getRotaciondedo2(), 0, 1, 0); //mover dedo2
-	modelos->articulacionDedo();
-	glPushMatrix();
-	glTranslated(0.45, 0, 0);
-	modelos->dedo(2);
-	glPopMatrix();
-	glPopMatrix();
-
-	glPushMatrix();  //dedo 3
-	glTranslated(0.8265, -0.2, -0.3);
-	glRotated(getRotaciondedo3(), 0, 1, 0); //mover dedo3
-	modelos->articulacionDedo();
-	glPushMatrix();
-	glTranslated(0.45, 0, 0);
-	modelos->dedo(3);
-	glPopMatrix();
-
-	if (getPelota() == true) {
-		glPushMatrix();
-		//Sphere esfera;
-		//esfera.setRadius(0.9);
-		glTranslated(0.8265, -0.1, 0);
-		//esfera.draw();
-		std::vector<GLfloat> culo;
-		culo.push_back(0.0f);
-		culo.push_back(0.5f);
-		culo.push_back(0.5f);
-		glScaled(0.4, 0.4, 0.4);
-		modelos->esfera(color_rojo.data());
 		glPopMatrix();
-	}
 
-	glPopMatrix();
+		glPushMatrix();//brazo derecho completo
 
-	glPopMatrix(); //mano
+		glTranslated(1.75, 1.3, 0);
+		glScaled(0.7, 1, 1);
+		modelos->brazo();
 
-	glPopMatrix();  //brazo inferior
+		glPushMatrix();    //brazo superior completo
 
-	glPopMatrix();  //brazo suPerioR
+			glRotated(getRotacion_brazo_sup(), 0, 0, 1);//rotacion brazo completo
+			glRotated(getRotacion2_brazo_sup(), 1, 0, 0);
+			glRotated(-85, 0, 0, 1);
+			modelos->brazo_superior(0);
+
+			glPushMatrix();   //brazo inferior completo
+
+				glTranslated(2.5, 0, 0);   //Traslación de brazo inferior completa, juntando superior e inferior
+				glRotated(getRotacion_brazo_inf(), 0, 1, 0);   //rotación parte inferior del  brazo
+				modelos->brazo_inferior(0);
+
+				glPushMatrix(); //mano
+
+					glTranslated(2.42345, 0, 0);
+					glRotated(getRotacionMuneca(), 0, 0, 1);   //Rotación para mover la muñeca Xd
+					modelos->mano(0);
+
+					glPushMatrix();  //dedo 1
+						glTranslated(0.8265, 0.3, 0);
+						glRotated(getRotaciondedo1(), 0, 0, 1); //mover dedo1
+						modelos->articulacionDedo();
+						glPushMatrix(); //articulación dedo xD
+							glTranslated(0.45, 0, 0);
+							modelos->dedo(1);
+						glPopMatrix();
+					glPopMatrix();
+
+					glPushMatrix();  //dedo 2
+						glTranslated(0.8265, -0.2, 0.3);
+						glRotated(getRotaciondedo2(), 0, 1, 0); //mover dedo2
+						modelos->articulacionDedo();
+						glPushMatrix();
+							glTranslated(0.45, 0, 0);
+							modelos->dedo(2);
+						glPopMatrix();
+					glPopMatrix();
+
+					glPushMatrix();  //dedo 3
+						glTranslated(0.8265, -0.2, -0.3);
+						glRotated(getRotaciondedo3(), 0, 1, 0); //mover dedo3
+						modelos->articulacionDedo();
+						glPushMatrix();
+							glTranslated(0.45, 0, 0);
+							modelos->dedo(3);
+						glPopMatrix();
+
+						//Pelota del robot(lanzamiento pelota)
+						if (getPelota() == true) {
+							glPushMatrix();
+							glTranslated(0.8265, -0.1, 0);
+							glScaled(0.4, 0.4, 0.4);
+							modelos->esfera(color_rojo.data());
+							glPopMatrix();
+						}
+
+					glPopMatrix();
+
+				glPopMatrix(); //mano
+
+			glPopMatrix();  //brazo inferior
+
+		glPopMatrix();  //brazo suPerioR
 
 	glPopMatrix();  //brazo completo xD
 
@@ -259,112 +253,114 @@ void igvEscena3D::pintar_robot() {
 
 	glPushMatrix();
 	//brazo 2 completo
-	glTranslated(-1.75, 1.3, 0);
+		glTranslated(-1.75, 1.3, 0);
 
-	glRotated(180, 1, 0, 0);
-	glRotated(180, 0, 0, 1);
-	glScaled(0.7, 1, 1);
-	modelos->brazo();
+		glRotated(180, 1, 0, 0);
+		glRotated(180, 0, 0, 1);
+		glScaled(0.7, 1, 1);
+		modelos->brazo();
 
-	glPushMatrix();    //brazo superior completo
+		glPushMatrix();    //brazo superior completo
 
-	glRotated(getRotacion_brazo_sup_izq(), 0, 0, 1);//rotacion brazo completo
-	glRotated(-85, 0, 0, 1);
-	modelos->brazo_superior(1);
+			glRotated(getRotacion_brazo_sup_izq(), 0, 0, 1);//rotacion brazo completo
+			glRotated(-85, 0, 0, 1);
+			modelos->brazo_superior(1);
 
-	glPushMatrix();   //brazo inferior completo
+			glPushMatrix();   //brazo inferior completo
 
-	glTranslated(2.5, 0, 0);   //Traslación de brazo inferior completa, juntando superior e inferior
-	glRotated(-getRotacion_brazo_inf_izq(), 0, 1, 0);   //rotación parte inferior brazo
-	modelos->brazo_inferior(1);
+				glTranslated(2.5, 0, 0);   //Traslación de brazo inferior completa, juntando superior e inferior
+				glRotated(-getRotacion_brazo_inf_izq(), 0, 1, 0);   //rotación parte inferior brazo
+				modelos->brazo_inferior(1);
 
-	glPushMatrix();
+				glPushMatrix(); //mano
 
-	glTranslated(2.42345, 0, 0);   //Mover la mano para pegarlo al brazo xD
-	glRotated(-getRotacionMunecaIzq(), 0, 0, 1);   //Rotación para mover la muñeca
-	modelos->mano(1);
+					glTranslated(2.42345, 0, 0);   //Mover la mano para pegarlo al brazo xD
+					glRotated(-getRotacionMunecaIzq(), 0, 0, 1);   //Rotación para mover la muñeca
+					modelos->mano(1);
 
-	glPushMatrix();  //dedo 1
-	glTranslated(0.8265, 0.3, 0);
-	glRotated(-getRotaciondedo4(), 0, 0, 1); //mover dedo
-	modelos->articulacionDedo();
-	glPushMatrix();
-	glTranslated(0.45, 0, 0);
-	modelos->dedo(4);
-	glPopMatrix();
-	glPopMatrix();
+					glPushMatrix();  //dedo 1
+						glTranslated(0.8265, 0.3, 0);
+						glRotated(-getRotaciondedo4(), 0, 0, 1); //mover dedo
+						modelos->articulacionDedo();
+						glPushMatrix();
+							glTranslated(0.45, 0, 0);
+							modelos->dedo(4);
+						glPopMatrix();
+					glPopMatrix();
 
-	glPushMatrix();  //dedo 2
-	glTranslated(0.8265, -0.2, 0.3);
-	glRotated(-getRotaciondedo5(), 0, 1, 0); //mover dedo
-	modelos->articulacionDedo();
-	glPushMatrix();
-	glTranslated(0.45, 0, 0);
-	modelos->dedo(5);
-	glPopMatrix();
-	glPopMatrix();
+					glPushMatrix();  //dedo 2
+						glTranslated(0.8265, -0.2, 0.3);
+						glRotated(-getRotaciondedo5(), 0, 1, 0); //mover dedo
+						modelos->articulacionDedo();
+						glPushMatrix();
+							glTranslated(0.45, 0, 0);
+							modelos->dedo(5);
+						glPopMatrix();
+					glPopMatrix();
 
 
-	glPushMatrix();  //dedo 3
-	glTranslated(0.8265, -0.2, -0.3);
-	glRotated(-getRotaciondedo6(), 0, 1, 0); //mover dedo
-	modelos->articulacionDedo();
-	glPushMatrix();
-	glTranslated(0.45, 0, 0);
-	modelos->dedo(6);
-	glPopMatrix();
+					glPushMatrix();  //dedo 3
+						glTranslated(0.8265, -0.2, -0.3);
+						glRotated(-getRotaciondedo6(), 0, 1, 0); //mover dedo
+						modelos->articulacionDedo();
+						glPushMatrix();
+							glTranslated(0.45, 0, 0);
+							modelos->dedo(6);
+						glPopMatrix();
 
-	glPopMatrix();
+					glPopMatrix();
 
-	glPopMatrix(); //mano
+				glPopMatrix(); //mano
 
-	glPopMatrix();  //brazo inferior
+			glPopMatrix();  //brazo inferior
 
-	glPopMatrix();  //brazo suPerioR
+		glPopMatrix();  //brazo suPerioR
 
 	glPopMatrix();  //brazo completo xD
 
+	//------------------------Pierna derecha--------------------f--------------
+
 	glPushMatrix(); // pierna derecha
 
-	glTranslated(-0.8, -1.8, 0);
-	glRotated(getRotacionpierna_sup(), 1, 0, 0); // rotacion pierna
-	modelos->piernas(0);
+		glTranslated(-0.8, -1.8, 0);
+		glRotated(getRotacionpierna_sup(), 1, 0, 0); // rotacion pierna
+		modelos->piernas(0);
 
-	glPushMatrix();
+		glPushMatrix();
 
-	glTranslated(0, -2.45, 0);
-	glRotated(getRotacionpierna_inf(), 1, 0, 0);// rotacion pierna inf
-	modelos->piernas_inf(0);
-	glPushMatrix();
-	glTranslated(0, -2.3, 0);
-	glRotated(getRotacionpie(), 1, 0, 0); //rotacion pie
-	glRotated(-90, 0, 1, 0);
-	modelos->pies(0);
-	glPopMatrix();
+			glTranslated(0, -2.45, 0);
+			glRotated(getRotacionpierna_inf(), 1, 0, 0);// rotacion pierna inf
+			modelos->piernas_inf(0);
+			glPushMatrix();
+				glTranslated(0, -2.3, 0);
+				glRotated(getRotacionpie(), 1, 0, 0); //rotacion pie
+				glRotated(-90, 0, 1, 0);
+				modelos->pies(0);
+			glPopMatrix();
 
-	glPopMatrix();
+		glPopMatrix();
 
 	glPopMatrix();//fin pierna 1
 
 	glPushMatrix(); // pierna izq
 
-	glTranslated(0.8, -1.8, 0);
-	glRotated(getRotacionpierna_sup_izq(), 1, 0, 0);
-	modelos->piernas(1);
+		glTranslated(0.8, -1.8, 0);
+		glRotated(getRotacionpierna_sup_izq(), 1, 0, 0);
+		modelos->piernas(1);
 
-	glPushMatrix();
+		glPushMatrix();
 
-	glTranslated(0, -2.45, 0);
-	glRotated(getRotacionpierna_inf_izq(), 1, 0, 0);
-	modelos->piernas_inf(1);
-	glPushMatrix();
-	glTranslated(0, -2.3, 0);
-	glRotated(getRotacionpie_izq(), 1, 0, 0);
-	glRotated(-90, 0, 1, 0);
-	modelos->pies(1);
-	glPopMatrix();
+			glTranslated(0, -2.45, 0);
+			glRotated(getRotacionpierna_inf_izq(), 1, 0, 0);
+			modelos->piernas_inf(1);
+			glPushMatrix();
+				glTranslated(0, -2.3, 0);
+				glRotated(getRotacionpie_izq(), 1, 0, 0);
+				glRotated(-90, 0, 1, 0);
+				modelos->pies(1);
+			glPopMatrix();
 
-	glPopMatrix();
+		glPopMatrix();
 
 	glPopMatrix();//fin pierna
 
@@ -385,118 +381,118 @@ void igvEscena3D::pintar_robotVB() {
 
 	glPushMatrix();
 
-	glPushMatrix(); //cuello con cabeza
-	glTranslated(0, 3, 0);
-	modelos->cuello();
-	glPushMatrix();
+		glPushMatrix(); //cuello con cabeza
+			glTranslated(0, 3, 0);
+			modelos->cuello();
+			glPushMatrix();
 
-	glTranslated(0, 1, 0);
-	glRotated(getRotacion_cabezaY(), 1, 0, 0);
-	glRotated(getRotacion_cabezaX(), 0, 1, 0);
+			glTranslated(0, 1, 0);
+			glRotated(getRotacion_cabezaY(), 1, 0, 0);
+			glRotated(getRotacion_cabezaX(), 0, 1, 0);
 
-	cambia_color(colores, color_azul, pos_aa, 3);
-	cambia_color(colores, color_rojo, pos_rr, 3);
-	cambia_color(colores, color_verdeAzul, pos_vv, 3);
-	cambia_color(colores, color_grisOscuro, pos_gg, 3);
-	modelos->Get_coloresRobot()->set_colorBaseCabeza(color_azul);
-	modelos->cabeza(color_rojo, color_verdeAzul, color_grisOscuro);
+			cambia_color(colores, color_azul, pos_aa, 3);
+			cambia_color(colores, color_rojo, pos_rr, 3);
+			cambia_color(colores, color_verdeAzul, pos_vv, 3);
+			cambia_color(colores, color_grisOscuro, pos_gg, 3);
+			modelos->Get_coloresRobot()->set_colorBaseCabeza(color_azul);
+			modelos->cabeza(color_rojo, color_verdeAzul, color_grisOscuro);
 
-	reinicio_colores();
+			reinicio_colores();
 
-	glPopMatrix();
+			glPopMatrix();
 
-	glPopMatrix();
+		glPopMatrix();
 
-	glPushMatrix();//brazo derecho completo
+		glPushMatrix();//brazo derecho completo
 
-	glTranslated(1.75, 1.3, 0);
-	glScaled(0.7, 1, 1);
-	modelos->brazo();
-	glPushMatrix();    //brazo superior completo
+			glTranslated(1.75, 1.3, 0);
+			glScaled(0.7, 1, 1);
+			modelos->brazo();
+			glPushMatrix();    //brazo superior completo
 
-	glRotated(getRotacion_brazo_sup(), 0, 0, 1);
-	glRotated(getRotacion2_brazo_sup(), 1, 0, 0);
-	glRotated(-85, 0, 0, 1);
+				glRotated(getRotacion_brazo_sup(), 0, 0, 1);
+				glRotated(getRotacion2_brazo_sup(), 1, 0, 0);
+				glRotated(-85, 0, 0, 1);
 
-	cambia_color(colores, color_grisOscuro, pos_gg, 3);
-	modelos->Get_coloresRobot()->set_colorBrazoSup(color_grisOscuro);
-	modelos->brazo_superior(0);
+				cambia_color(colores, color_grisOscuro, pos_gg, 3);
+				modelos->Get_coloresRobot()->set_colorBrazoSup(color_grisOscuro);
+				modelos->brazo_superior(0);
 
-	reinicio_colores();
-	glPushMatrix();   //brazo inferior completo
+				reinicio_colores();
+				glPushMatrix();   //brazo inferior completo
 
-	glTranslated(2.5, 0, 0);
-	glRotated(getRotacion_brazo_inf(), 0, 1, 0);
+					glTranslated(2.5, 0, 0);
+					glRotated(getRotacion_brazo_inf(), 0, 1, 0);
 
-	cambia_color(colores, color_grisOscuro, pos_gg, 3);
-	modelos->Get_coloresRobot()->set_colorBrazoInf(color_grisOscuro);
-	modelos->brazo_inferior(0);
+					cambia_color(colores, color_grisOscuro, pos_gg, 3);
+					modelos->Get_coloresRobot()->set_colorBrazoInf(color_grisOscuro);
+					modelos->brazo_inferior(0);
 
-	reinicio_colores();
-	glPushMatrix(); //mano
+					reinicio_colores();
+					glPushMatrix(); //mano
 
-	glTranslated(2.42345, 0, 0);
-	glRotated(getRotacionMuneca(), 0, 0, 1);
+						glTranslated(2.42345, 0, 0);
+						glRotated(getRotacionMuneca(), 0, 0, 1);
 
-	cambia_color(colores, color_grisOscuro, pos_gg, 3);
-	modelos->Get_coloresRobot()->set_colorMano(color_grisOscuro);
-	modelos->mano(0);
+						cambia_color(colores, color_grisOscuro, pos_gg, 3);
+						modelos->Get_coloresRobot()->set_colorMano(color_grisOscuro);
+						modelos->mano(0);
 
-	reinicio_colores();
-	glPushMatrix();  //dedo 1
+						reinicio_colores();
+						glPushMatrix();  //dedo 1
 
-	glTranslated(0.8265, 0.3, 0);
-	glRotated(getRotaciondedo1(), 0, 0, 1);
-	modelos->articulacionDedo();
-	glPushMatrix();
+							glTranslated(0.8265, 0.3, 0);
+							glRotated(getRotaciondedo1(), 0, 0, 1);
+							modelos->articulacionDedo();
+							glPushMatrix();
 
-	glTranslated(0.45, 0, 0);
-	cambia_color(colores, color_grisOscuro, pos_gg, 3);
-	modelos->Get_coloresRobot()->set_colorDedo1(color_grisOscuro);
-	modelos->dedo(1);
-	reinicio_colores();
+							glTranslated(0.45, 0, 0);
+							cambia_color(colores, color_grisOscuro, pos_gg, 3);
+							modelos->Get_coloresRobot()->set_colorDedo1(color_grisOscuro);
+							modelos->dedo(1);
+							reinicio_colores();
 
-	glPopMatrix();
+							glPopMatrix();
 
-	glPopMatrix();
+						glPopMatrix();
 
-	glPushMatrix();  //dedo 2
-	glTranslated(0.8265, -0.2, 0.3);
-	glRotated(getRotaciondedo2(), 0, 1, 0); //mover dedo2
-	modelos->articulacionDedo();
-	glPushMatrix();
+						glPushMatrix();  //dedo 2
+							glTranslated(0.8265, -0.2, 0.3);
+							glRotated(getRotaciondedo2(), 0, 1, 0); //mover dedo2
+							modelos->articulacionDedo();
+							glPushMatrix();
 
-	glTranslated(0.45, 0, 0);
-	cambia_color(colores, color_grisOscuro, pos_gg, 3);
-	modelos->Get_coloresRobot()->set_colorDedo2(color_grisOscuro);
-	modelos->dedo(2);
-	reinicio_colores();
+								glTranslated(0.45, 0, 0);
+								cambia_color(colores, color_grisOscuro, pos_gg, 3);
+								modelos->Get_coloresRobot()->set_colorDedo2(color_grisOscuro);
+								modelos->dedo(2);
+								reinicio_colores();
 
-	glPopMatrix();
+							glPopMatrix();
 
-	glPopMatrix();
+						glPopMatrix();
 
-	glPushMatrix();  //dedo 3
-	glTranslated(0.8265, -0.2, -0.3);
-	glRotated(getRotaciondedo3(), 0, 1, 0); //mover dedo3
-	modelos->articulacionDedo();
-	glPushMatrix();
+						glPushMatrix();  //dedo 3
+							glTranslated(0.8265, -0.2, -0.3);
+							glRotated(getRotaciondedo3(), 0, 1, 0); //mover dedo3
+							modelos->articulacionDedo();
+							glPushMatrix();
 
-	glTranslated(0.45, 0, 0);
-	cambia_color(colores, color_grisOscuro, pos_gg, 3);
-	modelos->Get_coloresRobot()->set_colorDedo3(color_grisOscuro);
-	modelos->dedo(3);
-	reinicio_colores();
+							glTranslated(0.45, 0, 0);
+							cambia_color(colores, color_grisOscuro, pos_gg, 3);
+							modelos->Get_coloresRobot()->set_colorDedo3(color_grisOscuro);
+							modelos->dedo(3);
+							reinicio_colores();
 
-	glPopMatrix();
+							glPopMatrix();
 
-	glPopMatrix();//dedo3
+						glPopMatrix();//dedo3
 
-	glPopMatrix(); //mano
+					glPopMatrix(); //mano
 
-	glPopMatrix();  //brazo inferior
+				glPopMatrix();  //brazo inferior
 
-	glPopMatrix();  //brazo suPerioR
+			glPopMatrix();  //brazo suPerioR
 
 	glPopMatrix();  //brazo completo xD
 
@@ -504,148 +500,148 @@ void igvEscena3D::pintar_robotVB() {
 
 	glPushMatrix();
 	//brazo 2 completo
-	glTranslated(-1.75, 1.3, 0);
+		glTranslated(-1.75, 1.3, 0);
 
-	glRotated(180, 1, 0, 0);
-	glRotated(180, 0, 0, 1);
-	glScaled(0.7, 1, 1);
-	modelos->brazo();
+		glRotated(180, 1, 0, 0);
+		glRotated(180, 0, 0, 1);
+		glScaled(0.7, 1, 1);
+		modelos->brazo();
 
-	glPushMatrix();    //brazo superior completo
+		glPushMatrix();    //brazo superior completo
 
-	glRotated(getRotacion_brazo_sup_izq(), 0, 0, 1);//rotacion brazo completo
-	glRotated(-85, 0, 0, 1);
-	cambia_color(colores, color_grisOscuro, pos_gg, 3);
-	modelos->Get_coloresRobot()->set_colorBrazoSupIzq(color_grisOscuro);
-	modelos->brazo_superior(1);
-	reinicio_colores();
-	glPushMatrix();   //brazo inferior completo
+			glRotated(getRotacion_brazo_sup_izq(), 0, 0, 1);//rotacion brazo completo
+			glRotated(-85, 0, 0, 1);
+			cambia_color(colores, color_grisOscuro, pos_gg, 3);
+			modelos->Get_coloresRobot()->set_colorBrazoSupIzq(color_grisOscuro);
+			modelos->brazo_superior(1);
+			reinicio_colores();
+			glPushMatrix();   //brazo inferior completo
 
-	glTranslated(2.5, 0, 0);   //Traslación de brazo inferior completa, juntando superior e inferior
-	glRotated(-getRotacion_brazo_inf_izq(), 0, 1, 0);
-	cambia_color(colores, color_grisOscuro, pos_gg, 3);
-	modelos->Get_coloresRobot()->set_colorBrazoInfIzq(color_grisOscuro);
-	modelos->brazo_inferior(1);
-	reinicio_colores();
-	glPushMatrix();
+				glTranslated(2.5, 0, 0);   //Traslación de brazo inferior completa, juntando superior e inferior
+				glRotated(-getRotacion_brazo_inf_izq(), 0, 1, 0);
+				cambia_color(colores, color_grisOscuro, pos_gg, 3);
+				modelos->Get_coloresRobot()->set_colorBrazoInfIzq(color_grisOscuro);
+				modelos->brazo_inferior(1);
+				reinicio_colores();
+				glPushMatrix();
 
-	glTranslated(2.42345, 0, 0);   //Mover la mano para pegarlo al brazo xD
-	glRotated(-getRotacionMunecaIzq(), 0, 0, 1);
-	cambia_color(colores, color_grisOscuro, pos_gg, 3);
-	modelos->Get_coloresRobot()->set_colorManoIzq(color_grisOscuro);
-	modelos->mano(1);
-	reinicio_colores();
+					glTranslated(2.42345, 0, 0);   //Mover la mano para pegarlo al brazo xD
+					glRotated(-getRotacionMunecaIzq(), 0, 0, 1);
+					cambia_color(colores, color_grisOscuro, pos_gg, 3);
+					modelos->Get_coloresRobot()->set_colorManoIzq(color_grisOscuro);
+					modelos->mano(1);
+					reinicio_colores();
 
-	glPushMatrix();  //dedo 4
-	glTranslated(0.8265, 0.3, 0);
-	glRotated(-getRotaciondedo4(), 0, 0, 1); //mover dedo
-	modelos->articulacionDedo();
-	glPushMatrix();
-	glTranslated(0.45, 0, 0);
-	cambia_color(colores, color_grisOscuro, pos_gg, 3);
-	modelos->Get_coloresRobot()->set_colorDedo4(color_grisOscuro);
-	modelos->dedo(4);
-	reinicio_colores();
-	glPopMatrix();
-	glPopMatrix();
+					glPushMatrix();  //dedo 4
+						glTranslated(0.8265, 0.3, 0);
+						glRotated(-getRotaciondedo4(), 0, 0, 1); //mover dedo
+						modelos->articulacionDedo();
+						glPushMatrix();
+							glTranslated(0.45, 0, 0);
+							cambia_color(colores, color_grisOscuro, pos_gg, 3);
+							modelos->Get_coloresRobot()->set_colorDedo4(color_grisOscuro);
+							modelos->dedo(4);
+							reinicio_colores();
+						glPopMatrix();
+					glPopMatrix();
 
-	glPushMatrix();  //dedo 5
-	glTranslated(0.8265, -0.2, 0.3);
-	glRotated(-getRotaciondedo5(), 0, 1, 0); //mover dedo
-	modelos->articulacionDedo();
-	glPushMatrix();
-	glTranslated(0.45, 0, 0);
-	cambia_color(colores, color_grisOscuro, pos_gg, 3);
-	modelos->Get_coloresRobot()->set_colorDedo5(color_grisOscuro);
-	modelos->dedo(5);
-	reinicio_colores();
-	glPopMatrix();
-	glPopMatrix();
+					glPushMatrix();  //dedo 5
+						glTranslated(0.8265, -0.2, 0.3);
+						glRotated(-getRotaciondedo5(), 0, 1, 0); //mover dedo
+						modelos->articulacionDedo();
+						glPushMatrix();
+							glTranslated(0.45, 0, 0);
+							cambia_color(colores, color_grisOscuro, pos_gg, 3);
+							modelos->Get_coloresRobot()->set_colorDedo5(color_grisOscuro);
+							modelos->dedo(5);
+							reinicio_colores();
+						glPopMatrix();
+					glPopMatrix();
 
 
-	glPushMatrix();  //dedo 6
-	glTranslated(0.8265, -0.2, -0.3);
-	glRotated(-getRotaciondedo6(), 0, 1, 0); //mover dedo
-	modelos->articulacionDedo();
-	glPushMatrix();
-	glTranslated(0.45, 0, 0);
-	cambia_color(colores, color_grisOscuro, pos_gg, 3);
-	modelos->Get_coloresRobot()->set_colorDedo6(color_grisOscuro);
-	modelos->dedo(6);
-	reinicio_colores();
-	glPopMatrix();
+					glPushMatrix();  //dedo 6
+						glTranslated(0.8265, -0.2, -0.3);
+						glRotated(-getRotaciondedo6(), 0, 1, 0); //mover dedo
+						modelos->articulacionDedo();
+						glPushMatrix();
+							glTranslated(0.45, 0, 0);
+							cambia_color(colores, color_grisOscuro, pos_gg, 3);
+							modelos->Get_coloresRobot()->set_colorDedo6(color_grisOscuro);
+							modelos->dedo(6);
+							reinicio_colores();
+						glPopMatrix();
 
-	glPopMatrix();
+					glPopMatrix();
 
-	glPopMatrix(); //mano
+				glPopMatrix(); //mano
 
-	glPopMatrix();  //brazo inferior
+			glPopMatrix();  //brazo inferior
 
-	glPopMatrix();  //brazo suPerioR
+		glPopMatrix();  //brazo suPerioR
 
 	glPopMatrix();  //brazo completo xD
 
 	glPushMatrix(); // pierna derecha
 
-	glTranslated(-0.8, -1.8, 0);
-	glRotated(getRotacionpierna_sup(), 1, 0, 0); // rotacion pierna
-	cambia_color(colores, color_grisOscuro, pos_gg, 3);
-	modelos->Get_coloresRobot()->set_colorPierna(color_grisOscuro);
-	modelos->piernas(0);
-	reinicio_colores();
-	glPushMatrix();
+		glTranslated(-0.8, -1.8, 0);
+		glRotated(getRotacionpierna_sup(), 1, 0, 0); // rotacion pierna
+		cambia_color(colores, color_grisOscuro, pos_gg, 3);
+		modelos->Get_coloresRobot()->set_colorPierna(color_grisOscuro);
+		modelos->piernas(0);
+		reinicio_colores();
+		glPushMatrix();
 
-	glTranslated(0, -2.45, 0);
-	glRotated(getRotacionpierna_inf(), 1, 0, 0);// rotacion pierna inf
-	cambia_color(colores, color_grisOscuro, pos_gg, 3);
-	modelos->Get_coloresRobot()->set_colorPiernaInf(color_grisOscuro);
-	modelos->piernas_inf(0);
-	reinicio_colores();
-	glPushMatrix();
+			glTranslated(0, -2.45, 0);
+			glRotated(getRotacionpierna_inf(), 1, 0, 0);// rotacion pierna inf
+			cambia_color(colores, color_grisOscuro, pos_gg, 3);
+			modelos->Get_coloresRobot()->set_colorPiernaInf(color_grisOscuro);
+			modelos->piernas_inf(0);
+			reinicio_colores();
+			glPushMatrix();
 
-	glTranslated(0, -2.3, 0);
-	glRotated(getRotacionpie(), 1, 0, 0); //rotacion pie
-	glRotated(-90, 0, 1, 0);
-	cambia_color(colores, color_grisOscuro, pos_gg, 3);
-	modelos->Get_coloresRobot()->set_colorPie(color_grisOscuro);
-	modelos->pies(0);
-	reinicio_colores();
+				glTranslated(0, -2.3, 0);
+				glRotated(getRotacionpie(), 1, 0, 0); //rotacion pie
+				glRotated(-90, 0, 1, 0);
+				cambia_color(colores, color_grisOscuro, pos_gg, 3);
+				modelos->Get_coloresRobot()->set_colorPie(color_grisOscuro);
+				modelos->pies(0);
+				reinicio_colores();
 
-	glPopMatrix();
+			glPopMatrix();
 
-	glPopMatrix();
+		glPopMatrix();
 
 	glPopMatrix();//fin pierna 1
 
 	glPushMatrix(); // pierna izq
 
-	glTranslated(0.8, -1.8, 0);
-	glRotated(getRotacionpierna_sup_izq(), 1, 0, 0);
-	cambia_color(colores, color_grisOscuro, pos_gg, 3);
-	modelos->Get_coloresRobot()->set_colorPiernaIzq(color_grisOscuro);
-	modelos->piernas(1);
-	reinicio_colores();
-	glPushMatrix();
+		glTranslated(0.8, -1.8, 0);
+		glRotated(getRotacionpierna_sup_izq(), 1, 0, 0);
+		cambia_color(colores, color_grisOscuro, pos_gg, 3);
+		modelos->Get_coloresRobot()->set_colorPiernaIzq(color_grisOscuro);
+		modelos->piernas(1);
+		reinicio_colores();
+		glPushMatrix();
 
-	glTranslated(0, -2.45, 0);
-	glRotated(getRotacionpierna_inf_izq(), 1, 0, 0);
-	cambia_color(colores, color_grisOscuro, pos_gg, 3);
-	modelos->Get_coloresRobot()->set_colorPiernaInfIzq(color_grisOscuro);
-	modelos->piernas_inf(1);
-	reinicio_colores();
-	glPushMatrix();
+			glTranslated(0, -2.45, 0);
+			glRotated(getRotacionpierna_inf_izq(), 1, 0, 0);
+			cambia_color(colores, color_grisOscuro, pos_gg, 3);
+			modelos->Get_coloresRobot()->set_colorPiernaInfIzq(color_grisOscuro);
+			modelos->piernas_inf(1);
+			reinicio_colores();
+			glPushMatrix();
 
-	glTranslated(0, -2.3, 0);
-	glRotated(getRotacionpie_izq(), 1, 0, 0);
-	glRotated(-90, 0, 1, 0);
-	cambia_color(colores, color_grisOscuro, pos_gg, 3);
-	modelos->Get_coloresRobot()->set_colorPieIzq(color_grisOscuro);
-	modelos->pies(1);
-	reinicio_colores();
+				glTranslated(0, -2.3, 0);
+				glRotated(getRotacionpie_izq(), 1, 0, 0);
+				glRotated(-90, 0, 1, 0);
+				cambia_color(colores, color_grisOscuro, pos_gg, 3);
+				modelos->Get_coloresRobot()->set_colorPieIzq(color_grisOscuro);
+				modelos->pies(1);
+				reinicio_colores();
 
-	glPopMatrix();
+			glPopMatrix();
 
-	glPopMatrix();
+		glPopMatrix();
 
 	glPopMatrix();//fin pierna
 
