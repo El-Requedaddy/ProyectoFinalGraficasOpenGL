@@ -652,12 +652,12 @@ void igvEscena3D::pintar_robotVB() {
 }
 
 void igvEscena3D::calculoTrayectoriaPelota(hitbox h1, hitbox h2) {
-	if (animacionPelota) {
+	/*if (animacionPelota) {
 		actualizarCoordenadaFinal(hitboxDestino.posicion);
-	}
+	}*/
+	actualizarCoordenadaFinal(hitboxDestino.posicion);
 	//atributos booleanos para activar el lanzamiento de la pelota y cancelar el animar al robot
 	animacionPelota = false;
-	lanzarPelota = true;
 	
 	//Se genera la siguiente posición de la pelota lanzada que se corresponde con un segmento de una trayectoria
 	interpolacionTrayectoria(h1, h2);
@@ -1026,7 +1026,7 @@ void igvEscena3D::sustituirLata(const int& i) {
 	//Elimino del vector donde indico que posiciones han sido tomadas
 	hitboxes_a_borrar.push_back(i);
 	juego.inicializarLata(hitboxesPendientes, 1);
-}
+}	
 
 void igvEscena3D::crearLata() {
 	juego.inicializarLata(hitboxes, 1);
@@ -1072,6 +1072,7 @@ void igvEscena3D::procesarColisiones(const hitbox& h1, hitbox h2) {
 			numeroGolpes++;
 			if (numeroGolpes == 3) { //si son 5 golpes los que hay significa que la pelota es destruida, procesamos los puntos por lo tanto y aumentamos el numero de tiradas
 				juego.sumarPuntuacion(1000);
+				pelotaEspecialActivada = false;
 			}
 			else {
 				coordenadasPelotaEspecial = juego.nuevaPosicionPelotaEspecial();
@@ -1087,7 +1088,6 @@ void igvEscena3D::procesarColisiones(const hitbox& h1, hitbox h2) {
 				juego.eliminarLata();
 			}
 		}
-		desactivarLanzamientoPelota();
 		animacionPelota = true;
 		lanzarPelota = false;
 		a = 0;
@@ -1112,7 +1112,7 @@ void igvEscena3D::interpolacionTrayectoria(hitbox& h1, hitbox& h2) {
 
 void igvEscena3D::gestionarLatasEventos() {
 
-	hitbox h1;
+	hitbox h1;  //creación de hitbox de 0 para poder manejarla como se quiere, representa la hitbox de la pelota que lanza el jugador
 	h1.tamano.c[0] = 0.2;
 	h1.tamano.c[1] = 0.2;
 	h1.tamano.c[2] = 0.2;
@@ -1160,7 +1160,6 @@ void igvEscena3D::gestionarLatasEventos() {
 
 	hitboxesPendientes.clear();
 
-	actualizarCoordenadaFinal(hitboxDestino.posicion);
 	//si la pelota se lanza, la trayectoria se va calculando y aplicando en cada frame
 	if (getLanzandoPelota()) {
 		glPushMatrix();
@@ -1280,8 +1279,8 @@ void igvEscena3D::gestionarTextos() {
 		std::string s = std::to_string(juego.getPuntuacion());
 		const char* str = s.c_str();
 		glPushMatrix();
-		glMaterialfv(GL_FRONT, GL_EMISSION, color_negro.data());
-		glColor3fv(color_negro.data());
+		glMaterialfv(GL_FRONT, GL_EMISSION, color_naranja.data());
+		glColor3fv(color_naranja.data());
 		drawText(-5.4, 5.5, 0, "Puntuacion: ");
 		drawText(-3.7, 5.5, 0, str);
 		glPopMatrix();
@@ -1291,10 +1290,10 @@ void igvEscena3D::gestionarTextos() {
 		std::string s = std::to_string(juego.getPuntuacion());
 		const char* str = s.c_str();
 		glPushMatrix();
-		glMaterialfv(GL_FRONT, GL_EMISSION, color_negro.data());
-		glColor3fv(color_negro.data());
+		glMaterialfv(GL_FRONT, GL_EMISSION, color_naranja.data());
+		glColor3fv(color_naranja.data());
 		drawText(-1.35, 5.5, 0, "Puntuacion: ");
-		drawText(-2.3, 5.5, 0, str);
+		drawText(0.35, 5.5, 0, str);
 		glPopMatrix();
 	}
 	

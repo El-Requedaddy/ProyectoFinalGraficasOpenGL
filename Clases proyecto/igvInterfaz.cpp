@@ -465,9 +465,9 @@ void igvInterfaz::set_glutIdleFunc() {
 				else {
 					interfaz.fin_primera_fase = 2;
 					if (interfaz.escena.estaEnJuego()) {
-						interfaz.escena.activarLanzamientoPelota();
+						interfaz.escena.activarLanzamientoPelota(); //lanzar_pelota = true
 						interfaz.animar = false;
-						interfaz.resetear();
+						interfaz.resetear();	
 					}
 					//cuando la animacion se completa, se reinicia y la pelota procede a ser lanzada	
 				}
