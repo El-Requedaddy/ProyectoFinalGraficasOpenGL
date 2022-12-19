@@ -28,12 +28,6 @@ igvMaterial::igvMaterial(igvColor _Ka, igvColor _Kd, igvColor _Ks, double _Ns) {
 
 void igvMaterial::aplicar(void) {
 
-// APARTADO B
-// Aplicar los valores de los atributos del objeto igvMaterial:
-// - coeficiente de reflexión de la luz ambiental
-// - coeficiente de reflexión difuso
-// - coeficiente de reflesión especular
-// - exponente de Phong
 
 // establecer como color de emisión (0.0, 0.0, 0.0) (el objeto no es una fuente de luz)
 

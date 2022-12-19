@@ -58,7 +58,7 @@ bool juego::estaLaPosicionOcupada(int i) {
 }
 
 void juego::liberarPosicion(std::vector<hitbox*> &hitboxes, const int &i) {
-	std::cout << "El valor de i: " << i << "  El tamaño: " << hitboxes.size() << std::endl;
+	//std::cout << "El valor de i: " << i << "  El tamaño: " << hitboxes.size() << std::endl;
 	for (int x = 0; x < vectoresPos.size(); x++) {
 		if (hitboxes[i]->posicion == vectoresPos[x]) {
 			posicionesVectorOcupadas[x] = false;

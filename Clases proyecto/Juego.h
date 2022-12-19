@@ -2,7 +2,7 @@
 #include <ctime>
 #include "igvPunto3D.h"
 #include "hitbox.h"
-#include <iostream>
+//#include <iostream>
 
 class juego {
 

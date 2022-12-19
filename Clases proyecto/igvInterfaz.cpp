@@ -171,6 +171,7 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 		interfaz.camara.set(IGV_PERSPECTIVA, p0, r, v, -1 * 3, 1 * 3, -1 * 3, 1 * 3, 1, 200);
 		interfaz.camara.aplicar();
 	}
+			//------------------------------------------------------------------------
 	case 'i': //mover camara en z positivo
 		interfaz.camara.maszP0(0.1);
 		interfaz.camara.aplicar();
@@ -286,6 +287,12 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 		interfaz.camara.restarZnear();
 		interfaz.camara.aplicar();
 		break;
+
+		//----------------------------------------------------
+	case 's':
+		interfaz.escena.SetEs_smooth(interfaz.escena.GetEs_smooth() ? false : true);
+		std::cout << interfaz.escena.GetEs_smooth() << std::endl;
+		break;
 	case 27: // tecla de escape para SALIR
 		exit(1);
 		break;
@@ -349,7 +356,7 @@ void igvInterfaz::set_glutDisplayFunc() {
 			GLfloat l3 = (GLfloat)(GLubyte)(interfaz.escena.get_colores()[i + 2] * 255.0);
 			if (ss == l && s2 == l2 && s3 == l3) {
 				interfaz.objeto_seleccionado = i;
-				if (i >= 66) {//los objetos 'diana' a los que se le lanzan cosas están a partir de la posición 66
+				if (i >= 66 && i < (interfaz.escena.get_colores().size() - 3 )) {//los objetos 'diana' a los que se le lanzan cosas están entre la posición 66 y 153
 					interfaz.Gestion_seleccion_lanzamiento(ss, s2, s3);
 				}
 				fin = true;
@@ -373,6 +380,7 @@ void igvInterfaz::set_glutDisplayFunc() {
 		
 		}
 		else {
+
 			// aplica la cámara
 			interfaz.camara.aplicar();
 			// visualiza la escena
@@ -606,6 +614,11 @@ void igvInterfaz::set_glutMotionFunc(GLint x, GLint y) {
 				interfaz.escena.setRotacionpie_izq(y - interfaz.cursorY, false);
 			}
 			break;
+		case 51: //lata
+			interfaz.escena.SetEscalado_lata((float)interfaz.cursorY / y);
+			if(x - interfaz.cursorX > -65 && x - interfaz.cursorX < 65)
+				interfaz.escena.SetTraslación_lata((x - interfaz.cursorX) * 0.05);
+			break;
 		default:
 			break;
 		}
@@ -704,20 +717,19 @@ void igvInterfaz::Gestion_seleccion_lanzamiento(GLfloat selectR, GLfloat selectG
 		if (selectR == p && selectG == p2 && selectB == p3) {
 			//----------------------------------------------------------------------------------
 			/*std::cout << "La posicion de la lata es: " << i << "Posicion: " << interfaz.escena.getHitboxes()[i]->posicion.c[0] << ", " << interfaz.escena.getHitboxes()[i]->posicion.c[1] << ", " << interfaz.escena.getHitboxes()[i]->posicion.c[2];
-			std::cout << std::endl;
-			std::cout << interfaz.escena.getHitboxes()[i]->getColor()[0] << ", " << interfaz.escena.getHitboxes()[i]->getColor()[1] << ", " <<
-				interfaz.escena.getHitboxes()[i]->getColor()[2] << std::endl;*/
+			std::cout << std::endl;*/
+			//std::cout << interfaz.escena.getHitboxes()[i]->getColor()[0] << ", " << interfaz.escena.getHitboxes()[i]->getColor()[1] << ", " <<
+				//interfaz.escena.getHitboxes()[i]->getColor()[2] << std::endl;
 			interfaz.escena.setHitboxDestino(*interfaz.escena.getHitboxes()[i]);
 
 			//comprobamos que la pelota no está en plena trayectoria en el momento y en caso de no estarlo podemos activar lanzamiento
 				interfaz.animar = true;
-			
 			//------------------------------------------------------------------------------------
 		}
 		aux += 3;
 	}
 
-	if (interfaz.escena.estaPelotaEspecial()) {
+	if (interfaz.escena.estaPelotaEspecial() ) {
 		GLfloat p = (GLfloat)(GLubyte)(interfaz.escena.getPelotaEspecial().getColor()[0] * 255);
 		GLfloat p2 = (GLfloat)(GLubyte)(interfaz.escena.getPelotaEspecial().getColor()[1] * 255);
 		GLfloat p3 = (GLfloat)(GLubyte)(interfaz.escena.getPelotaEspecial().getColor()[2] * 255);
