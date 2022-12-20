@@ -624,19 +624,23 @@ public:
 		return estadoMenu;
 	}
 
+	//Avanzar entre los estados del menú, es decir, seleccionar opción sobre la que el foco se pone en el menú
 	void modificarEstadoMenu(int a) {
-		if (estadoMenu == 2 && a == 1) {
-			estadoMenu = 0;
+		if (estaEnMenu()) {  //Este método solo debe funcionar estando en el menú
+			if (estadoMenu == 2 && a == 1) {
+				estadoMenu = 0;
+			}
+			else if (estadoMenu == 0 && a == -1) {
+				estadoMenu = 2;
+			}
+			else if (a == 1 || a == -1) {
+				estadoMenu += a;
+			}
+			else {
+				estadoMenu = 0;
+			}
+			std::cout << "El estado del menu es: " << estadoMenu << std::endl;
 		}
-		else if (estadoMenu == 0 && a == -1) {
-			estadoMenu = 2;
-		} else if (a == 1 || a == -1){
-			estadoMenu += a;
-		}
-		else {
-			estadoMenu = 0;
-		}
-		std::cout << "El estado del menu es: " << estadoMenu << std::endl;
 	}
 	bool GetEs_smooth() const { return Es_smooth; }
 	void SetEs_smooth(bool val) { Es_smooth = val; }
@@ -644,6 +648,8 @@ public:
 	void SetEscalado_lata(float val) { escalado_lata = val; }
 	float GetTraslación_lata() const { return traslación_lata; }
 	void SetTraslación_lata(float val) { traslación_lata = val; }
+
+	void setVelocidad(float a);
 };
 
 #endif

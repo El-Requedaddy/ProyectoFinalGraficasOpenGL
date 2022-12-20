@@ -1296,3 +1296,9 @@ void igvEscena3D::gestionarTextos() {
 	}
 	
 }
+
+void igvEscena3D::setVelocidad(float a) {
+	if (movementSpeed + a < 0.6 && movementSpeed + a > 0.2) {
+		movementSpeed += a;
+	}
+}

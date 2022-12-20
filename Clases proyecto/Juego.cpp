@@ -119,56 +119,7 @@ void juego::actualizarRecord() {
 }
 
 void juego::posicionesObjetos(std::vector<igvPunto3D>& vector) {
-	/*igvPunto3D aux1(-2.1, 0.9, -6.3);
-	igvPunto3D aux2(-1.6, 0.9, -6.3);
-	igvPunto3D aux3(-1, 0.9, -6.3);
-	igvPunto3D aux4(-0.5, 0.9, -6.3);
-	igvPunto3D aux5(0, 0.9, -6.3);
-	igvPunto3D aux16(0.5, 0.9, -6.3);
-	igvPunto3D aux17(1, 0.9, -6.3);
-	igvPunto3D aux18(1.5, 0.9, -6.3);
-	igvPunto3D aux19(2, 0.9, -6.3);
-	igvPunto3D aux20(2.5, 0.9, -6.3);
-	igvPunto3D aux6(-2.1, -0.6, -6.3);
-	igvPunto3D aux7(-1.6, -0.6, -6.3);
-	igvPunto3D aux8(-1, -0.6, -6.3);
-	igvPunto3D aux9(-0.5, -0.6, -6.3);
-	igvPunto3D aux10(0, -0.6, -6.3);
-	igvPunto3D aux11(0.5, -0.6, -6.3);
-	igvPunto3D aux12(1, -0.6, -6.3);
-	igvPunto3D aux13(1.5, -0.6, -6.3);
-	igvPunto3D aux14(2, -0.6, -6.3);
-	igvPunto3D aux15(2.5, -0.6, -6.3);
-	igvPunto3D aux21(-2.1, 2.3, -6.3);
-	igvPunto3D aux22(-1.6, 2.3, -6.3);
-	igvPunto3D aux23(-1, 2.3, -6.3);
-	igvPunto3D aux24(-0.5, 2.3, -6.3);
-	igvPunto3D aux25(0, 2.3, -6.3);
-	igvPunto3D aux26(0.5, 2.3, -6.3);
-	igvPunto3D aux27(1, 2.3, -6.3);
-	igvPunto3D aux28(1.5, 2.3, -6.3);
-	igvPunto3D aux29(2, 2.3, -6.3);
-	igvPunto3D aux30(2.5, 2.3, -6.3);
-	igvPunto3D aux31(5, 1.11, -4);
-	igvPunto3D aux32(5, 1.11, -5);
-	igvPunto3D aux33(5, 1.11, -2);
-	igvPunto3D aux34(5, 1.11, -1);
-	igvPunto3D aux35(6.5, 1.11, -2.5);
-	igvPunto3D aux36(6.5, 1.11, -3.7);
-	igvPunto3D aux37(6.5, 1.11, -4.8);
-	igvPunto3D aux38(6.5, 1.11, -5.5);
-	igvPunto3D aux39(6.5, 1.11, -6.5);
-	igvPunto3D aux40(-5, 1.11, -6.5);
-	igvPunto3D aux41(-5, 1.11, -5.5);
-	igvPunto3D aux42(-5, 1.11, -4.8);
-	igvPunto3D aux43(-5, 1.11, -3.7);
-	igvPunto3D aux44(-5, 1.11, -2.5);
-	igvPunto3D aux45(-6, 1.11, -3.5);
-	igvPunto3D aux46(-6, 1.11, -4.8);
-	igvPunto3D aux47(-6, 1.11, -5.5);
-	igvPunto3D aux48(-6, 1.11, -6.5);*/
 
-	//igvPunto3D aux1(-3.8, -0.85, -9); //-2.1, 0.9, -6.3
 	igvPunto3D aux2(-3, -0.85, -9);
 	igvPunto3D aux3(-2.2, -0.85, -9);
 	igvPunto3D aux4(-1.4, -0.85, -9);
@@ -190,15 +141,15 @@ void juego::posicionesObjetos(std::vector<igvPunto3D>& vector) {
 	/*igvPunto3D aux15(-3, 1.8, -9);*/
 
 	/*igvPunto3D aux21(-2.1, 3.45, -9); */
-	igvPunto3D aux22(-3, 3.45, -9);
-	igvPunto3D aux23(-2.2, 3.45, -9);
-	igvPunto3D aux24(-1.4, 3.45, -9);
-	igvPunto3D aux25(-0.6, 3.45, -9);
-	igvPunto3D aux26(0.2, 3.45, -9);
-	igvPunto3D aux27(1, 3.45, -9);
-	igvPunto3D aux28(1.8, 3.45, -9);
-	igvPunto3D aux29(2.6, 3.45, -9);
-	igvPunto3D aux30(3.4, 3.45, -9);
+	igvPunto3D aux22(-3, 3.3, -9);
+	igvPunto3D aux23(-2.2, 3.3, -9);
+	igvPunto3D aux24(-1.4, 3.3, -9);
+	igvPunto3D aux25(-0.6, 3.3, -9);
+	igvPunto3D aux26(0.2, 3.3, -9);
+	igvPunto3D aux27(1, 3.3, -9);
+	igvPunto3D aux28(1.8, 3.3, -9);
+	igvPunto3D aux29(2.6, 3.3, -9);
+	igvPunto3D aux30(3.4, 3.3, -9);
 
 	igvPunto3D aux31(7.3, 0.6, -7);
 	igvPunto3D aux32(7.3, 0.6, -5);

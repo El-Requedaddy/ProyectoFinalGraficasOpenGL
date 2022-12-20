@@ -18,6 +18,8 @@ igvInterfaz::igvInterfaz() {
 	animar = false;
 	objeto_seleccionado = -1;
 	fin_primera_fase = 0;
+	velocidadAnimacion = 0;
+	velocidadAnimacionNegativa = 0;
 }
 
 igvInterfaz::~igvInterfaz() {}
@@ -323,6 +325,28 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 	case 'G': {  //rotar el robot en eje negativo
 		interfaz.escena.setRotacion(-10);
 	}
+	case 'j': {  //Aumentar velocidad de animación del pibe robot
+		if (interfaz.velocidadAnimacion + 2 < 6) {
+			interfaz.velocidadAnimacion += 2;
+			interfaz.velocidadAnimacionNegativa += -2;
+		}
+	}
+		break;
+	case 'J': {  //Disminuir velocidad de animación del pibe robot
+		if (interfaz.velocidadAnimacion - 2 > 0) {
+			interfaz.velocidadAnimacion += -2;
+			interfaz.velocidadAnimacionNegativa += 2;
+		}
+	}
+		break;
+	case '8': {  //Aumentar velocidad de la pelota
+		interfaz.escena.setVelocidad(0.1);
+	}
+		break;
+	case '9': {  //Disminuir velocidad de la pelota
+		interfaz.escena.setVelocidad(-0.1);
+	}
+		break;
 	case 27: // tecla de escape para SALIR
 		exit(1);
 		break;
@@ -434,11 +458,11 @@ void igvInterfaz::set_glutIdleFunc() {
 
 		if (interfaz.fin_primera_fase == 0) { //fase 0 = subir brazo
 			if (interfaz.escena.getRotacion2_brazo_sup() > -220) {
-				interfaz.escena.setRotacion2_brazo_sup(-4, true);
+				interfaz.escena.setRotacion2_brazo_sup(-4 + interfaz.velocidadAnimacionNegativa, true);
 			}
 			else {
 				if (interfaz.escena.getRotacion_brazo_inf() -4 >= -90) {
-					interfaz.escena.setRotacion_brazo_inf(-4, true);
+					interfaz.escena.setRotacion_brazo_inf(-4 + interfaz.velocidadAnimacionNegativa, true);
 				}
 				else {
 					interfaz.fin_primera_fase = 1;
@@ -449,17 +473,17 @@ void igvInterfaz::set_glutIdleFunc() {
 		}
 		if (interfaz.fin_primera_fase == 1) { //fase 1 = bajar brazo
 			if (interfaz.escena.getRotacion2_brazo_sup() < -130) {
-				interfaz.escena.setRotacion2_brazo_sup(4, true);
+				interfaz.escena.setRotacion2_brazo_sup(4 + interfaz.velocidadAnimacion, true);
 			}
 			else {
 				if (interfaz.escena.getRotacion2_brazo_sup() < -110) {
-					interfaz.escena.setRotacion2_brazo_sup(4, true);
+					interfaz.escena.setRotacion2_brazo_sup(4 + interfaz.velocidadAnimacion, true);
 				}
 				if (interfaz.escena.getRotacion_brazo_inf() < 0) {
-					interfaz.escena.setRotacion_brazo_inf(3.2, true);
-					interfaz.escena.setRotaciondedo1(4, true);
-					interfaz.escena.setRotaciondedo2(-4, true);
-					interfaz.escena.setRotaciondedo3(4, true);
+					interfaz.escena.setRotacion_brazo_inf(3.2 + interfaz.velocidadAnimacion, true);
+					interfaz.escena.setRotaciondedo1(4 + interfaz.velocidadAnimacion, true);
+					interfaz.escena.setRotaciondedo2(-4 + interfaz.velocidadAnimacionNegativa, true);
+					interfaz.escena.setRotaciondedo3(4 + interfaz.velocidadAnimacion, true);
 				}
 				else {
 					interfaz.fin_primera_fase = 2;

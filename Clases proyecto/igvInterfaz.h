@@ -49,6 +49,8 @@ protected:
 
 	int menuSelection; //atributo para el menú
 
+	int velocidadAnimacion, velocidadAnimacionNegativa;
+
 
 public:
 	// Constructores por defecto y destructor
