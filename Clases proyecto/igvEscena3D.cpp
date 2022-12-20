@@ -1303,7 +1303,7 @@ void igvEscena3D::gestionarTextos() {
 	
 }
 
-void igvEscena3D::setVelocidad(float a) {
+void igvEscena3D::setVelocidad(float a) {  //Modificar velocidad de la pelota entre ordenadores
 	if (movementSpeed + a < 0.6 && movementSpeed + a > 0.2) {
 		movementSpeed += a;
 	}
