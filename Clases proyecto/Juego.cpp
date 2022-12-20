@@ -9,8 +9,8 @@ juego::juego() {
 	numMaxLatas = 21;
 
 	segundos1 = 5;
-	segundos2 = 7;
-	segundos3 = 9;
+	segundos2 = 10;
+	segundos3 = 15;
 
 	hombroDerecho = true;
 }
@@ -36,15 +36,15 @@ void juego::setSegundos3(int a) {
 }
 
 void juego::sumadoSeg1() {
-	segundos1 += 1;
+	segundos1 += 4;
 }
 
 void juego::sumadoSeg2() {
-	segundos2 += 1;
+	segundos2 += 4;
 }
 
 void juego::sumadoSeg3() {
-	segundos3 += 1;
+	segundos3 += 4;
 }
 
 int juego::getSeg1() {
@@ -86,11 +86,11 @@ void juego::inicializarLata(std::vector<hitbox*>& hitboxes, const int& i) {
 			aux++;
 		}
 		else {
-			if (valor == 6 || valor == 2) {
+			if (valor == 6 || valor == 2 || valor == 5) {
 				valor = 150;
 				tiempoRef = 7 + rand() % (15 - 7);
 			}
-			else if (valor == 3 || valor == 1 || valor == 7) {
+			else if (valor == 3 || valor == 1 || valor == 7 ) {
 				valor = 100;
 				tiempoRef = 20 + rand() % (35 - 20);
 			}

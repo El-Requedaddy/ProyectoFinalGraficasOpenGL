@@ -102,7 +102,6 @@ public:
 
 	//menú del juego
 	static void menuHandle(int value);
-	static void menuHandle2(int value);
 	void create_menu();
 
 	void cambiarEscenaEnMenu();

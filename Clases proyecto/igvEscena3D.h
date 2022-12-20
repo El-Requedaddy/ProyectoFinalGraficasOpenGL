@@ -38,7 +38,7 @@ protected:
 	bool menu = true;
 	bool juegoL = false; //el juego está en modo juego de disparar latas
 	bool robot = false; //el juego está en modo jugar con el robot
-	int estadoMenu;
+	int estadoMenu;  //opcion seleccionada del menú, 0 es primera opcion, 1 es segunda opcion y 2 es tercera opcion
 
 	////// Apartado C: añadir quí los atributos para el control de los grados de libertad del modelo
 	float rotacionModeloCompleto;
@@ -531,7 +531,8 @@ public:
 		return pelotaEspecialActivada;
 	}
 
-	//métodos relacionados con el lanzamiento de la pelota, están explicados en su inplementación en cpp correspondiente
+
+	//------------------------------MÉTODOS RELATIVOS A LA LÓGICA DEL JUEGO------------------------------------
 
 	//Devuelve el vector de hitboxes
 	std::vector<hitbox*>& getHitboxes() { return hitboxes; }
@@ -550,6 +551,7 @@ public:
 	bool detectarColisiones(const hitbox &h1, hitbox &h2);
 	//Actualiza la coordenada final destino a la que se lanza la pelota
 	void actualizarCoordenadaFinal(const igvPunto3D &inicial);
+
 	//Sustituimos lata eliminando la pasada de tiempo y encargándonos de guardar la nueva hitbox sustituta en el vector de pendientes para pintar a posterior sin alterar el pintado de objetos
 	void sustituirLata(const int &i);
 	//Se determina el color de la lata en funcion de su puntuacion. Se almacena el color por referencia
@@ -589,8 +591,9 @@ public:
 		finPartida = true;
 	}
 
+	//Método que dibuja texto de puntuación en pantalla
 	void drawText(float x, float y, float z, const char* text);
-
+	//-----------------------------------------------------------------------------------------------------------------
 	//métodos que indican en que escena nos encontramos para limitar acciones entre diferentes escenas
 
 	bool estaEnMenu() {

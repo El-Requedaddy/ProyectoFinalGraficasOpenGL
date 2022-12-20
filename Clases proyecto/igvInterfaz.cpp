@@ -95,40 +95,14 @@ void igvInterfaz::inicia_bucle_visualizacion() {
 
 void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 	switch (key) {
-		////// Apartado C: incluir aquí el cambio de la cámara para mostrar las vistas planta, perfil, alzado o perspectiva 
-		////// Apartado C: incluir aquí la modificación de los grados de libertad del modelo pulsando las teclas correspondientes
-	
-	case '9':
-		interfaz.escena.SetX(0.1);
-		break;
-	case '8':
-		interfaz.escena.SetX(-0.1);
-		break;
-	case '7':
-		interfaz.escena.SetY(0.1);
-		break;
-	case '*': // Apartado D: disminuir en 10 el exponente de Phong del material
-		interfaz.escena.SetY(-0.1);
-		break;
-	
 
-	case 'x': // activa/desactiva la visualizacion de los ejes
-		interfaz.escena.set_ejes(interfaz.escena.get_ejes() ? false : true);
-		break;
-	case 'Q':
-		interfaz.escena.IniciarPartida();
-		break;
-	case 'q':
-		interfaz.escena.acabarPartida();
-		break;
+	//---------------------------------GESTIÓN DE LUCES-------------------------------
 
-		//---------------------------------GESTIÓN DE LUCES-------------------------------
-
-	case 'w': // Aumentar ángulo de foco
+	case 'q': // Aumentar ángulo de foco
 		if(interfaz.escena.GetAng_foco() + 3 <= 90) // límites que tiene el ángulo según la teoría
 			interfaz.escena.SetAng_foco(3);
 		break;
-	case 'W': //Disminuir ángulo de foco
+	case 'Q': //Disminuir ángulo de foco
 		if (interfaz.escena.GetAng_foco() - 3 >= 0)
 			interfaz.escena.SetAng_foco(-3);;
 		break;
@@ -162,35 +136,68 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 	case 'Y': //Apagar/Encender focod
 		interfaz.escena.SetFoco_activo(interfaz.escena.GetFoco_activo() ? false : true);
 		break;
+	case 'd': //desplazar foco derecha
+		interfaz.escena.SetX(0.1);
+		break;
+	case 'a': //desplazar foco izquierda
+		interfaz.escena.SetX(-0.1);
+		break;
+	case 'w': //desplazar foco arriba
+		interfaz.escena.SetY(0.1);
+		break;
+	case 's': //desplazar foco abajo
+		interfaz.escena.SetY(-0.1);
+		break;
 
-	case 'u': { //Apagar/Encender foco
-		igvPunto3D p0, r, v;
-		p0 = igvPunto3D(2, 4, 4);
-		r = igvPunto3D(0.5, 0, -6.3);
-		v = igvPunto3D(0, 1.0, 0);
-		interfaz.camara.set(IGV_PERSPECTIVA, p0, r, v, -1 * 3, 1 * 3, -1 * 3, 1 * 3, 1, 200);
+
+	//--------------------------------------GESTIÓN ANIMACIÓN------------------------------------------------------------------------
+	
+	case 'i':
+		if (interfaz.animar) interfaz.animar = false;
+		else
+			interfaz.animar = true;
+		break;
+	case 'o':
+		interfaz.resetear();
+		break;
+
+
+	//-------------------------------------GESTIÓN CÁMARA---------------------------------------------------------
+	case '+': // zoom in
+		interfaz.camara.zoom();
 		interfaz.camara.aplicar();
-	}
-			//------------------------------------------------------------------------
-	case 'i': //mover camara en z positivo
+		break;
+	case '-': // zoom out
+		interfaz.camara.zoomOut();
+		interfaz.camara.aplicar();
+		break;
+	case 'c': // incrementar la distancia del plano cercano
+		interfaz.camara.sumarZnear();
+		interfaz.camara.aplicar();
+		break;
+	case 'C': // decrementar la distancia del plano cercano
+		interfaz.camara.restarZnear();
+		interfaz.camara.aplicar();
+		break;
+	case 'v': //mover camara en z positivo
 		interfaz.camara.maszP0(0.1);
 		interfaz.camara.aplicar();
 		break;
-	case 'I': //mover camara en z negativo
+	case 'V': //mover camara en z negativo
 		interfaz.camara.menoszP0(-0.1);
 		interfaz.camara.aplicar();
 		break;
-	case 'o': { //Camara hombro derecho
+	case 'x': { //Camara hombro derecho
 		igvPunto3D p0, r, v;
 		p0 = igvPunto3D(2, 4, 5.5); //4.9
- 		r = igvPunto3D(2, 0, -6.3);
+		r = igvPunto3D(2, 0, -6.3);
 		v = igvPunto3D(0, 1.0, 0);
 		interfaz.camara.set(IGV_PERSPECTIVA, p0, r, v, -1 * 3, 1 * 3, -1 * 3, 1 * 3, 1, 200);
 		interfaz.camara.aplicar();
 		interfaz.escena.juego.setHombroDerecho(true);
 	}
-			break;
-	case 'p': { //Camara hombro izquierdo
+		break;
+	case 'z': { //Camara hombro izquierdo
 		igvPunto3D p0, r, v;
 		p0 = igvPunto3D(-2.5, 4, 5.4); //4.2
 		r = igvPunto3D(-2.2, 0, -6.3);
@@ -199,56 +206,48 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 		interfaz.camara.aplicar();
 		interfaz.escena.juego.setHombroDerecho(false);
 	}
-			break;
-
-	
-	case 'j': //movimiento panorámica derecha
+		break;
+	case 'b': //movimiento panorámica derecha
 		interfaz.camara.panoramica(0.3);
 		interfaz.camara.aplicar();
 		break;
-	case 'J': //movimiento panorámica izquierda
+	case 'B': //movimiento panorámica izquierda
 		interfaz.camara.panoramica(-0.3);
 		interfaz.camara.aplicar();
 		break;
-	case 'k':
+	case 'n':  //desplazar cámara en x
 		interfaz.camara.masxP0(0.1);
 		interfaz.camara.aplicar();
 		break;
-	case 'K':
+	case 'N':  //desplazar cámara en -x
 		interfaz.camara.menosxP0(-0.1);
 		interfaz.camara.aplicar();
 		break;
-	case 'l':
+	case 'm':  //desplazar cámara en y
 		interfaz.camara.masyP0(0.1);
 		interfaz.camara.aplicar();
 		break;
-	case 'L':
+	case 'M':  //desplazar cámara en -y
 		interfaz.camara.menosyP0(-0.1);
 		interfaz.camara.aplicar();
 		break;
-
-	//--------------------------------------GESTIÓN ANIMACIÓN------------------------------------------------------------------------
-	
-	case 'a':
-		if (interfaz.animar) interfaz.animar = false;
-		else
-			interfaz.animar = true;
+	case 'h': //cabeceo hacia arriba
+		interfaz.camara.cabeceo(1);
+		interfaz.camara.aplicar();
 		break;
-	case 'n':
-		interfaz.resetear();
+	case 'H':  //cabeceio hacia abajo
+		interfaz.camara.cabeceo(-1);
+		interfaz.camara.aplicar();
 		break;
-
-		//-------------------------------------GESTIÓN CÁMARA---------------------------------------------------------
-
-	case '1': // cambia el tipo de proyección de paralela a perspectiva y viceversa
+	case '1': // cambia el tipo de proyección de paralela a perspectiva
 		interfaz.camara.setTipoCamara(IGV_PERSPECTIVA);
 		interfaz.camara.aplicar();
 		break;
-	case '2': // cambia el tipo de proyección de paralela a perspectiva y viceversa
+	case '2': // cambia el tipo de proyección de perspectiva a paralela
 		interfaz.camara.setTipoCamara(IGV_PARALELA);
 		interfaz.camara.aplicar();
 		break;
-	case '3':
+	case '3': 
 	{
 		// cambia la posición de la cámara para mostrar las vistas planta, perfil, alzado o perspectiva
 		igvPunto3D posicion = igvPunto3D::igvPunto3D(0.1, 8, 0);
@@ -267,45 +266,28 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 		interfaz.camara.aplicar();
 	}
 	break;
-	case '6':
-	{
-		/*interfaz.escena.setPelota(true);*/
-		interfaz.escena.activarLanzamientoPelota();
-	}
+
+
+	//--------------------------------------GESTIÓN MENÚ------------------------------------------------------------------------
+
 	break;
-	case '+': // zoom in
-		interfaz.camara.zoom();
-		interfaz.camara.aplicar();
-		break;
-	case '-': // zoom out
-		interfaz.camara.zoomOut();
-		interfaz.camara.aplicar();
-		break;
-	case 'b': // incrementar la distancia del plano cercano
-		interfaz.camara.sumarZnear();
-		interfaz.camara.aplicar();
-		break;
-	case 'B': // decrementar la distancia del plano cercano
-		interfaz.camara.restarZnear();
-		interfaz.camara.aplicar();
-		break;
-	case '>': {
+	case '>': {  //moverse a la derecha en el menú
 		if (interfaz.escena.estaEnMenu()) {
 			interfaz.escena.modificarEstadoMenu(1);
 		}
 	}
 		break;
-	case '<': {
+	case '<': {  //moverse a la izquierda en el menú
 		if (interfaz.escena.estaEnMenu()) {
 			interfaz.escena.modificarEstadoMenu(-1);
 		}
 	}
 		break;
-	case 'm': {
-		interfaz.cambiarEscenaEnMenu();
+	case 13: {  //tecla enter para seleccionar opcion de menu
+		interfaz.cambiarEscenaEnMenu();  
 	}
 		break;
-	case '5': {
+	case 8: {  //tecla retroceso para volver al menú
 		if (!interfaz.escena.estaEnMenu()) {
 			interfaz.escena.setEnJuego(false);
 			interfaz.escena.limpiarMemoriaYReinicio();
@@ -325,10 +307,22 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 			glDisable(GL_LIGHT2);
 		}
 	}
-	case 's':
+		break;
+
+
+	//--------------------------------------OTROS------------------------------------------------------------------------
+
+	case 'f':  //intercambiar entre sombreado de Gourand y plano
 		interfaz.escena.SetEs_smooth(interfaz.escena.GetEs_smooth() ? false : true);
 		std::cout << interfaz.escena.GetEs_smooth() << std::endl;
 		break;
+	case 'g': {  //rotar el robot en eje positivo
+		interfaz.escena.setRotacion(10);
+	}
+		break;
+	case 'G': {  //rotar el robot en eje negativo
+		interfaz.escena.setRotacion(-10);
+	}
 	case 27: // tecla de escape para SALIR
 		exit(1);
 		break;
@@ -818,13 +812,7 @@ void igvInterfaz::create_menu() {
 	glutAddMenuEntry("Mostrar puntuación", 3);
 	glutCreateMenu(menuHandle);
 
-	int menu_camara = glutCreateMenu(menuHandle2);
-	glutAddMenuEntry("Cambiar a perspectiva", 4);
-	glutAddMenuEntry("Cambiar a paralela", 5);
-	glutCreateMenu(menuHandle2);
-
 	glutAddSubMenu("Juego de lanzar latas", menu_id);
-	glutAddSubMenu("Modificar cámara", menu_camara);
 
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
@@ -840,26 +828,6 @@ void igvInterfaz::menuHandle(int value)
 			interfaz.escena.acabarPartida();
 			break;
 		case 3:
-			interfaz.escena.acabarPartida();
-			break;
-		}
-	}
-	
-	glutPostRedisplay(); // renew the content of the window
-}
-
-void igvInterfaz::menuHandle2(int value)
-{
-
-	if (interfaz.escena.estaEnJuego()) {
-		switch (value) {
-		case 4:
-			interfaz.escena.IniciarPartida();
-			break;
-		case 5:
-			interfaz.escena.acabarPartida();
-			break;
-		case 6:
 			interfaz.escena.acabarPartida();
 			break;
 		}
