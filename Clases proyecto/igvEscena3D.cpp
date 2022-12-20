@@ -826,7 +826,7 @@ void igvEscena3D::visualizarVB() {
 		glShadeModel(GL_FLAT);
 	}
 
-	if (!modo_act) {
+	if (!modo_act) {  //en este se ve el modo de visualizacion
 		//glRotated(rotacionModeloCompleto, 0, 1, 0);
 		glPushMatrix();
 			//Material mostrador
@@ -942,15 +942,17 @@ void igvEscena3D::visualizarVB() {
 
 			//Control de tiempo sobre el juego
 			if (juego.getTiempoTranscurrido() > 100) { //si se llega al maximo de tiempo se acaba la partida forzosamente
+				juego.imprimirPuntuacion();
 				finPartida = true;
 				iniciarPartida = false;
+				limpiarMemoriaYReinicio();
 			}
 
 		/*std::cout << "Num latas: " << juego.getNumLatas() << std::endl;*/
 		/*std::cout << "Segundos: " << juego.getTiempoTranscurrido() << std::endl;*/
 		glPopMatrix();
 	}
-	else {
+	else { //el else representa el modo de selección
 
 	int aux = colores.size() -3;
 
@@ -974,8 +976,9 @@ void igvEscena3D::visualizarVB() {
 
 			if (estaEnRobot()) {
 				glPushMatrix();
-				glTranslated(0, 1.2, 3.2);
+				glTranslated(0, 1.2, 4);
 				glRotated(180, 0, 1, 0);
+				glRotated(rotacionModeloCompleto, 0, 1, 0);
 				glScaled(0.55, 0.55, 0.55);
 				pintar_robotVB();
 				glPopMatrix();
@@ -1054,9 +1057,9 @@ void igvEscena3D::determinarColorLata(const int &i, std::vector<float> &colorin)
 
 bool igvEscena3D::detectarColisiones(const hitbox& h1, hitbox& h2) {
 	bool colisionX = h1.posicion.c[0] + h1.tamano.c[0] >= h2.posicion.c[0] && h2.posicion.c[0] + h2.tamano.c[0] >= h1.posicion.c[0];
-	bool colisionY = h1.posicion.c[2] + h1.tamano.c[2] >= h2.posicion.c[2] && h2.posicion.c[2] + h2.tamano.c[2] >= h1.posicion.c[2];
+	bool colisionZ = h1.posicion.c[2] + h1.tamano.c[2] >= h2.posicion.c[2] && h2.posicion.c[2] + h2.tamano.c[2] >= h1.posicion.c[2];
 
-	return colisionX && colisionY;
+	return colisionX && colisionZ;
 }
 
 void igvEscena3D::asignarLatasIniciales() {
@@ -1068,8 +1071,8 @@ void igvEscena3D::procesarColisiones(const hitbox& h1, hitbox h2) {
 	if (detectarColisiones(h1, h2)) {
 		if (h2.getPosicionFloat() == pelotaEspecial.getPosicionFloat()) { //si la hitbox es la pelota especial se procede a asignar una nueva posicion aleatoria a esta
 			numeroGolpes++;
-			if (numeroGolpes == 27) { //si son 27 golpes los que hay significa que la pelota es destruida, procesamos los puntos por lo tanto y aumentamos el numero de tiradas
-				juego.sumarPuntuacion(1000);
+			if (numeroGolpes == 16) { //si son 27 golpes los que hay significa que la pelota es destruida, procesamos los puntos por lo tanto y aumentamos el numero de tiradas
+				juego.sumarPuntuacion(2500);
 				pelotaEspecialActivada = false;
 			}
 			else {
@@ -1167,7 +1170,7 @@ void igvEscena3D::gestionarLatasEventos() {
 }
 
 void igvEscena3D::gestionarPelotaEspecialEventos() {
-	if (juego.getTiempoTranscurrido() > 15 && numeroGolpes < 27) { //numLatasTiradas >= 3 && numeroGolpes < 5
+	if (juego.getTiempoTranscurrido() > 15 && numeroGolpes < 16) { //numLatasTiradas >= 3 && numeroGolpes < 5
 		glPushMatrix();
 		pelotaEspecialActivada = true;
 		/*Sphere esfera;
@@ -1218,7 +1221,7 @@ void igvEscena3D::gestionarLatasEventosVB() {
 
 void igvEscena3D::gestionarPelotaEspecialEventosVB() {
 	int contGris = pos_juego;
-	if (juego.getTiempoTranscurrido() > 15 && numeroGolpes < 27) {  //se comprueba que la pelota especial siga viva
+	if (juego.getTiempoTranscurrido() > 15 && numeroGolpes < 16) {  //se comprueba que la pelota especial siga viva
 		glPushMatrix();
 		cambia_color(colores, color_grisOscuro, contGris, 3);
 		pelotaEspecial.setColor(color_grisOscuro);
@@ -1257,6 +1260,9 @@ void igvEscena3D::limpiarMemoriaYReinicio() {
 	juego.actualizarRecord();  //se actualiza el record en caso de haberlo
 	coordenadasPelotaEspecial = juego.nuevaPosicionPelotaEspecial();
 	pelotaEspecial.actualizarCoordenadas(coordenadasPelotaEspecial.c[0], coordenadasPelotaEspecial.c[1], coordenadasPelotaEspecial.c[2]); //se actualizan las coordenadas de la pelota especial
+	juego.setSegundos1(5);
+	juego.setSegundos2(10);
+	juego.setSegundos3(15);
 }
 
 void igvEscena3D::drawText(float x, float y, float z, const char* text) {
@@ -1291,7 +1297,7 @@ void igvEscena3D::gestionarTextos() {
 		glMaterialfv(GL_FRONT, GL_EMISSION, color_naranja.data());
 		glColor3fv(color_naranja.data());
 		drawText(-1.35, 5.5, 0, "Puntuacion: ");
-		drawText(0.35, 5.5, 0, str);
+		drawText(0.45, 5.5, 0, str);
 		glPopMatrix();
 	}
 	

@@ -27,33 +27,10 @@ igvInterfaz::~igvInterfaz() {}
 // Metodos publicos ----------------------------------------
 
 void igvInterfaz::crear_mundo(void) {
-	//p0 = igvPunto3D(3.0, 2.0, 4);
-	//r = igvPunto3D(0, 0, 0);
-	//V = igvPunto3D(0, 1.0, 0);
-
-	//p0 = igvPunto3D(6.0, 4.0, 8);
 
 	p0 = igvPunto3D(0, 4, 6);// -> Yessin
-	////p0 = igvPunto3D(1.5,3,8);
 	r = igvPunto3D(0, 3.5, 0);
-
-	/*p0 = igvPunto3D(-2.5, 4, 3.5);
-	r = igvPunto3D(0.5, 0, -6.3);
-	V = igvPunto3D(0, 1.0, 0);*/
-
-	//ACTIVAR ESTA PARA FUNCIONAMIENTO INTENCIONADO DEL JUEGO
-	//p0 = igvPunto3D(2, 4, 4);
-	//r = igvPunto3D(0.5, 8, -6.3);
 	V = igvPunto3D(0, 1.0, 0);
-
-	/*p0 = igvPunto3D(2, 3, 4);
-	r = igvPunto3D(0.5, 8, -6.3);
-	V = igvPunto3D(0, 1.0, 0);*/
-
-	/*p0 = igvPunto3D(0.1, 0.1, 0.5);*/
-	/*p0 = igvPunto3D(0.5, 1.5, 5);
-	r = igvPunto3D(0, 0, 0);
-	V = igvPunto3D(0, 1.0, 0);*/
 
 	interfaz.camara.set(IGV_PARALELA, p0, r, V, -1 * 5, 1 * 5, -1 * 5, 1 * 5, -1 * 3, 200);
 
@@ -425,7 +402,7 @@ void igvInterfaz::set_glutDisplayFunc() {
 
 			//vuelvo a activar la visualización
 			interfaz.escena.set_modo(false);
-			interfaz.modo = IGV_VISUALIZAR; // tras la selección hay que pulsar click derecho o sino se vuelve al modo selección 
+			interfaz.modo = IGV_VISUALIZAR;
 			
 			glutPostRedisplay();
 
@@ -536,9 +513,11 @@ void igvInterfaz::set_glutIdleFunc() {
 	}
 
 }
-//Método que reinicializa a las posiciones originales(solo aquellas que son modificadas por la animación)
+
+
 void igvInterfaz::resetear() {
 	interfaz.escena.setRotacion2_brazo_sup(-interfaz.escena.getRotacion2_brazo_sup(), true);
+	interfaz.escena.setRotacion_brazo_sup(-interfaz.escena.getRotacion_brazo_sup(), true);
 	interfaz.escena.setRotacion_brazo_inf(-interfaz.escena.getRotacion_brazo_inf(), true);
 	interfaz.escena.setRotaciondedo1(-interfaz.escena.getRotaciondedo1(), true);
 	interfaz.escena.setRotaciondedo2(-interfaz.escena.getRotaciondedo2(), true);
@@ -547,6 +526,18 @@ void igvInterfaz::resetear() {
 	interfaz.escena.setRotacionpierna_inf(-interfaz.escena.getRotacionpierna_inf(), true);
 	interfaz.escena.setRotacionpie(-interfaz.escena.getRotacionpie(), true);
 	interfaz.escena.setRotacion_cabezaY(-interfaz.escena.getRotacion_cabezaY(), true);
+	interfaz.escena.setRotacionMuneca(-interfaz.escena.getRotacionMuneca(), true);
+	interfaz.escena.setRotacionMunecaIzq(-interfaz.escena.getRotacionMunecaIzq(), true);
+	interfaz.escena.setRotacion_brazo_sup_izq(-interfaz.escena.getRotacion_brazo_sup_izq(), true);
+	interfaz.escena.setRotacion_brazo_inf_izq(-interfaz.escena.getRotacion_brazo_inf_izq(), true);
+	interfaz.escena.setRotaciondedo4(-interfaz.escena.getRotaciondedo4(), true);
+	interfaz.escena.setRotaciondedo5(-interfaz.escena.getRotaciondedo5(), true);
+	interfaz.escena.setRotaciondedo6(-interfaz.escena.getRotaciondedo6(), true);
+	interfaz.escena.setRotacionpierna_sup_izq(-interfaz.escena.getRotacionpierna_sup_izq(), true);
+	interfaz.escena.setRotacionpierna_inf_izq(-interfaz.escena.getRotacionpierna_inf_izq(), true);
+	interfaz.escena.setRotacionpie_izq(-interfaz.escena.getRotacionpie_izq(), true);
+	interfaz.escena.setRotacion(-interfaz.escena.getRotacion());
+	interfaz.escena.setRotacion_cabezaX(0);
 	interfaz.fin_primera_fase = 0;
 	glutPostRedisplay();
 
@@ -861,7 +852,7 @@ void igvInterfaz::menuHandle(int value)
 }
 
 void igvInterfaz::cambiarEscenaEnMenu() {
-	if (interfaz.escena.getEstadoMenu() == 0) {
+	if (interfaz.escena.getEstadoMenu() == 0) { //si el estado de menu es 0(opción de jugar) se cambia de escena
 		interfaz.escena.setEnJuego(true);
 		interfaz.escena.setEnMenu(false);
 		igvPunto3D p0, r, v;
@@ -870,9 +861,10 @@ void igvInterfaz::cambiarEscenaEnMenu() {
 		v = igvPunto3D(0, 1.0, 0);
 		interfaz.camara.set(IGV_PERSPECTIVA, p0, r, v, -1 * 3, 1 * 3, -1 * 3, 1 * 3, 1, 200);
 		interfaz.camara.aplicar();
+		interfaz.resetear();
 		glDisable(GL_LIGHT3);
 	}
-	else if (interfaz.escena.getEstadoMenu() == 1) {
+	else if (interfaz.escena.getEstadoMenu() == 1) {  //si el estado de menu es 1(opción de robot) se cambia de escena
 		interfaz.escena.setEnRobot(true);
 		interfaz.escena.setEnMenu(false);
 		igvPunto3D p0, r, v;
@@ -881,9 +873,10 @@ void igvInterfaz::cambiarEscenaEnMenu() {
 		v = igvPunto3D(0, 1.0, 0);
 		interfaz.camara.set(IGV_PERSPECTIVA, p0, r, v, -1 * 3, 1 * 3, -1 * 3, 1 * 3, 1, 200);
 		interfaz.camara.aplicar();
+		interfaz.resetear();
 		glDisable(GL_LIGHT3);
 	}
-	else if (interfaz.escena.getEstadoMenu() == 2){
+	else if (interfaz.escena.getEstadoMenu() == 2){  //si el estado de menu es 2 se sale del programa
 		exit(0);
 	}
 }

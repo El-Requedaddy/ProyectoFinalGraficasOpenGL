@@ -36,15 +36,15 @@ void juego::setSegundos3(int a) {
 }
 
 void juego::sumadoSeg1() {
-	segundos1 += 4;
+	segundos1 += 6;
 }
 
 void juego::sumadoSeg2() {
-	segundos2 += 4;
+	segundos2 += 6;
 }
 
 void juego::sumadoSeg3() {
-	segundos3 += 4;
+	segundos3 += 6;
 }
 
 int juego::getSeg1() {
@@ -79,7 +79,7 @@ void juego::inicializarLata(std::vector<hitbox*>& hitboxes, const int& i) {
 	srand(time(NULL));
 	int tiempoRef;
 	int aux = i;
-	for (int i = 0; i < aux; i++) {
+	for (int i = 0; i < aux; i++) {  //se generan i latas para almacenar su hitbox junto a sus valores que son aleatorios
 		int numero = rand() % vectoresPos.size();
 		int valor = rand() % 11;
 		if (posicionesVectorOcupadas[numero]) {
@@ -246,5 +246,16 @@ void juego::posicionPelotaEspecial() {
 igvPunto3D juego::nuevaPosicionPelotaEspecial() {
 	int num = rand() % vectoresPosPelotaEspecial.size();
 	return vectoresPosPelotaEspecial[num];
+}
+
+void juego::imprimirPuntuacion() {
+	if (puntuacion > punt_maxima) {
+		std::cout << "Se ha superado la puntuacion maxima!!!!" << std::endl;
+		std::cout << "La nueva puntuacion maxima es: " << puntuacion << std::endl;
+		std::cout << "ENHORABUENA!!!!" << std::endl;
+	}
+	else {
+		std::cout << "La puntuacion de esta ronda es : " << puntuacion << std::endl;
+	}
 }
 

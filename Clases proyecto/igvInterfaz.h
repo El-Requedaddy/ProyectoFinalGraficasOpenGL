@@ -34,8 +34,13 @@ protected:
 	int fin_primera_fase;//atributo utilizado para la gestión de la animación
 	igvEscena3D escena; // escena que se visualiza en la ventana definida por igvInterfaz
 	igvCamara camara; // cámara que se utiliza para visualizar la escena
-	/*juego datosJuego;*/
+	igvCamara camara2;
+	igvCamara camara3;
+	igvCamara camara4;
 
+	bool cuatroPantallas;
+
+	/*juego datosJuego;*/
 	igvPunto3D p0, r, V;
 
 	modoInterfaz modo; // IGV_VISUALIZAR: en la ventana se va a visualizar de manera normal la escena, 
@@ -49,7 +54,7 @@ protected:
 
 	int menuSelection; //atributo para el menú
 
-	int velocidadAnimacion, velocidadAnimacionNegativa;
+	int velocidadAnimacion, velocidadAnimacionNegativa;  //atributos para parametrizar la velocidad de la animacion por temas de diferentes velocidades en distintos equipos
 
 
 public:

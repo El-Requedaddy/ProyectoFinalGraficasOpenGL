@@ -2,6 +2,7 @@
 #include <ctime>
 #include "igvPunto3D.h"
 #include "hitbox.h"
+#include <iostream>
 //#include <iostream>
 
 class juego {
@@ -94,4 +95,6 @@ public:
 	igvPunto3D nuevaPosicionPelotaEspecial();
 	//Elimina el contenido del vector que almacena todas las posiciones ocupadas en el juego
 	void reiniciarPosicionesOcupadas();
+	//Muestra puntuación por consola
+	void imprimirPuntuacion();
 };
